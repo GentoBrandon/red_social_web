@@ -1,5 +1,4 @@
-'use '
-import styles from '../styles/SignUpForm.module.css';
+import styles from '../../styles/SignUpForm.module.css';
 
 export default function SignUpForm() {
   return (

@@ -1,4 +1,4 @@
-import styles from '../styles/SignInForm.module.css';
+import styles from '../../styles/SignInForm.module.css';
 import { Button } from '@/components/ui/button';
 
 export default function SignInForm() {
