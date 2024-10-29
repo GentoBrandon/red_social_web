@@ -1,5 +1,5 @@
 import express from 'express';
-
+import erroHandling from '../middleware/errorHandling';
 class App {
     private app : express.Application;
     private _PORT: number;
@@ -8,7 +8,8 @@ class App {
         this._PORT = PORT;  
     }
     private settings():void{
-
+       
+        this.app.use(express.json());
     }
     private routes():void{
         this.app.get('/',(req,res)=>{
@@ -16,7 +17,7 @@ class App {
         })
     }
     private middlewares():void{
-
+        this.app.use(erroHandling)
     }
     private startServer():void{
         this.app.listen(this._PORT,()=>{
@@ -24,6 +25,8 @@ class App {
         });
     }
     private startSettings():void{
+        this.settings()
+        this.middlewares()
         this.routes();
         this.startServer();
     }
