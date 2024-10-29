@@ -1,12 +1,10 @@
-import NavBar from "@/component/Nav/NavBar";
+import Principal from "@/component/Principal/Principal";
 
 function dashboardPage() {
   return (
-    <div>
-      <NavBar/>
+   <Principal>
       <h1>Dashboard</h1>
-      <p>Welcome to your dashboard</p>
-    </div>
+   </Principal>
   );
 }
 export default dashboardPage;
