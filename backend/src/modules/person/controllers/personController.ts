@@ -37,7 +37,10 @@ export default class PersonController {
       const idPerson = parseInt(id);
       const resultUpdate = await PersonModel.updatePerson(idPerson, req.body);
       if (!resultUpdate.success) {
-        const error = new CustomError(resultUpdate.message || "Error updating person", 500);
+        const error = new CustomError(
+          resultUpdate.message || 'Error updating person',
+          500,
+        );
         throw error;
       }
       res.status(200).json({ message: 'Person updated successfully' });

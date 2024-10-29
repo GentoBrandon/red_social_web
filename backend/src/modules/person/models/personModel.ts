@@ -8,7 +8,6 @@ interface person {
 }
 
 export class PersonModel {
-
   private static table = 'persons';
   static async createPerson(person: person) {
     try {
@@ -58,13 +57,15 @@ export class PersonModel {
   static async updatePerson(id: number, person: person) {
     try {
       const resulFound = await this.getPersonById(id);
-      if(!resulFound.success){
+      if (!resulFound.success) {
         return {
           success: false,
           message: 'Person not found',
-        }
-      }else{
-        const resultUpdate = await db(this.table).where('id', id).update(person);
+        };
+      } else {
+        const resultUpdate = await db(this.table)
+          .where('id', id)
+          .update(person);
         if (!resultUpdate) {
           return {
             success: false,
@@ -74,7 +75,6 @@ export class PersonModel {
           success: true,
         };
       }
-     
     } catch (error) {
       throw {
         message: 'Error updating person in server',
@@ -90,7 +90,7 @@ export class PersonModel {
           success: false,
         };
       }
-      if(resultFound.length === 0){
+      if (resultFound.length === 0) {
         return {
           success: false,
         };
