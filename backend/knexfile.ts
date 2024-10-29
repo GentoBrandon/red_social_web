@@ -1,5 +1,4 @@
-
-import  { Knex } from 'knex';
+import { Knex } from 'knex';
 
 const config: { [key: string]: Knex.Config } = {
   development: {
@@ -8,14 +7,14 @@ const config: { [key: string]: Knex.Config } = {
       host: 'localhost',
       user: 'admin',
       password: '12345',
-      database: 'social_database'
+      database: 'social_database',
     },
     migrations: {
-      directory: './src/migrations'
+      directory: './src/migrations',
     },
     seeds: {
-      directory: './src/seeds'
-    }
+      directory: './src/seeds',
+    },
   },
   production: {
     client: 'pg',
@@ -23,15 +22,15 @@ const config: { [key: string]: Knex.Config } = {
       host: process.env.DB_HOST,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME
+      database: process.env.DB_NAME,
     },
     migrations: {
-      directory: './src/migrations'
+      directory: './src/migrations',
     },
     seeds: {
-      directory: './src/seeds'
-    }
-  }
+      directory: './src/seeds',
+    },
+  },
 };
 
 export default config;
