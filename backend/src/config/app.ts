@@ -1,6 +1,7 @@
 import express from 'express';
 import erroHandling from '../middleware/errorHandling';
 import personRoutes from '../modules/person/routes/personRoutes';
+import userCredentialsRoutes from '../modules/user-credentials/routes/userCredentialsRoutes';
 class App {
   private app: express.Application;
   private _PORT: number;
@@ -13,6 +14,7 @@ class App {
   }
   private routes(): void {
     this.app.use('/api/persons', personRoutes);
+    this.app.use('/api/user-credentials', userCredentialsRoutes);
   }
   private middlewares(): void {
     this.app.use(erroHandling);

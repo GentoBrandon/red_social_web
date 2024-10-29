@@ -1,4 +1,5 @@
 import db from '../../../config/dbConfig';
+
 interface person {
   first_name: string;
   last_name: string;
@@ -7,6 +8,7 @@ interface person {
 }
 
 export class PersonModel {
+
   private static table = 'persons';
   static async createPerson(person: person) {
     try {
@@ -55,15 +57,24 @@ export class PersonModel {
   }
   static async updatePerson(id: number, person: person) {
     try {
-      const resultUpdate = await db(this.table).where('id', id).update(person);
-      if (!resultUpdate) {
+      const resulFound = await this.getPersonById(id);
+      if(!resulFound.success){
         return {
           success: false,
+          message: 'Person not found',
+        }
+      }else{
+        const resultUpdate = await db(this.table).where('id', id).update(person);
+        if (!resultUpdate) {
+          return {
+            success: false,
+          };
+        }
+        return {
+          success: true,
         };
       }
-      return {
-        success: true,
-      };
+     
     } catch (error) {
       throw {
         message: 'Error updating person in server',
@@ -75,6 +86,11 @@ export class PersonModel {
     try {
       const resultFound = await db(this.table).where('id', id).select('*');
       if (!resultFound) {
+        return {
+          success: false,
+        };
+      }
+      if(resultFound.length === 0){
         return {
           success: false,
         };
