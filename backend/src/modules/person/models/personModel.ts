@@ -9,7 +9,7 @@ interface person{
 export class PersonModel{
     static async createPerson(person:person){
         try{
-        const resultInsert  =await db('person').insert(person).returning('id');
+        const resultInsert  =await db('persons').insert(person).returning('id');
         if(!resultInsert){
             return {
                 success: false,

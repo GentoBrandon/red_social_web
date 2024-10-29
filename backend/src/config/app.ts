@@ -1,5 +1,6 @@
 import express from 'express';
 import erroHandling from '../middleware/errorHandling';
+import personRoutes from '../modules/person/routes/personRoutes'
 class App {
     private app : express.Application;
     private _PORT: number;
@@ -12,9 +13,7 @@ class App {
         this.app.use(express.json());
     }
     private routes():void{
-        this.app.get('/',(req,res)=>{
-            res.send('Hello World');
-        })
+        this.app.use('/api/persons',personRoutes);
     }
     private middlewares():void{
         this.app.use(erroHandling)
@@ -26,8 +25,9 @@ class App {
     }
     private startSettings():void{
         this.settings()
-        this.middlewares()
         this.routes();
+        this.middlewares()
+       
         this.startServer();
     }
     public start(){
