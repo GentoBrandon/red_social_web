@@ -1,9 +1,9 @@
 import Principal from "@/component/Principal/Principal";
-import NavBar from "@/component/Nav/NavBar";
+import Publication from "@/component/Publication/Publication";
 function dashboardPage() {
   return (
     <Principal>
-        <h1>Dashboard</h1>
+      <Publication />
     </Principal>
   );
 }

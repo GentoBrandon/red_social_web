@@ -9,12 +9,10 @@ import {
     MenubarSeparator,
     MenubarTrigger,
   } from "@/components/ui/menubar"
-import { SidebarTrigger } from "@/components/ui/sidebar";
   
 function NavBar() {
     return (
       <Menubar>
-        <SidebarTrigger />
         <MenubarMenu>
           <MenubarTrigger>Inicio</MenubarTrigger>
         </MenubarMenu>
