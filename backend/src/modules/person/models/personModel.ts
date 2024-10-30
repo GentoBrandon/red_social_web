@@ -124,4 +124,26 @@ export class PersonModel {
       };
     }
   }
+  static async findByName(name: string) {
+    try {
+      const resultFound = await db(this.table)
+        .where('first_name', 'like', `%${name}%`)
+        .select('*')
+        .first();
+      if (!resultFound) {
+        return {
+          success: false,
+        };
+      }
+      return {
+        success: true,
+        data: resultFound,
+      };
+    } catch (error) {
+      throw {
+        message: 'Error finding person by name',
+        stack: (error as Error).stack,
+      };
+    }
+  }
 }
