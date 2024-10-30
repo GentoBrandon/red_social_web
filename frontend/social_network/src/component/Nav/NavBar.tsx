@@ -8,8 +8,9 @@ import {
     MenubarRadioItem,
     MenubarSeparator,
     MenubarTrigger,
-  } from "@/components/ui/menubar"
-  
+  } from "@/components/ui/menubar";
+import Notifications from "@/component/Nav/Notifications";
+
 function NavBar() {
     return (
       <Menubar>
@@ -21,6 +22,9 @@ function NavBar() {
         </MenubarMenu>
         <MenubarMenu>
           <MenubarTrigger>Notificaciones</MenubarTrigger>
+          <MenubarContent>
+            <Notifications />
+          </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>
           <MenubarTrigger>Perfil</MenubarTrigger>
