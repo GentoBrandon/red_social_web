@@ -1,0 +1,34 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Logs
+logs/
+*.log
+*.log.*
+
+# Environment Variables
+.env
+
+# Directory for local and uploaded files
+uploads/
+
+# MacOS files
+.DS_Store
+
+# VS Code files
+.vscode/
+
+# Build
+dist/
+build/
+
+# Temp files
+tmp/
+
+temp/
+node_modules
+dist
+.env
