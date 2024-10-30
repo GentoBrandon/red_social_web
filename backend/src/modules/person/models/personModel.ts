@@ -7,6 +7,7 @@ interface person {
   email: string;
 }
 
+
 export class PersonModel {
   private static table = 'persons';
   static async createPerson(person: person) {
@@ -146,4 +147,7 @@ export class PersonModel {
       };
     }
   }
+
+
+
 }
