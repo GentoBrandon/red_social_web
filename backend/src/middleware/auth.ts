@@ -4,6 +4,7 @@ import key from '../config/authKey';
 import CustomError from '../utils/customError';
 interface Pailod {
   user_name: string;
+  person_id: number;
 }
 export default class AuthMiddleware {
   static async verifyToken(req: Request, res: Response, next: NextFunction) {
@@ -15,11 +16,12 @@ export default class AuthMiddleware {
       }
 
       const decoded = jwt.verify(token, key) as Pailod;
-      if (!decoded || !decoded.user_name) {
+      if (!decoded || !decoded.user_name || !decoded.person_id) {
         return next(new CustomError('Invalid token payload', 403));
       }
 
       req.body.user_name = decoded.user_name;
+      req.body.person_id = decoded.person_id;
       next();
     } catch (error) {
       next(error);

@@ -14,8 +14,8 @@ export default class UserSignIn {
       const userFound = await AuthModel.findUserPerson({ user_name });
       if (!userFound.success) {
         const error = new CustomError(
-          'User  not found, or is not correted ',
-          404,
+          'Unauthorized User  not found, or is not correted ',
+          403,
         );
         return next(error);
       }

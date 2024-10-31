@@ -89,4 +89,24 @@ export default class AuthModel {
       };
     }
   }
+
+  static async findPerson(person_id: number) {
+    try {
+      const result = await db('persons').where({ id: person_id }).first();
+      if (!result) {
+        return {
+          success: false,
+        };
+      }
+      return {
+        success: true,
+        data: result,
+      };
+    } catch (error) {
+      throw {
+        message: (error as Error).message,
+        stack: (error as Error).stack,
+      };
+    }
+  }
 }

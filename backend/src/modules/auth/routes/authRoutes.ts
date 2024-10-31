@@ -11,4 +11,5 @@ router.post(
   AuthController.createPersonWithUserCredentials,
 );
 router.post('/login', UserSignIn.verifyUserPassword, AuthController.login);
+router.get('/dashboard', auth.verifyToken, AuthController.dashboard);
 export default router;

@@ -64,9 +64,26 @@ export default class AuthController {
         secure: true,
         sameSite: 'strict',
       });
-      console.log(tokenSerialized);
+
       res.setHeader('Set-Cookie', tokenSerialized);
       res.status(200).json({ message: 'Login successful' });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async dashboard(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { person_id } = req.body;
+      const result = await AuthModel.findPerson(person_id);
+      if (!result.success) {
+        const error = new CustomError('Error finding person', 500);
+        throw error;
+      }
+      console.log(result.data);
+      res
+        .status(200)
+        .json({ message: 'Welcome to the dashboard', person: result.data });
     } catch (error) {
       next(error);
     }
