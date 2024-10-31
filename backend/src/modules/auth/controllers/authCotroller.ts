@@ -88,4 +88,13 @@ export default class AuthController {
       next(error);
     }
   }
+
+  static async logout(req: Request, res: Response, next: NextFunction) {
+    try {
+      res.clearCookie('token');
+      res.status(200).json({ message: 'Logout successful' });
+    } catch (error) {
+      
+    }
+  }
 }
