@@ -12,7 +12,7 @@ export async function up(knex: Knex): Promise<void> {
             table.string('phone_number');
             table.integer('job_id').unsigned();
             table.integer('university_id').unsigned();
-            table.foreign('person_id').references('id').inTable('persons');
+            table.foreign('person_id').references('id').inTable('persons').onDelete('CASCADE');
             table.foreign('job_id').references('id').inTable('jobs');
             table.foreign('university_id').references('id').inTable('universities');
 

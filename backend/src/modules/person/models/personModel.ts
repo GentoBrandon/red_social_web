@@ -10,28 +10,7 @@ interface person {
 
 export class PersonModel {
   private static table = 'persons';
-  static async createPerson(person: person) {
-    try {
-      const resultInsert = await db(this.table).insert(person).returning('id');
-      if (!resultInsert) {
-        console.log('error create Person');
-        return {
-          success: false,
-        };
-      }
-      console.log('Person created successfully');
-      return {
-        success: true,
-        id: resultInsert[0],
-      };
-    } catch (error) {
-      console.log('error in create Person');
-      throw {
-        message: 'Error creating person',
-        stack: (error as Error).stack,
-      };
-    }
-  }
+  
 
   static async getAllPersons() {
     try {

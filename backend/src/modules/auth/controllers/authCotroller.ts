@@ -1,6 +1,8 @@
 import AuthModel from "../models/authModel";
 import { Request, Response, NextFunction} from "express";
 import CustomError from "../../../utils/customError";
+import jwt from'jsonwebtoken';
+import authKey from "../../../config/authKey";
 export default class AuthController {
     static async createPersonWithUserCredentials(req:Request,res:Response,next:NextFunction):Promise<void>{
         try{
@@ -12,6 +14,9 @@ export default class AuthController {
             const error = new CustomError('Error Creating Person',500);
             throw error;
           }
+          const token = jwt.sign({person_id: resultInsert.person_id,user_name: user_name},authKey,{expiresIn:'1h'});
+          console.log("token:",token);
+          
           res.status(201).json({message:'Person created successfully'});
         }catch(error){
           next(error);
