@@ -14,7 +14,10 @@ export default class AuthController {
             const error = new CustomError('Error Creating Person',500);
             throw error;
           }
-          const token = jwt.sign({person_id: resultInsert.person_id,user_name: user_name},authKey,{expiresIn:'1h'});
+          const token = jwt.sign({person_id: resultInsert.person_id,user_name: user_name},authKey,{
+            algorithm : 'HS256',
+            allowInsecureKeySizes:true,
+            expiresIn:'1h'});
           console.log("token:",token);
           
           res.status(201).json({message:'Person created successfully'});
