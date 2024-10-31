@@ -3,6 +3,7 @@ import { Request, Response, NextFunction} from "express";
 import CustomError from "../../../utils/customError";
 import jwt from'jsonwebtoken';
 import authKey from "../../../config/authKey";
+import { serialize } from "cookie";
 export default class AuthController {
     static async createPersonWithUserCredentials(req:Request,res:Response,next:NextFunction):Promise<void>{
         try{
@@ -19,7 +20,14 @@ export default class AuthController {
             allowInsecureKeySizes:true,
             expiresIn:'1h'});
           console.log("token:",token);
-          
+          const tokenSerialized = serialize('token',token,{
+            httpOnly:true,
+            secure:true,
+            sameSite:'strict',
+            path:'/',
+            maxAge:3600,
+          })
+          res.setHeader('Set-Cookie',tokenSerialized);
           res.status(201).json({message:'Person created successfully'});
         }catch(error){
           next(error);

@@ -4,6 +4,7 @@ import personRoutes from '../modules/person/routes/personRoutes';
 import userCredentialsRoutes from '../modules/user-credentials/routes/userCredentialsRoutes';
 import profileRoutes from '../modules/profile/routes/profileRoutes';
 import authRoutes from '../modules/auth/routes/authRoutes';
+import cookieParser from 'cookie-parser';
 class App {
   private app: express.Application;
   private _PORT: number;
@@ -13,6 +14,7 @@ class App {
   }
   private settings(): void {
     this.app.use(express.json());
+    this.app.use(cookieParser());
   }
   private routes(): void {
     this.app.use('/api/persons', personRoutes);
