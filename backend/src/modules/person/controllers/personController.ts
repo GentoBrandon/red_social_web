@@ -3,7 +3,6 @@ import { Request, Response, NextFunction } from 'express';
 import CustomError from '../../../utils/customError';
 import { validationResult } from 'express-validator';
 export default class PersonController {
- 
   static async updatePerson(req: Request, res: Response, next: NextFunction) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -103,6 +102,4 @@ export default class PersonController {
       next(error);
     }
   }
-
-  
 }

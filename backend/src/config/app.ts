@@ -20,7 +20,7 @@ class App {
     this.app.use('/api/persons', personRoutes);
     this.app.use('/api/user-credentials', userCredentialsRoutes);
     this.app.use('/api/profile', profileRoutes);
-    this.app.use('/api/auth',authRoutes);
+    this.app.use('/api/auth', authRoutes);
   }
   private middlewares(): void {
     this.app.use(erroHandling);

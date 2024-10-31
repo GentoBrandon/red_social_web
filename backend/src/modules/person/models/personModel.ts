@@ -7,10 +7,8 @@ interface person {
   email: string;
 }
 
-
 export class PersonModel {
   private static table = 'persons';
-  
 
   static async getAllPersons() {
     try {
@@ -126,7 +124,4 @@ export class PersonModel {
       };
     }
   }
-
-
-
 }

@@ -38,7 +38,7 @@ export default class UserCredentialsController {
       const resultData = await UserCredentialsModel.getAll();
       if (!resultData.success) {
         const error = new CustomError('Data empty', 404);
-        
+
         error.stack = error.stack;
         throw error;
       }
