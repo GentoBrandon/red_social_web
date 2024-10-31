@@ -10,5 +10,5 @@ router.post('/register',[
     UserSingUp.hashPassword
     ],
     AuthController.createPersonWithUserCredentials);
-router.post('/login',auth.verifyToken,AuthController.login);
+router.post('/login',AuthController.login);
 export default router;

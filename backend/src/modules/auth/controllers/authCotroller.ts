@@ -36,19 +36,20 @@ export default class AuthController {
 
       static async login(req:Request,res:Response,next:NextFunction):Promise<void>{
         try {
-          const {person_id,user_name} = req.body;
-          const pailod = {person_id,user_name};
-          const result = await AuthModel.findUserPerson(pailod);
-          if(!result.success){
-            const error = new CustomError('Error Finding User or Person',500);
-            throw error;
-          }
-          res.status(200).json({message:'User and Person found successfully',
-          user:result.user,
-          person:result.person
-          });
-        } catch (error) {
-          next(error)
-        }
+            const {user_name,person_id} = req.body;
+            const token = jwt.sign({person_id,user_name},authKey,{
+                algorithm:'HS256',
+                allowInsecureKeySizes:true,
+                expiresIn:'1h'
+            });
+            const tokenSerialized = serialize('token',token,{
+                httpOnly:true,
+                secure:true,
+                sameSite:'strict',});
+            res.setHeader('Set-Cookie',tokenSerialized);
+            res.status(200).json({message:'Login successful'});
+      }catch(error){
+        next(error);
       }
+}
 }

@@ -7,7 +7,6 @@ interface Person {
   }
   interface UserCredential{
     user_name: string,
-    password: string,
   }
   interface Credentials{
     person_id: number,
@@ -50,18 +49,18 @@ export default class AuthModel {
         }
     }
 
-    static async findUserPerson(credentials:Credentials){
+    static async findUserPerson(credentials:UserCredential){
         try {
            const result = await db.transaction(async trx =>{
                 const user = await trx('users_credentials').where({user_name:credentials.user_name}).first();
                 /*if(!user){
                     throw new Error('User not found');
                 }*/
-                const person = await trx('persons').where('id',credentials.person_id).first();
+               
                 /*if(!person){
                     throw new Error('Person not found');
                 }*/
-               if(!user || !person){
+               if(!user){
                 return {
                     success: false,
                     
@@ -69,8 +68,10 @@ export default class AuthModel {
                }
                 return {
                     success: true,
-                    user,
-                    person
+                    user_name: user.user_name,
+                    password: user.password,
+                    person_id: user.person_id
+
                 }
                
             })
