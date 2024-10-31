@@ -33,4 +33,22 @@ export default class AuthController {
           next(error);
         }
       }
+
+      static async login(req:Request,res:Response,next:NextFunction):Promise<void>{
+        try {
+          const {person_id,user_name} = req.body;
+          const pailod = {person_id,user_name};
+          const result = await AuthModel.findUserPerson(pailod);
+          if(!result.success){
+            const error = new CustomError('Error Finding User or Person',500);
+            throw error;
+          }
+          res.status(200).json({message:'User and Person found successfully',
+          user:result.user,
+          person:result.person
+          });
+        } catch (error) {
+          next(error)
+        }
+      }
 }

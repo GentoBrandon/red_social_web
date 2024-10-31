@@ -6,9 +6,12 @@ interface Person {
     email: string;
   }
   interface UserCredential{
-    
     user_name: string,
     password: string,
+  }
+  interface Credentials{
+    person_id: number,
+    user_name: string,
   }
 
 export default class AuthModel {
@@ -44,6 +47,39 @@ export default class AuthModel {
                 message: (error as Error).message,
                 stack: (error as Error).stack
             };
+        }
+    }
+
+    static async findUserPerson(credentials:Credentials){
+        try {
+           const result = await db.transaction(async trx =>{
+                const user = await trx('users_credentials').where({user_name:credentials.user_name}).first();
+                /*if(!user){
+                    throw new Error('User not found');
+                }*/
+                const person = await trx('persons').where('id',credentials.person_id).first();
+                /*if(!person){
+                    throw new Error('Person not found');
+                }*/
+               if(!user || !person){
+                return {
+                    success: false,
+                    
+                }
+               }
+                return {
+                    success: true,
+                    user,
+                    person
+                }
+               
+            })
+            return result
+        } catch (error) {
+            throw {
+                 message : (error as Error).message,
+                 stack: (error as Error).stack
+            }
         }
     }
 }
