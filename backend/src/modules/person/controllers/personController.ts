@@ -51,7 +51,7 @@ export default class PersonController {
     try {
       const { id } = req.params;
       const idPerson = parseInt(id);
-      const resultFound = await PersonService.getPersonById(idPerson);
+      const resultFound = await PersonService.findPersonById(idPerson);
       if (!resultFound.success) {
         const error = new CustomError('Error get Person', 404);
         throw error;

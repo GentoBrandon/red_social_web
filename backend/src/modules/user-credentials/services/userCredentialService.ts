@@ -98,4 +98,24 @@ export class UserCredentialsService {
 
         }
     }
+    static async findUserCredentialByUserName(user_name: string){
+        try{
+            const resultFind = await UserCredentialModel.findByUserName(user_name);
+            if(!resultFind){
+                return{
+                    success: false,
+                    data : resultFind || ""
+                }
+            }
+            return {
+                success: true,
+                data: resultFind || ""
+            }
+        }catch(error){
+            throw{
+                message: 'Error while finding user credential by username',
+                stack: (error as Error).stack
+            }
+        }
+    }
 }

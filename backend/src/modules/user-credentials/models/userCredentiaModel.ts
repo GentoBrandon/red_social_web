@@ -1,8 +1,8 @@
 import db from '../../../config/dbConfig';
 import BaseModel from '../../../utils/base/Model';
-
+import { Knex } from 'knex';
 export interface UserCredentials {
-  person_id: number;
+  person_id?: number
   user_name: string;
   password: string;
 }
@@ -27,6 +27,15 @@ export class UserCredentialModel extends BaseModel<UserCredentials> {
   }
   static async delete(id: number): Promise<number>{
     return await this.instancie.delete(id);
+  }
+  static async insertWithTransaction(data: UserCredentials,trx?:null | Knex.Transaction): Promise<number[]>{
+    if(trx){
+      return await trx.insert(data).into('users_credentials');
+    }
+    return await this.create(data);
+  }
+  static async findByUserName ( user_name: string): Promise<UserCredentials>{
+    return await db('users_credentials').where({user_name}).first();
   }
 
 }

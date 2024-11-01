@@ -40,7 +40,7 @@ export class PersonService {
     }
   }
 
-  static async getPersonById(id: number) {
+  static async findPersonById(id: number) {
     try {
       const resultGetById = await PersonModel.find(id);
       if (!resultGetById) {
