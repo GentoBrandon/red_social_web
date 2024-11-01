@@ -5,8 +5,8 @@ interface Profile {
   presentation: string;
   address: string;
   phone_number: string;
-  job_id: number,
-  university_id: number,
+  job_id: number;
+  university_id: number;
 }
 export default class ProfileModel {
   private static table: string = 'profiles';
@@ -25,8 +25,11 @@ export default class ProfileModel {
     try {
       // Validación previa de datos requeridos
       if (!profile.person_id) {
-        throw new CustomError("El campo 'person_id' es obligatorio y no puede ser null",500);
-    }
+        throw new CustomError(
+          "El campo 'person_id' es obligatorio y no puede ser null",
+          500,
+        );
+      }
       const resultInsert = await db(this.table).insert(profile);
       if (!resultInsert) {
         return {
@@ -59,7 +62,7 @@ export default class ProfileModel {
       throw {
         message: (error as Error).message,
         stack: (error as Error).stack,
-        details: (error as CustomError).details
+        details: (error as CustomError).details,
       };
     }
   }

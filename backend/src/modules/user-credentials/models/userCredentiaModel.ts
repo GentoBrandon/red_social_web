@@ -24,7 +24,6 @@ export default class UserCredentialsModel {
       };
     } catch (error) {
       return {
-        success: false,
         stack: (error as Error).stack,
       };
     }
