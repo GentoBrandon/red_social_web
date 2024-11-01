@@ -66,7 +66,7 @@ export default function SignUpForm() {
     const { confirmpassword, ...userToSubmit } = user;
 
     try {
-      const response = await axios.post(API_ROUTES.REGISTER, userToSubmit);
+      const response = await axios.post(API_ROUTES.REGISTER, userToSubmit, { withCredentials: true });
       toast.success("¡Usuario registrado correctamente!", {
         duration: 1500,
         progress: true,
