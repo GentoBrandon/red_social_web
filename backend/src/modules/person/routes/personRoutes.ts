@@ -21,5 +21,4 @@ router.delete(
   PersonController.deletePerson,
 );
 
-router.get('/find-person/name/:name', PersonController.findPersonByName);
 export default router;

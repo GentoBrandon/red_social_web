@@ -12,5 +12,5 @@ router.post(
 );
 router.post('/login', UserSignIn.verifyUserPassword, AuthController.login);
 router.get('/dashboard', auth.verifyToken, AuthController.dashboard);
-router.post('/logout',auth.verifyToken, AuthController.logout);
+router.post('/logout', auth.verifyToken, AuthController.logout);
 export default router;

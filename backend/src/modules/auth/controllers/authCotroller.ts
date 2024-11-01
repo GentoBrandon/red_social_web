@@ -1,9 +1,11 @@
-import AuthModel from '../models/authModel';
+import {AuthService} from '../services/authService';
+import { PersonService } from '../../person/services/personService';
 import { Request, Response, NextFunction } from 'express';
 import CustomError from '../../../utils/customError';
 import jwt from 'jsonwebtoken';
 import authKey from '../../../config/authKey';
 import { serialize } from 'cookie';
+
 export default class AuthController {
   static async createPersonWithUserCredentials(
     req: Request,
@@ -15,10 +17,7 @@ export default class AuthController {
         req.body;
       const person = { first_name, last_name, birth_date, email };
       const user_credential = { user_name, password };
-      const resultInsert = await AuthModel.insertQwithTransaction(
-        person,
-        user_credential,
-      );
+      const resultInsert = await AuthService.insertQwithTransaction(person, user_credential);
       if (!resultInsert.success) {
         const error = new CustomError('Error Creating Person', 500);
         throw error;
@@ -75,7 +74,7 @@ export default class AuthController {
   static async dashboard(req: Request, res: Response, next: NextFunction) {
     try {
       const { person_id } = req.body;
-      const result = await AuthModel.findPerson(person_id);
+      const result = await PersonService.findPersonById(person_id);
       if (!result.success) {
         const error = new CustomError('Error finding person', 500);
         throw error;
@@ -94,7 +93,7 @@ export default class AuthController {
       res.clearCookie('token');
       res.status(200).json({ message: 'Logout successful' });
     } catch (error) {
-      
+      next(error);
     }
   }
 }
