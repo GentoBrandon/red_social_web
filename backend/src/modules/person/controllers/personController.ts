@@ -1,4 +1,4 @@
-import { PersonService } from '../service/personService';
+import { PersonService } from '../services/personService';
 import { Request, Response, NextFunction } from 'express';
 import CustomError from '../../../utils/customError';
 import { validationResult } from 'express-validator';

@@ -1,5 +1,5 @@
 import {AuthService} from '../services/authService';
-import { PersonService } from '../../person/service/personService';
+import { PersonService } from '../../person/services/personService';
 import { Request, Response, NextFunction } from 'express';
 import CustomError from '../../../utils/customError';
 import jwt from 'jsonwebtoken';

@@ -5,6 +5,7 @@ import userCredentialsRoutes from '../modules/user-credentials/routes/userCreden
 import profileRoutes from '../modules/profile/routes/profileRoutes';
 import authRoutes from '../modules/auth/routes/authRoutes';
 import cookieParser from 'cookie-parser';
+import cors from 'cors'
 class App {
   private app: express.Application;
   private _PORT: number;
@@ -13,6 +14,10 @@ class App {
     this._PORT = PORT;
   }
   private settings(): void {
+    this.app.use(cors({
+      origin: 'http://localhost:3000',
+      credentials: true
+    }))
     this.app.use(express.json());
     this.app.use(cookieParser());
   }
