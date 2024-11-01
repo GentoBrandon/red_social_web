@@ -6,14 +6,13 @@ export default function SignUpForm() {
     <div className={styles.container}>
       <div className={styles.frame}>
         <form className={styles.formSignup}>
+        <label htmlFor="fullname">Nombre completo</label>
         <div className="row">
             <div className="col">
-              <label htmlFor="fullname">Nombres</label>
-              <input className={styles.formStyling} type="text" name="first_name" placeholder="Ingrese su nombre" required/>
+              <input className={styles.formStylingII} type="text" name="first_name" placeholder="Ingrese su nombre" required/>
             </div>
             <div className="col">
-              <label htmlFor="fullname">Apellidos</label>
-              <input className={styles.formStyling} type="text" name="last_name" placeholder="Ingrese su apellido" required/>
+              <input className={styles.formStylingII} type="text" name="last_name" placeholder="Ingrese su apellido" required/>
             </div>
           </div>
           <label htmlFor="fullname">Nombre de usuario</label>
