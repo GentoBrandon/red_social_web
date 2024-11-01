@@ -21,12 +21,10 @@ export default class UserCredentialsController {
         error.details = error.stack;
         throw error;
       }
-      res
-        .status(201)
-        .json({
-          message: 'User_credentials created successfully',
-          id: resultInsert.id,
-        });
+      res.status(201).json({
+        message: 'User_credentials created successfully',
+        id: resultInsert.id,
+      });
     } catch (error) {
       next(error);
     }
