@@ -1,4 +1,5 @@
 import db from '../../../config/dbConfig';
+import { PersonModel } from '../../person/models/personModel';
 interface Person {
   first_name: string;
   last_name: string;
@@ -22,25 +23,35 @@ export default class AuthModel {
       // Inicia la transacción
       const result = await db.transaction(async (trx) => {
         // Insertar en la tabla 'person'
-        const resultInsertPerson = await trx('persons')
+        /*const resultInsertPerson = await trx('persons')
           .insert(person)
+          .returning('id');*/
+        const id = await PersonModel.insertWithTransaction(person, trx);
+
+        console.log(id);
+        // Insertar en la tabla 'user_credentials' usando el id retornado de 'person'
+        const resultInsertUserCredential = await trx('users_credentials')
+          .insert({
+            ...user_credential,
+            person_id: id, // Usa resultInsertPerson[0].id si devuelve un objeto
+          })
           .returning('id');
-        if (!resultInsertPerson || resultInsertPerson.length === 0) {
+        const resultInserUser = await trx('users').insert({
+          users_credentiasl_id: resultInsertUserCredential[0].id,
+        });
+        if (
+          !id ||
+          id === 0 ||
+          !resultInsertUserCredential ||
+          resultInsertUserCredential.length === 0 ||
+          !resultInserUser
+        ) {
           throw new Error('Failed to insert person');
         }
-
-        // Insertar en la tabla 'user_credentials' usando el id retornado de 'person'
-        const resultInsertUserCredential = await trx(
-          'users_credentials',
-        ).insert({
-          ...user_credential,
-          person_id: resultInsertPerson[0].id, // Usa resultInsertPerson[0].id si devuelve un objeto
-        });
-
         // Retorna el resultado de ambas inserciones si ambas tienen éxito
         return {
           success: true,
-          person_id: resultInsertPerson[0].id,
+          person_id: id,
         };
       });
 
@@ -49,7 +60,6 @@ export default class AuthModel {
       // Manejo de errores
       console.error('Transaction failed:', error);
       throw {
-        success: false,
         message: (error as Error).message,
         stack: (error as Error).stack,
       };
