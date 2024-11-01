@@ -2,7 +2,9 @@ import express from 'express';
 import erroHandling from '../middleware/errorHandling';
 import personRoutes from '../modules/person/routes/personRoutes';
 import userCredentialsRoutes from '../modules/user-credentials/routes/userCredentialsRoutes';
-import UserRoutes from '../modules/user/routes/userRoutes';
+import profileRoutes from '../modules/profile/routes/profileRoutes';
+import authRoutes from '../modules/auth/routes/authRoutes';
+import cookieParser from 'cookie-parser';
 class App {
   private app: express.Application;
   private _PORT: number;
@@ -12,11 +14,14 @@ class App {
   }
   private settings(): void {
     this.app.use(express.json());
+    this.app.use(cookieParser());
   }
   private routes(): void {
     this.app.use('/api/users', UserRoutes);
     this.app.use('/api/persons', personRoutes);
     this.app.use('/api/user-credentials', userCredentialsRoutes);
+    this.app.use('/api/profile', profileRoutes);
+    this.app.use('/api/auth', authRoutes);
   }
   private middlewares(): void {
     this.app.use(erroHandling);
