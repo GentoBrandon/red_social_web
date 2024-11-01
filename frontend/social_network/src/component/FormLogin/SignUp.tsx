@@ -4,6 +4,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { API_ROUTES } from '../../routes/apiRoutes';
 import { useState } from 'react';
+import { toast } from "nextjs-toast-notify";
+import "nextjs-toast-notify/dist/nextjs-toast-notify.css";
+import { useRouter } from 'next/navigation';
+import React from 'react';
 
 interface User {
   first_name: string;
@@ -16,6 +20,7 @@ interface User {
 }
 
 export default function SignUpForm() {
+  const router = useRouter();
   const [user, setUser] = useState<User>({
     first_name: '',
     last_name: '',
@@ -38,15 +43,53 @@ export default function SignUpForm() {
 
     // Validación de la confirmación de contraseña
     if (user.password !== user.confirmpassword) {
-      console.error("Passwords do not match.");
+      toast.info("¡Error, las contraseñas no coinciden!", {
+        duration: 1500,
+        progress: true,
+        position: "top-center",
+        transition: "bounceIn",
+      });
       return;
     }
 
+    // Validación de campos vacíos
+    if (Object.values(user).some(value => value === '')) {
+      toast.info("Todos los campos son obligatorios", {
+        duration: 1500,
+        progress: true,
+        position: "top-center",
+        transition: "bounceIn",
+      });
+      return;
+    }
+
+    const { confirmpassword, ...userToSubmit } = user;
+
     try {
-      const response = await axios.post(API_ROUTES.REGISTER, user);
-      console.log(response.data);
+      const response = await axios.post(API_ROUTES.REGISTER, userToSubmit);
+      toast.success("¡Usuario registrado correctamente!", {
+        duration: 1500,
+        progress: true,
+        position: "top-center",
+        transition: "bounceIn",
+      });
+      router.push('/dashboard');
     } catch (error) {
-      console.error(error);
+      if (axios.isAxiosError(error)) {
+        toast.error(`Error: ${error.response?.data.message || "Error al registrar usuario"}`, {
+          duration: 1500,
+          progress: true,
+          position: "top-center",
+          transition: "bounceIn",
+        });
+      } else {
+        toast.error("Error desconocido", {
+          duration: 1500,
+          progress: true,
+          position: "top-center",
+          transition: "bounceIn",
+        });
+      }
     }
   };
 
@@ -61,6 +104,7 @@ export default function SignUpForm() {
                 className={styles.formStylingII}
                 type="text"
                 name="first_name"
+                id="first_name"
                 placeholder="Ingrese su nombre"
                 required
                 value={user.first_name}
@@ -72,6 +116,7 @@ export default function SignUpForm() {
                 className={styles.formStylingII}
                 type="text"
                 name="last_name"
+                id="last_name"
                 placeholder="Ingrese su apellido"
                 required
                 value={user.last_name}
@@ -84,6 +129,7 @@ export default function SignUpForm() {
             className={styles.formStyling}
             type="text"
             name="user_name"
+            id="user_name"
             placeholder="Ingrese su nombre de usuario"
             required
             value={user.user_name}
@@ -94,7 +140,7 @@ export default function SignUpForm() {
             className={styles.formStyling}
             type="date"
             name="birth_date"
-            placeholder="Ingrese su fecha de nacimiento"
+            id="birth_date"
             required
             value={user.birth_date}
             onChange={handleChange}
@@ -104,6 +150,7 @@ export default function SignUpForm() {
             className={styles.formStyling}
             type="email"
             name="email"
+            id="email"
             placeholder="Email"
             required
             value={user.email}
@@ -114,6 +161,7 @@ export default function SignUpForm() {
             className={styles.formStyling}
             type="password"
             name="password"
+            id="password"
             placeholder="Password"
             required
             value={user.password}
@@ -124,6 +172,7 @@ export default function SignUpForm() {
             className={styles.formStyling}
             type="password"
             name="confirmpassword"
+            id="confirmpassword"
             placeholder="Confirm Password"
             required
             value={user.confirmpassword}
