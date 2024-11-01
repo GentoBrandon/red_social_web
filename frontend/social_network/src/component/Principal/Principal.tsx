@@ -8,14 +8,11 @@ import Sidebar from '../Sidebar/Sidebar';
 function Principal({ children }: { children: ReactNode }) {
     return (
         <div className="flex flex-col h-screen">
-            {/* Navbar */}
             <NavBar/>
-    
-            <div className="flex flex-1">
-            {/* Sidebar */}
-            <Sidebar />
-            </div>
             <main className="flex-1 ml-64 p-4 overflow-y-auto">
+                <div className="flex flex-1">
+                <Sidebar />
+                </div>
                 {children}
             </main>
         </div>

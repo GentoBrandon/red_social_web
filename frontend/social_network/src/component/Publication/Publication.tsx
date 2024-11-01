@@ -15,7 +15,6 @@ import style from '../../styles/Publication.module.css';
 function Publication() {
     return (
         <div className={style.publication}>
-            <div>
             <Dialog>
                 <DialogTrigger asChild>
                     <Button variant="outline" className={style.btn}>¿Qué estás pensando hoy?</Button>
@@ -47,7 +46,6 @@ function Publication() {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-            </div>
         </div>
     );
 }
