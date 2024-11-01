@@ -5,6 +5,8 @@ import {useRouter} from 'next/navigation';
 import { useState } from 'react';
 import { API_ROUTES } from '../../routes/apiRoutes';
 import axios from 'axios';
+import { toast } from "nextjs-toast-notify";
+import "nextjs-toast-notify/dist/nextjs-toast-notify.css";
 
 interface User {
   user_name: string;
@@ -29,9 +31,21 @@ export default function SignInForm() {
     try{
       const response = await axios.post(API_ROUTES.LOGIN, user, {withCredentials: true});
       router.push('/dashboard');
+      toast.success("¡Bienvenido!", {
+        duration: 1500,
+        progress: true,
+        position: "top-center",
+        transition: "bounceIn",
+      });
       console.log(response);
     }catch(error){
       console.error(error);
+      toast.error("¡Error al iniciar sesión!", {
+        duration: 1500,
+        progress: true,
+        position: "top-center",
+        transition: "bounceIn",
+      });
     }
   }
   return (
