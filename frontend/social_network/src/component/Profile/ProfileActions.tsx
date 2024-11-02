@@ -1,3 +1,4 @@
+'use client';
 import React, { ProfilerProps } from 'react';
 import styles from '../../styles/Profile/ProfileActions.module.css';
 import style from '../../styles/Profile/ProfileHeader.module.css';
