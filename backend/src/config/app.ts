@@ -4,6 +4,7 @@ import personRoutes from '../modules/person/routes/personRoutes';
 import userCredentialsRoutes from '../modules/user-credentials/routes/userCredentialsRoutes';
 import profileRoutes from '../modules/profile/routes/profileRoutes';
 import authRoutes from '../modules/auth/routes/authRoutes';
+import userRoutes from '../modules/user/routes/userRoutes';
 import cookieParser from 'cookie-parser';
 import SocketController from '../controllers/socket/socketIoController';
 import friendStatusRoutes from '../modules/friends-status/routes/friendStatusRoutes';
@@ -41,6 +42,7 @@ class App {
     this.app.use(cookieParser());
   }
   private routes(): void {
+    this.app.use('/api/users', userRoutes);
     this.app.use('/api/persons', personRoutes);
     this.app.use('/api/user-credentials', userCredentialsRoutes);
     this.app.use('/api/profile', profileRoutes);
