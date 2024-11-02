@@ -4,6 +4,7 @@ import personRoutes from '../modules/person/routes/personRoutes';
 import userCredentialsRoutes from '../modules/user-credentials/routes/userCredentialsRoutes';
 import profileRoutes from '../modules/profile/routes/profileRoutes';
 import authRoutes from '../modules/auth/routes/authRoutes';
+import userRoutes from '../modules/user/routes/userRoutes';
 import cookieParser from 'cookie-parser';
 class App {
   private app: express.Application;
@@ -17,7 +18,7 @@ class App {
     this.app.use(cookieParser());
   }
   private routes(): void {
-    this.app.use('/api/users', UserRoutes);
+    this.app.use('/api/users', userRoutes);
     this.app.use('/api/persons', personRoutes);
     this.app.use('/api/user-credentials', userCredentialsRoutes);
     this.app.use('/api/profile', profileRoutes);
