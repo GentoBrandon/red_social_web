@@ -1,4 +1,5 @@
 import db from '../../../config/dbConfig';
+import {Knex} from 'knex'
 import BaseModel from '../../../utils/base/Model';
 // interface 
 export interface User{
@@ -9,7 +10,7 @@ export class UserModel extends BaseModel<User>{
     constructor(){
         super("users");
     }
-    static async insertUser (id : User):Promise<Number[]>{
+    static async insertUser (id : User):Promise<number[]>{
         return await this.userModelInstance.insert(id);
     }
     static async getUserAll ():Promise<User[]>{
@@ -23,6 +24,15 @@ export class UserModel extends BaseModel<User>{
     static async deleteUserId (id : number):Promise<Number>{
         return await this.userModelInstance.delete(id);
     }
+
+    static async insertWithTransaction(user: User, trx: Knex.Transaction): Promise<number[]> {
+        if(trx){
+            const [{id}] = await trx.insert(user).into('users').returning('id');
+            return id;
+        }
+        const id = await this.insertUser(user);
+        return id;
+}
 }
 
 

@@ -1,5 +1,6 @@
 import { UserCredentialModel,UserCredentials } from "../../user-credentials/models/userCredentiaModel";
 import { PersonModel,Person } from "../../person/models/personModel";
+import { UserModel } from "../../user/models/userModel";
 import db from "../../../config/dbConfig";
 import CustomError from "../../../utils/customError";
 
@@ -10,7 +11,8 @@ export class AuthService {
                 const id = await PersonModel.insertWithTransaction(person,trx); 
                 const userData = {...user_credential,person_id: id};
                 const resultInsertUserCredential = await UserCredentialModel.insertWithTransaction(userData,trx);
-                if(!id || id === 0 || !resultInsertUserCredential || resultInsertUserCredential.length === 0){
+                const resultUser = await UserModel.insertWithTransaction({users_credentiasl_id:resultInsertUserCredential},trx)
+                if(!id || id === 0 || !resultInsertUserCredential || resultInsertUserCredential === 0 || resultUser.length === 0 || !resultUser){
                     return {
                         success: false
                     }

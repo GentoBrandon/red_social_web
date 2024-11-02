@@ -28,11 +28,13 @@ export class UserCredentialModel extends BaseModel<UserCredentials> {
   static async delete(id: number): Promise<number>{
     return await this.instancie.delete(id);
   }
-  static async insertWithTransaction(data: UserCredentials,trx?:null | Knex.Transaction): Promise<number[]>{
+  static async insertWithTransaction(data: UserCredentials,trx?:null | Knex.Transaction): Promise<number>{
     if(trx){
-      return await trx.insert(data).into('users_credentials');
+      const [{id}] = await trx.insert(data).into('users_credentials').returning('id');
+      return id
     }
-    return await this.create(data);
+    const [id] =  await this.create(data);
+    return id;
   }
   static async findByUserName ( user_name: string): Promise<UserCredentials>{
     return await db('users_credentials').where({user_name}).first();
