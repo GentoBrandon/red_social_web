@@ -1,0 +1,10 @@
+.profilePage {
+    max-width: 800px;
+    margin: 0 100;
+    padding: 20px;
+  }
+  
+  .profilePage > *:not(:last-child) {
+    margin-bottom: 20px;
+  }
+  
