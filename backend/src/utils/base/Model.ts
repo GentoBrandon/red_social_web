@@ -19,4 +19,5 @@ export default class BaseModel<T> {
   async delete(id: number): Promise<number> {
     return await db(this.table).where('id', id).delete();
   }
+  
 }
