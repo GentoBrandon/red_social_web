@@ -5,6 +5,7 @@ import userCredentialsRoutes from '../modules/user-credentials/routes/userCreden
 import profileRoutes from '../modules/profile/routes/profileRoutes';
 import authRoutes from '../modules/auth/routes/authRoutes';
 import cookieParser from 'cookie-parser';
+import SocketController from '../controllers/socket/socketIoController';
 // configuracion de sockect.io
 import http from 'http';
 import {Server} from 'socket.io';
@@ -18,9 +19,17 @@ class App {
     this.app = express();
     this._PORT = PORT;
     this._server = http.createServer(this.app);
-    this._io = new Server(this._server);
+    this._io = new Server(this._server,{
+      cors: {
+        origin: '*',
+        methods: ['GET', 'POST']
+      }
+    });
   }
 
+  public get io(): Server {
+    return this._io;
+  }
 
   private settings(): void {
     this.app.use(cors({
@@ -46,10 +55,8 @@ class App {
   }
   private settingsSocketIo(): void {
     this._io.on('connection', (socket) => {
-      console.log('a user connected');
-      socket.on('disconnect', () => {
-        console.log('user disconnected');
-      });
+      console.log('a user connected', socket.id);
+      SocketController(socket);
     });
   }
   private startSettings(): void {
