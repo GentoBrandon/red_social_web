@@ -17,7 +17,7 @@ function DialogDemo() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">Editar perfil</Button>
+        <Button variant="btnBlue">Editar perfil</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
