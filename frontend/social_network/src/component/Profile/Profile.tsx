@@ -2,7 +2,9 @@ import ProfileHeader from "@/component/Profile/ProfileHeader";
 import ProfileActions from "@/component/Profile/ProfileActions";
 import Tabs from "@/component/Profile/Tabs";
 import styles from '../../styles/Profile/ProfilePage.module.css';
-function Profile(){
+import { Children, ReactNode } from "react";
+
+function Profile({children}: {children: ReactNode}) {
     return(
              <div className={styles.profilePage}>
                 <ProfileHeader
@@ -15,6 +17,7 @@ function Profile(){
                 friendCount={92}
                 />
                 <Tabs />
+                {children}
                 {/* Aquí podrías agregar el componente para el contenido principal, como publicaciones */}
             </div>
     )
