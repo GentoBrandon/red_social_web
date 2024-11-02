@@ -1,0 +1,80 @@
+/* Container principal */
+.container {
+    padding: 20px;
+  }
+  
+  /* Estilos de las pestañas */
+  .tabs {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .tab {
+    font-size: 1rem;
+    color: gray;
+    border: none;
+    background: none;
+    padding-bottom: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .tab:hover {
+    color: #1877f2;
+  }
+  
+  .active {
+    color: #1877f2;
+    font-weight: bold;
+    border-bottom: 2px solid #1877f2;
+  }
+  
+  /* Contenedor de amigos en dos columnas */
+  .friendsContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  
+  .friendCard {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+  
+  .profileImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  
+  .friendInfo {
+    flex: 1;
+  }
+  
+  .friendName {
+    font-size: 0.95rem;
+    font-weight: bold;
+  }
+  
+  .mutualFriends {
+    font-size: 0.85rem;
+    color: gray;
+  }
+  
+  .moreOptions {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: gray;
+    padding: 0;
+  }
+  
