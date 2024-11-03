@@ -2,9 +2,8 @@ import BaseModel from "../../../utils/base/Model";
 import db from "../../../config/dbConfig"
 import {Knex} from "knex"
 export interface Friend{
-    profile_request_id: number;
-    profile_receiver_id: number;
-    name_status: string;
+    id?: number,
+    request_friend_id: number
 }
 
 export class FriendModel extends BaseModel<Friend>{
