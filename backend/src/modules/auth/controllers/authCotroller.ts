@@ -21,6 +21,10 @@ export default class AuthController {
         person,
         user_credential,
       );
+      const resultInsert = await AuthService.insertQwithTransaction(
+        person,
+        user_credential,
+      );
       if (!resultInsert.success) {
         const error = new CustomError('Error Creating Person', 500);
         throw error;
