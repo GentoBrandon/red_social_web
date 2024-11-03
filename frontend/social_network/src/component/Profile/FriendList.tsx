@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 import styles from '../../styles/Profile/FriendList.module.css';
 
@@ -9,12 +10,12 @@ interface Friend {
 }
 
 const friendsData: Friend[] = [
-  { id: 1, name: "Distrito del Pacífico", mutualFriends: 9, profileImage: "avatat.jpg" },
-  { id: 2, name: "Carla Velasquez", mutualFriends: 17, profileImage: "avatat.jpg" },
-  { id: 3, name: "Miseldo Macario", mutualFriends: 8, profileImage: "avatat.jpg" },
-  { id: 4, name: "José Ixcoy Jr.", mutualFriends: 14, profileImage: "avatat.jpg" },
-  { id: 5, name: "Ici Reu", mutualFriends: 11, profileImage: "avatat.jpg" },
-  { id: 6, name: "Ariana Diaz", mutualFriends: 23, profileImage: "avatat.jpg" },
+  { id: 1, name: "Distrito del Pacífico", mutualFriends: 9, profileImage: "/avatar.png" },
+  { id: 2, name: "Carla Velasquez", mutualFriends: 17, profileImage: "/avatar.png" },
+  { id: 3, name: "Miseldo Macario", mutualFriends: 8, profileImage: "/avatar.png" },
+  { id: 4, name: "José Ixcoy Jr.", mutualFriends: 14, profileImage: "/avatar.png" },
+  { id: 5, name: "Ici Reu", mutualFriends: 11, profileImage: "/avatar.png" },
+  { id: 6, name: "Ariana Diaz", mutualFriends: 23, profileImage: "/avatar.png" },
   // Agrega más amigos aquí
 ];
 
