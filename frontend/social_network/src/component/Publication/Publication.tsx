@@ -12,6 +12,7 @@ import { Separator } from "@/components/ui/separator";
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import style from '../../styles/Publication.module.css';
+import {Textarea} from "@/components/ui/textarea";
 function Publication() {
     return (
         <div className={style.publication}>
@@ -38,7 +39,7 @@ function Publication() {
                         <Label htmlFor="username" className="text-right">
                         Descripcion
                         </Label>
-                        <Input id="username" className="col-span-3" type="text" required/>
+                        <Textarea id="username" className="col-span-3" required/>
                     </div>
                     </div>
                     <DialogFooter>
