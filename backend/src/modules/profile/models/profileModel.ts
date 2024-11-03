@@ -10,16 +10,14 @@ interface Profile {
   university_id: number;
 }
 
-export default class ProfileModel extends BaseModel<Profile>{
-  private static profileModelInstance : ProfileModel = new ProfileModel();
-  constructor (){
-    super("profile");
+export default class ProfileModel extends BaseModel<Profile> {
+  private static profileModelInstance: ProfileModel = new ProfileModel();
+  constructor() {
+    super('profile');
   }
-  
-} 
+}
 // export default class ProfileModel{
 //   private static table: string = 'profiles';
-
 
 //   static async create(profile: Profile) {
 //     try {

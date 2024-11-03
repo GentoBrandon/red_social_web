@@ -1,7 +1,7 @@
-import { Socket } from "socket.io";
+import { Socket } from 'socket.io';
 
 export default function SocketController(socket: Socket) {
-  console.log('a user connected',socket.id);
+  console.log('a user connected', socket.id);
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
@@ -14,10 +14,8 @@ export default function SocketController(socket: Socket) {
     // Lógica para el evento personalizado
   });
 
-  socket.on('chat message', (msg) =>{
+  socket.on('chat message', (msg) => {
     console.log('message: ' + msg);
     socket.broadcast.emit('chat message', msg);
-  })
-  
-
+  });
 }

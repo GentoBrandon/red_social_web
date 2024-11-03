@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { UserCredentialsService } from '../services/userCredentialService'
+import { UserCredentialsService } from '../services/userCredentialService';
 import CustomError from '../../../utils/customError';
 import { validationResult } from 'express-validator';
 export default class UserCredentialsController {
@@ -15,7 +15,9 @@ export default class UserCredentialsController {
       return next(error);
     }
     try {
-      const resultInsert = await UserCredentialsService.createUserCredential(req.body);
+      const resultInsert = await UserCredentialsService.createUserCredential(
+        req.body,
+      );
       if (!resultInsert.success) {
         const error = new CustomError('Error creating User_credentials', 500);
         error.details = error.stack;

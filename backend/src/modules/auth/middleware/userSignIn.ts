@@ -11,7 +11,8 @@ export default class UserSignIn {
   ) {
     try {
       const { user_name, password } = req.body;
-      const userFound = await UserCredentialsService.findUserCredentialByUserName(user_name)
+      const userFound =
+        await UserCredentialsService.findUserCredentialByUserName(user_name);
       if (!userFound.success) {
         const error = new CustomError(
           'Unauthorized User  not found, or is not correted ',
@@ -20,7 +21,10 @@ export default class UserSignIn {
         return next(error);
       }
 
-      const passwordHashed = await bcrypt.compare(password, userFound.data.password);
+      const passwordHashed = await bcrypt.compare(
+        password,
+        userFound.data.password,
+      );
       if (!passwordHashed) {
         const error = new CustomError('Password is not correct', 404);
         return next(error);

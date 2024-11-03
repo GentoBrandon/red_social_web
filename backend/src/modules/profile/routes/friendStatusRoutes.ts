@@ -1,5 +1,5 @@
-import FriendStatusController from "../controllers/friendStatusController";
-import { Router } from "express";
+import FriendStatusController from '../controllers/friendStatusController';
+import { Router } from 'express';
 const router = Router();
 
 router.post('/create-status', FriendStatusController.createFriendStatus);

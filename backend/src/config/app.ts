@@ -7,26 +7,27 @@ import authRoutes from '../modules/auth/routes/authRoutes';
 import userRoutes from '../modules/person/routes/userRoutes';
 import cookieParser from 'cookie-parser';
 import SocketController from '../controllers/socket/socketIoController';
-import friendStatusRoutes from '../modules/profile/routes/friendStatusRoutes'
-import requestFriendRoutes from '../modules/profile/routes/requestFriendRoutes'
+import friendStatusRoutes from '../modules/profile/routes/friendStatusRoutes';
+import requestFriendRoutes from '../modules/profile/routes/requestFriendRoutes';
+import friendRoutes from '../modules/profile/routes/friendRoutes';
 // configuracion de sockect.io
 import http from 'http';
-import {Server} from 'socket.io';
-import cors from 'cors'
+import { Server } from 'socket.io';
+import cors from 'cors';
 class App {
   private app: express.Application;
   private _PORT: number;
-  private _server : http.Server;
-  private _io : Server;
+  private _server: http.Server;
+  private _io: Server;
   public constructor(PORT: number) {
     this.app = express();
     this._PORT = PORT;
     this._server = http.createServer(this.app);
-    this._io = new Server(this._server,{
+    this._io = new Server(this._server, {
       cors: {
         origin: '*',
-        methods: ['GET', 'POST']
-      }
+        methods: ['GET', 'POST'],
+      },
     });
   }
 
@@ -35,10 +36,12 @@ class App {
   }
 
   private settings(): void {
-    this.app.use(cors({
-      origin: 'http://localhost:3000',
-      credentials: true
-    }))
+    this.app.use(
+      cors({
+        origin: 'http://localhost:3000',
+        credentials: true,
+      }),
+    );
     this.app.use(express.json());
     this.app.use(cookieParser());
   }
@@ -50,6 +53,7 @@ class App {
     this.app.use('/api/auth', authRoutes);
     this.app.use('/api/friend-status', friendStatusRoutes);
     this.app.use('/api/request-friend', requestFriendRoutes);
+    this.app.use('/api/friend', friendRoutes);
   }
   private middlewares(): void {
     this.app.use(erroHandling);
