@@ -53,4 +53,9 @@
   .liked {
     color: #ff4d4d; /* Color rojo para el botón en estado de "liked" */
   }
+
+  .options{
+    display: flex;
+    gap: 30px;
+  }
   

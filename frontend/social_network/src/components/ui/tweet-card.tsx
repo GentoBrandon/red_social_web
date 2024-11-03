@@ -5,7 +5,8 @@ import styles from "@/styles/Post.module.css";
 import { Separator } from "@/components/ui/separator";
 import {Button} from "@/components/ui/button";
 import { FaHeart } from "react-icons/fa";
-import { FaComment } from "react-icons/fa";
+import { BsSend } from "react-icons/bs";
+import { BsChatDots } from "react-icons/bs";
 
 interface PostCardProps {
   title: string;
@@ -28,15 +29,16 @@ const PostCard: React.FC<PostCardProps> = ({ title, content }) => {
         <p>{content}</p>
       </div>
       <Separator />
-      <div>
-      <button 
-          className={`${styles["like-button"]} ${isLiked ? styles["liked"] : ""}`} 
-          onClick={handleLike}
-        >
-          <FaHeart />
-          {isLiked ? " Liked" : " Like"}
-      </button>
-      <Button><FaComment/></Button>
+      <div className={styles["options"]}>
+        <button 
+            className={`${styles["like-button"]} ${isLiked ? styles["liked"] : ""}`} 
+            onClick={handleLike}
+          >
+            <FaHeart />
+            {isLiked ? " Liked" : " Like"}
+        </button>
+        <Button variant="link"><BsChatDots />Comentar</Button>
+        <Button variant="link"><BsSend />Compartir</Button>
       </div>
       <Separator />
       
