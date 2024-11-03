@@ -23,9 +23,25 @@ export default function FriendsList() {
   const [activeTab, setActiveTab] = useState("all");
 
   const tabs = ["Todos los amigos", "Agregados recientemente", "Cumpleaños", "Seguidos"];
+  const [searchQuery, setSearchQuery] = useState("");
+
+
+  const filteredFriends = friendsData.filter((friend) =>
+    friend.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
 
   return (
     <div className={styles.container}>
+      <div className={styles.searchContainer}>
+        <input
+          type="text"
+          placeholder="Buscar amigos..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className={styles.searchInput}
+        />
+      </div>
       <div className={styles.tabs}>
         {tabs.map((tab, index) => (
           <button
