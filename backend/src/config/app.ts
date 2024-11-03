@@ -8,6 +8,7 @@ import userRoutes from '../modules/person/routes/userRoutes';
 import cookieParser from 'cookie-parser';
 import SocketController from '../controllers/socket/socketIoController';
 import friendStatusRoutes from '../modules/profile/routes/friendStatusRoutes'
+import requestFriendRoutes from '../modules/profile/routes/requestFriendRoutes'
 // configuracion de sockect.io
 import http from 'http';
 import {Server} from 'socket.io';
@@ -48,6 +49,7 @@ class App {
     this.app.use('/api/profile', profileRoutes);
     this.app.use('/api/auth', authRoutes);
     this.app.use('/api/friend-status', friendStatusRoutes);
+    this.app.use('/api/request-friend', requestFriendRoutes);
   }
   private middlewares(): void {
     this.app.use(erroHandling);
