@@ -5,8 +5,8 @@ import CustomError from '../../../utils/customError';
 export default class UserContoller {
   static async createUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const { users_credentiasl_id } = req.body; 
-      const data = {users_credentiasl_id }
+      const { users_credentiasl_id } = req.body;
+      const data = { users_credentiasl_id };
       const resultInserted = await userServices.createUser(data);
       if (!resultInserted.success) {
         const error = new CustomError('Error al insertar user', 500);
@@ -53,7 +53,7 @@ export default class UserContoller {
         const error = new CustomError('Error al eliminar el id ', 404);
         throw error;
       }
-      res.status(200).json("id eliminado correctamente");
+      res.status(200).json('id eliminado correctamente');
     } catch (error) {
       next(error);
     }

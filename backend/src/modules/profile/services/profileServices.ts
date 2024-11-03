@@ -1,10 +1,58 @@
-import { User, UserModel } from '../models/userModel';
+import { Profile, ProfileModel } from '../models/profileModel';
 
-export default class UserServices {
-  static async createUser(id: User) {
+export default class ProfileServices {
+  static async profileGetAllServices() {
     try {
-      const user = await UserModel.insertUser(id);
-      if (!user) {
+      const resultData = await ProfileModel.profileGetAll();
+      if (!resultData) {
+        return {
+          success: false,
+        };
+      }
+
+      return {
+        succcess: true,
+        data: resultData,
+      };
+    } catch (error) {
+      throw {
+        message: (error as Error).message,
+        stack: (error as Error).stack,
+      };
+    }
+  }
+
+  static async profileGetIdService(id: number) {
+    try {
+      const resultId = await ProfileModel.profileIdGet(id);
+      if (!resultId) {
+        return {
+          success: false,
+        };
+      }
+
+      return {
+        success: true,
+        data: resultId,
+      };
+    } catch (error) {
+      throw {
+        message: (error as Error).message,
+        stack: (error as Error).stack,
+      };
+    }
+  }
+
+  static async profileDeleteIdServices(id: number) {
+    try {
+      const getId = await ProfileModel.profileIdGet(id);
+      if (!getId) {
+        return {
+          success: false,
+        };
+      }
+      const resultDeleted = await ProfileModel.profileDelete(id);
+      if (resultDeleted === 0) {
         return {
           success: false,
         };
@@ -20,62 +68,24 @@ export default class UserServices {
     }
   }
 
-  static async getAllUsers() {
+  static async profileUpdateService(id: number, data: Profile) {
     try {
-      const users = await UserModel.getUserAll();
-      if (!users) {
+      const existingProfile = await ProfileModel.profileIdGet(id);
+      if (!existingProfile) {
         return {
           success: false,
         };
       }
-      return {
-        success: true,
-        data: users,
-      };
-    } catch (error) {
-      throw {
-        message: (error as Error).message,
-        stack: (error as Error).stack,
-      };
-    }
-  }
 
-  static async getUserId(id: number) {
-    try {
-      const searchId = await UserModel.getUserById(id);
-      if (!searchId) {
+      const updateResult = await ProfileModel.profileUpdate(id, data);
+      if (updateResult === 0) {
         return {
           success: false,
         };
       }
       return {
         success: true,
-        idGet: searchId,
-      };
-    } catch (error) {
-      throw {
-        message: (error as Error).message,
-        stack: (error as Error).stack,
-      };
-    }
-  }
-
-  static async deleteUserId(id: number) {
-    try {
-      const searchId = await UserModel.getUserById(id);
-      if (!searchId) {
-        return {
-          success: false,
-        };
-      }
-      const getUserId = await UserModel.deleteUserId(id);
-      if (getUserId === 0) {
-        return {
-          success: false,
-        };
-      }
-      return {
-        success: true,
+        data: await ProfileModel.profileIdGet(id),
       };
     } catch (error) {
       throw {

@@ -1,30 +1,29 @@
 import db from '../../../config/dbConfig';
 import BaseModel from '../../../utils/base/Model';
-// interface 
-export interface User{
-    users_credentiasl_id : number
+// interface
+export interface User {
+  users_credentiasl_id: number;
 }
-export class UserModel extends BaseModel<User>{
-    private static userModelInstance : UserModel = new UserModel();
-    constructor(){
-        super("users");
-    }
-    static async insertUser (id : User):Promise<Number[]>{
-        return await this.userModelInstance.insert(id);
-    }
-    static async getUserAll ():Promise<User[]>{
-        return await this.userModelInstance.getAll();
-    }
+export class UserModel extends BaseModel<User> {
+  private static userModelInstance: UserModel = new UserModel();
+  constructor() {
+    super('users');
+  }
+  static async insertUser(id: User): Promise<Number[]> {
+    return await this.userModelInstance.insert(id);
+  }
+  static async getUserAll(): Promise<User[]> {
+    return await this.userModelInstance.getAll();
+  }
 
-    static async getUserById (id : number):Promise<User> {
-        return await this.userModelInstance.find(id);
-    }
+  static async getUserById(id: number): Promise<User> {
+    return await this.userModelInstance.find(id);
+  }
 
-    static async deleteUserId (id : number):Promise<Number>{
-        return await this.userModelInstance.delete(id);
-    }
+  static async deleteUserId(id: number): Promise<Number> {
+    return await this.userModelInstance.delete(id);
+  }
 }
-
 
 // export class UserModel {
 //   private static table: string = 'users';
