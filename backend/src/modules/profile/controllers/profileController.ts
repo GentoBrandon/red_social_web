@@ -2,7 +2,7 @@ import CustomError from '../../../utils/customError';
 import ProfileModel from '../models/profileModel';
 import { Request, Response, NextFunction } from 'express';
 export default class ProfileController {
-  /*static async createProfile(
+  static async createProfile(
     req: Request,
     res: Response,
     next: NextFunction,
@@ -95,5 +95,5 @@ export default class ProfileController {
     } catch (error) {
       next(error);
     }
-  }*/
+  }
 }

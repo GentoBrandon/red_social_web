@@ -31,4 +31,5 @@ export class RequestFriendModel extends BaseModel<RequestFriend> {
   static async deleteRequestFriend(id: number): Promise<number> {
     return this.instance.delete(id);
   }
+ 
 }
