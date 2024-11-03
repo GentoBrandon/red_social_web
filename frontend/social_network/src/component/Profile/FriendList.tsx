@@ -1,6 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 import styles from '../../styles/Profile/FriendList.module.css';
+import DeleteFriend from '@/component/Profile/DeleteFriend';
 
 interface Friend {
   id: number;
@@ -62,7 +63,7 @@ export default function FriendsList() {
               <h4 className={styles.friendName}>{friend.name}</h4>
               <p className={styles.mutualFriends}>{friend.mutualFriends} amigos en común</p>
             </div>
-            <button className={styles.moreOptions}>⋮</button>
+            <DeleteFriend />
           </div>
         ))}
       </div>
