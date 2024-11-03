@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { UserCredentialsService } from '../services/userCredentialService';
+import { UserCredentialsService } from '../services/userCredentialService'
 import CustomError from '../../../utils/customError';
 import { validationResult } from 'express-validator';
 export default class UserCredentialsController {

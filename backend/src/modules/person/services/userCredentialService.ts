@@ -1,5 +1,5 @@
 import { getDefaultResultOrder } from "dns";
-import { UserCredentialModel,UserCredentials } from "../models/userCredentiaModel";
+import { UserCredentialModel,UserCredentials } from "../../person/models/userCredentiaModel";
 
 export class UserCredentialsService {
     static async createUserCredential(userCredential: UserCredentials) {

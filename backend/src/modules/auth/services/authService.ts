@@ -1,6 +1,6 @@
-import { UserCredentialModel,UserCredentials } from "../../user-credentials/models/userCredentiaModel";
+import { UserCredentialModel,UserCredentials } from "../../person/models/userCredentiaModel";
 import { PersonModel,Person } from "../../person/models/personModel";
-import { UserModel } from "../../user/models/userModel";
+import { UserModel } from "../../person/models/userModel";
 import db from "../../../config/dbConfig";
 import CustomError from "../../../utils/customError";
 

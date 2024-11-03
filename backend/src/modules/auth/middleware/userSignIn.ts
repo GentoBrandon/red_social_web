@@ -1,7 +1,7 @@
 import db from '../../../config/dbConfig';
 import { Request, Response, NextFunction } from 'express';
 import CustomError from '../../../utils/customError';
-import { UserCredentialsService } from '../../user-credentials/services/userCredentialService';
+import { UserCredentialsService } from '../../person/services/userCredentialService';
 import bcrypt from 'bcrypt';
 export default class UserSignIn {
   static async verifyUserPassword(
