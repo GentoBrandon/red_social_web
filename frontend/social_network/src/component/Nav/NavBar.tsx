@@ -10,8 +10,26 @@ import {
     MenubarTrigger,
   } from "@/components/ui/menubar";
 import Notifications from "@/component/Nav/Notifications";
+import { FC, useState } from "react";
+import { useRouter } from "next/navigation";
+import axios from "axios";
+import { API_ROUTES } from "@/routes/apiRoutes";
 
 function NavBar() {
+
+    const [profile, setProfile] = useState<null | any>(null);
+    const router = useRouter();
+
+    const handleProfile = async (): Promise<void> => {
+      try {
+        await axios.post(API_ROUTES.LOGOUT,{},{ withCredentials: true });
+        setProfile(null);
+        router.push('/');
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     return (
       <Menubar>
         <MenubarMenu>
@@ -35,7 +53,7 @@ function NavBar() {
             <MenubarSeparator />
             <MenubarItem inset>Configuraciones</MenubarItem>
             <MenubarSeparator />
-            <MenubarItem inset>Cerrar sesion</MenubarItem>
+            <MenubarItem inset onClick={handleProfile}>Cerrar sesion</MenubarItem>
           </MenubarContent>
         </MenubarMenu>
       </Menubar>

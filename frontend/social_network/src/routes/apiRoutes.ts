@@ -9,5 +9,6 @@ const ROUTES = {
 
 export const API_ROUTES = {
     LOGIN: `${API_BASE_URL}${ROUTES.Auth}/login`,
-    REGISTER: `${API_BASE_URL}${ROUTES.Auth}/register`
+    REGISTER: `${API_BASE_URL}${ROUTES.Auth}/register`,
+    LOGOUT: `${API_BASE_URL}${ROUTES.Auth}/logout`
 };
