@@ -1,4 +1,4 @@
-import { User, UserModel } from '../../person/models/userModel';
+import { User, UserModel } from '../models/userModel';
 
 export default class UserServices {
   static async createUser(id: User) {

@@ -80,4 +80,26 @@ export default class RequestFriendController {
       next(error);
     }
   }
+  static async getFriendsByProfileId(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.params;
+      const profileId = parseInt(id);
+  
+      const result = await RequestFriendService.getAllFriendsByProfileId(profileId);
+      if (!result.success) {
+        const error = new CustomError('Error while fetching friends by profile ID', 400);
+        throw error;
+      }
+      
+      // Retorna el nombre del perfil y la lista de amigos
+      res.status(200).json({
+        profile: result.profile,
+        friends: result.friends
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+  
+  
 }
