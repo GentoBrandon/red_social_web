@@ -1,3 +1,4 @@
+'use client';
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,6 +17,7 @@ import { useState, useEffect } from "react";
 import { ROUTES_PROFILE } from "@/routes/apiRoutes";
 import axios from "axios";
 import { fetchProfileId } from "@/services/IdProfile";
+import { useRouter } from "next/navigation";
 
 interface Data {
   presentation: string;
@@ -26,6 +28,7 @@ interface Data {
 }
 
 function DialogDemo() {
+  const router = useRouter();
   const [user, setUser] = useState<Data>({
     presentation: "",
     address: "",
@@ -34,6 +37,7 @@ function DialogDemo() {
     university: "",
   });
   const [idProfile, setIdProfile] = useState<number | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>): void => {
     setUser({
@@ -44,52 +48,56 @@ function DialogDemo() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
-    if (!idProfile) return; // Asegúrate de tener el ID antes de continuar
+    if (!idProfile) return;
 
     try {
-      const response = await axios.put(`${ROUTES_PROFILE.UPDATE_PROFILE}/${idProfile}`, user, {
+      await axios.put(`${ROUTES_PROFILE.UPDATE_PROFILE}/${idProfile}`, user, {
         withCredentials: true,
       });
-      console.log(response.data);
+      setIsDialogOpen(false);  // Cierra el diálogo después de actualizar
+      
     } catch (error) {
       console.error("Error al actualizar el perfil:", error);
     }
   };
+
+  const fetchProfileData = async () => {
+    if (idProfile === null) return;
+
+    try {
+      const response = await axios.get(`${ROUTES_PROFILE.FIND_PROFILE_BY_ID}${idProfile}`);
+      setUser({
+        presentation: response.data.presentation,
+        address: response.data.address,
+        phone_number: response.data.phone_number,
+        job: response.data.job,
+        university: response.data.university,
+      });
+      console.log("Profile Data update:", response.data);
+    } catch (error) {
+      console.error("Error al obtener el perfil:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchAndSetProfileData = async () => {
       try {
-        const id = await fetchProfileId(); // Usa la función para obtener el ID
+        const id = await fetchProfileId();
         setIdProfile(id);
       } catch (error) {
         console.error("Error al obtener el ID del perfil:", error);
       }
     };
-  
+
     fetchAndSetProfileData();
-  }, []); // Ejecuta esta llamada solo al montar el componente
-  
+  }, []);
+
   useEffect(() => {
-    if (idProfile === null) return; // Espera a que el ID del perfil esté definido
-  
-    axios.get(`${ROUTES_PROFILE.FIND_PROFILE_BY_ID}${idProfile}`)
-      .then((response) => {
-        setUser({
-          presentation: response.data.presentation,
-          address: response.data.address,
-          phone_number: response.data.phone_number,
-          job: response.data.job,
-          university: response.data.university,
-        });
-        console.log("Profile Data update:", response.data);
-      })
-      .catch((error) => {
-        console.error("Error al obtener el perfil:", error);
-      });
-  }, [idProfile]); // Este useEffect depende del cambio en idProfile
-  
+    fetchProfileData();
+  }, [idProfile]);
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="btnBlue">Editar perfil</Button>
       </DialogTrigger>
@@ -165,7 +173,7 @@ function DialogDemo() {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Guardar cambios</Button>
+            <Button type="submit" onClick={() => window.location.reload()}>Guardar cambios</Button>
           </DialogFooter>
         </form>
       </DialogContent>
