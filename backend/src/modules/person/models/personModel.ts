@@ -41,13 +41,14 @@ export class PersonModel extends BaseModel<Person> {
     const [id] = await this.instance.insert(person);
     return id;
   }
-  static async getNamePersonById(id: number): Promise<{ first_name: string, last_name: string } | null> {
+  static async getNamePersonById(
+    id: number,
+  ): Promise<{ first_name: string; last_name: string } | null> {
     const result = await db(this.instance.table)
       .where({ id })
       .select('first_name', 'last_name')
       .first(); // Esto asegura que obtienes solo un objeto, no un array
-    
+
     return result || null;
   }
-  
 }
