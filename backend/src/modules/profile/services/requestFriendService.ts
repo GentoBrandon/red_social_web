@@ -105,7 +105,7 @@ export default class RequestFriendService {
       };
     }
   }
-  
+
   static async getAllFriendsByProfileId(id: number) {
     try {
       // Obtener el nombre de la persona solicitante
@@ -113,17 +113,19 @@ export default class RequestFriendService {
       if (!resultPerson) {
         return { success: false, message: 'Profile not found.' };
       }
-  
+
       // Obtener la lista de amigos
       const result = await RequestFriendModel.getAllFriendsByName(id);
       if (result.length === 0) {
         return { success: false, message: 'No friends found.' };
       }
-  
+
       // Filtrar solo los nombres de los amigos en un arreglo simple
       const friends = result.map((friend: any) => {
-        if (friend.requester_first_name === resultPerson.first_name &&
-            friend.requester_last_name === resultPerson.last_name) {
+        if (
+          friend.requester_first_name === resultPerson.first_name &&
+          friend.requester_last_name === resultPerson.last_name
+        ) {
           // Si el perfil actual es el solicitante, el amigo es el respondedor
           return `${friend.responder_first_name} ${friend.responder_last_name}`;
         } else {
@@ -131,11 +133,11 @@ export default class RequestFriendService {
           return `${friend.requester_first_name} ${friend.requester_last_name}`;
         }
       });
-  
+
       return {
         success: true,
         profile: `${resultPerson.first_name} ${resultPerson.last_name}`, // Nombre del perfil solicitante
-        friends: Array.from(new Set(friends)) // Lista de amigos sin duplicados
+        friends: Array.from(new Set(friends)), // Lista de amigos sin duplicados
       };
     } catch (error) {
       throw {
@@ -144,9 +146,4 @@ export default class RequestFriendService {
       };
     }
   }
-  
-  
-  
-  
-  
 }

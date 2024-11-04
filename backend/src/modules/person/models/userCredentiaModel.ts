@@ -33,11 +33,14 @@ export class UserCredentialModel extends BaseModel<UserCredentials> {
     trx?: null | Knex.Transaction,
   ): Promise<number> {
     if (trx) {
-      const [{ id }] = await trx.insert(data).into('users_credentials').returning('id');
+      const [{ id }] = await trx
+        .insert(data)
+        .into('users_credentials')
+        .returning('id');
       return id;
     }
-    const [id] =  await this.create(data);
-    return id
+    const [id] = await this.create(data);
+    return id;
   }
   static async findByUserName(user_name: string): Promise<UserCredentials> {
     return await db('users_credentials').where({ user_name }).first();

@@ -13,5 +13,8 @@ router.delete(
   RequestFriendController.deleteRequest,
 );
 
-router.get('/get-friends-by-name/:id',RequestFriendController.getFriendsByProfileId)
+router.get(
+  '/get-friends-by-name/:id',
+  RequestFriendController.getFriendsByProfileId,
+);
 export default router;

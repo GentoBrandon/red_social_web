@@ -21,7 +21,7 @@ export default class AuthController {
         person,
         user_credential,
       );
-    
+
       if (!resultInsert.success) {
         const error = new CustomError('Error Creating Person', 500);
         throw error;

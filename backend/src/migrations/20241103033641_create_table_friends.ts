@@ -9,7 +9,8 @@ export async function up(knex: Knex): Promise<void> {
       table
         .foreign('request_friend_id')
         .references('id')
-        .inTable('request_friends').onDelete('CASCADE');
+        .inTable('request_friends')
+        .onDelete('CASCADE');
     });
   }
 }

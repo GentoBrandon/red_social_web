@@ -22,7 +22,10 @@ export class AuthService {
           { users_credentiasl_id: resultInsertUserCredential },
           trx,
         );
-        const resultProfile = await ProfileModel.insertWithTransaction({person_id:id}, trx); 
+        const resultProfile = await ProfileModel.insertWithTransaction(
+          { person_id: id },
+          trx,
+        );
         if (
           !id ||
           id === 0 ||

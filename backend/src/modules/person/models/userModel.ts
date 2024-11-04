@@ -1,6 +1,6 @@
 import db from '../../../config/dbConfig';
 import BaseModel from '../../../utils/base/Model';
-import {Knex}from 'knex';
+import { Knex } from 'knex';
 // interface
 export interface User {
   users_credentiasl_id: number;
