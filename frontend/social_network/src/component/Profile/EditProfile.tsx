@@ -55,18 +55,38 @@ function DialogDemo() {
       console.error("Error al actualizar el perfil:", error);
     }
   };
-
   useEffect(() => {
     const fetchAndSetProfileData = async () => {
       try {
         const id = await fetchProfileId(); // Usa la función para obtener el ID
         setIdProfile(id);
       } catch (error) {
-        console.error("Error al obtener el perfil:", error);
+        console.error("Error al obtener el ID del perfil:", error);
       }
     };
+  
     fetchAndSetProfileData();
-  }, []);
+  }, []); // Ejecuta esta llamada solo al montar el componente
+  
+  useEffect(() => {
+    if (idProfile === null) return; // Espera a que el ID del perfil esté definido
+  
+    axios.get(`${ROUTES_PROFILE.FIND_PROFILE_BY_ID}${idProfile}`)
+      .then((response) => {
+        setUser({
+          presentation: response.data.presentation,
+          address: response.data.address,
+          phone_number: response.data.phone_number,
+          job: response.data.job,
+          university: response.data.university,
+        });
+        console.log("Profile Data update:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error al obtener el perfil:", error);
+      });
+  }, [idProfile]); // Este useEffect depende del cambio en idProfile
+  
 
   return (
     <Dialog>
