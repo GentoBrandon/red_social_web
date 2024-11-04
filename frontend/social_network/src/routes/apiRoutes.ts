@@ -16,6 +16,6 @@ export const API_ROUTES = {
 export const ROUTES_PROFILE = {
     GET_ALL_PROFILE: `${API_BASE_URL}${ROUTES.Profile}/get-all-profile`,
     FIND_PROFILE_BY_ID: `${API_BASE_URL}${ROUTES.Profile}/find-profile-id/`,
-    UPDATE_PROFILE: `${API_BASE_URL}${ROUTES.Profile}/update-profile/id/`,
+    UPDATE_PROFILE: `${API_BASE_URL}${ROUTES.Profile}/update-profile/id`,
     DELETE_PROFILE: `${API_BASE_URL}${ROUTES.Profile}/delete-profile/id/`
 };

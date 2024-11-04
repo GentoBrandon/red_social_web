@@ -52,8 +52,8 @@ function Information() {
     const fetchProfileData = async (id: number): Promise<void> => {
         try {
             const response = await axios.get(`${ROUTES_PROFILE.FIND_PROFILE_BY_ID}${id}`, { withCredentials: true });
-            setProfileData(response.data.person); // Almacena los datos completos del perfil
-            console.log("Profile Data:", response.data.person);
+            setProfileData(response.data); // Almacena los datos completos del perfil
+            console.log("Profile Data:", response.data);
         } catch (error) {
             console.error("Error al obtener los datos del perfil:", error);
         }
