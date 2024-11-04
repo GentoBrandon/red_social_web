@@ -74,12 +74,19 @@ function Information() {
 
     return (
         <div>
-            <h1>Information Brandon Gento</h1>
             <div>
                 <img src="/avatar.png" alt="Usuario" className={style.img} />
                 <div>
                     <h2 className={style.h2}>Nombre</h2 >
                     <p>{profilePersonal?.first_name} {profilePersonal?.last_name}</p>
+                </div>
+            </div>
+            <Separator/>
+            <div>
+                <img src="/presentation.png" alt="Presentacion" className={style.img} />
+                <div>
+                    <h2 className={style.h2}>Presentación</h2 >
+                    <p>{profileData?.presentation}</p>
                 </div>
             </div>
             <Separator/>
