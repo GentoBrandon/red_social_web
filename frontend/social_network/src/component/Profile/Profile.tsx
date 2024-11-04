@@ -12,10 +12,7 @@ function Profile({children}: {children: ReactNode}) {
                     profileImage="url-a-imagen-de-perfil"
                 />
                 <br/>
-                <ProfileActions 
-                userName="Brandon Gento"
-                friendCount={92}
-                />
+                <ProfileActions/>
                 <Tabs />
                 {children}
                 {/* Aquí podrías agregar el componente para el contenido principal, como publicaciones */}

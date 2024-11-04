@@ -73,7 +73,6 @@ function DialogDemo() {
         job: response.data.job,
         university: response.data.university,
       });
-      console.log("Profile Data update:", response.data);
     } catch (error) {
       console.error("Error al obtener el perfil:", error);
     }

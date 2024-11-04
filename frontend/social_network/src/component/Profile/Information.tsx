@@ -31,7 +31,6 @@ function Information() {
             const response = await axios.get(API_ROUTES.DASHBOARD, { withCredentials: true });
             const id = response.data.person.id;
             setProfileId(id); // Almacena solo el ID
-            console.log("Profile ID:", id);
         } catch (error) {
             console.error("Error al obtener el ID del perfil:", error);
         }
@@ -42,7 +41,6 @@ function Information() {
             const response = await axios.get(API_ROUTES.DASHBOARD, { withCredentials: true });
             const personal = response.data.person;
             setProfilePersonal(personal);
-            console.log(personal);
         } catch (error) {
             console.error("Error al obtener el ID del perfil:", error);
         }
@@ -53,7 +51,6 @@ function Information() {
         try {
             const response = await axios.get(`${ROUTES_PROFILE.FIND_PROFILE_BY_ID}${id}`, { withCredentials: true });
             setProfileData(response.data); // Almacena los datos completos del perfil
-            console.log("Profile Data:", response.data);
         } catch (error) {
             console.error("Error al obtener los datos del perfil:", error);
         }

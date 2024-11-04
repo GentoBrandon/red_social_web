@@ -21,7 +21,6 @@ function ProfileActions() {
       const response = await axios.get(API_ROUTES.DASHBOARD, { withCredentials: true });
       const profileData = response.data.person; // Asegúrate de acceder a 'person' dentro de 'data'
       setProfile(profileData);
-      console.log("Profile Data:", profileData);
     } catch (error) {
       console.error("Error al obtener el perfil:", error);
     }
