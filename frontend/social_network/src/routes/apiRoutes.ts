@@ -10,5 +10,12 @@ const ROUTES = {
 export const API_ROUTES = {
     LOGIN: `${API_BASE_URL}${ROUTES.Auth}/login`,
     REGISTER: `${API_BASE_URL}${ROUTES.Auth}/register`,
-    LOGOUT: `${API_BASE_URL}${ROUTES.Auth}/logout`
+    LOGOUT: `${API_BASE_URL}${ROUTES.Auth}/logout`,
+    DASHBOARD: `${API_BASE_URL}${ROUTES.Auth}/dashboard`
+};
+export const ROUTES_PROFILE = {
+    GET_ALL_PROFILE: `${API_BASE_URL}${ROUTES.Profile}/get-all-profile`,
+    FIND_PROFILE_BY_ID: `${API_BASE_URL}${ROUTES.Profile}/find-profile-id/`,
+    UPDATE_PROFILE: `${API_BASE_URL}${ROUTES.Profile}/update-profile/id/`,
+    DELETE_PROFILE: `${API_BASE_URL}${ROUTES.Profile}/delete-profile/id/`
 };

@@ -45,7 +45,7 @@ function NavBar() {
           </MenubarContent>
         </MenubarMenu>
         <MenubarMenu>
-          <MenubarTrigger>Perfil</MenubarTrigger>
+          <MenubarTrigger onClick={() => router.push('/users/profile')}>Perfil</MenubarTrigger>
           <MenubarContent>
             <MenubarRadioGroup value="benoit">
               <MenubarRadioItem value="#">Perfil</MenubarRadioItem>
