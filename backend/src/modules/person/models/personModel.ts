@@ -13,16 +13,16 @@ export class PersonModel extends BaseModel<Person> {
   constructor() {
     super('persons');
   }
-  static async create(person: Person):Promise<number[]> {
+  static async create(person: Person): Promise<number[]> {
     return this.instance.insert(person);
   }
-  static async getAll() : Promise<Person[]> {
+  static async getAll(): Promise<Person[]> {
     return this.instance.getAll();
   }
-  static async find(id: number): Promise<Person>{
+  static async find(id: number): Promise<Person> {
     return this.instance.find(id);
   }
-  static async update(id: number, person: Person):Promise<number> {
+  static async update(id: number, person: Person): Promise<number> {
     return this.instance.update(id, person);
   }
   static async delete(id: number): Promise<number> {

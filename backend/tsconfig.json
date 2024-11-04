@@ -6,8 +6,11 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "resolveJsonModule": true,
+    "moduleResolution": "node",
+    "strictPropertyInitialization": false
   },
-  "include": ["src/**/*"],
+  "include": ["src/*/"],
   "exclude": ["node_modules"]
 }

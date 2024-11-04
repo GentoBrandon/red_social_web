@@ -1,4 +1,4 @@
-import UserCredentialsController from '../controllers/userCrendentialController';
+import UserCredentialsController from '../../person/controllers/userCrendentialController';
 import { Router } from 'express';
 import validatorsUserCredential from '../validators/validatorsUserCredential';
 const router = Router();

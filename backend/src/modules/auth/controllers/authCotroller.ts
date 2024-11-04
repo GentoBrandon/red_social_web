@@ -1,4 +1,4 @@
-import {AuthService} from '../services/authService';
+import { AuthService } from '../services/authService';
 import { PersonService } from '../../person/services/personService';
 import { Request, Response, NextFunction } from 'express';
 import CustomError from '../../../utils/customError';
@@ -17,7 +17,14 @@ export default class AuthController {
         req.body;
       const person = { first_name, last_name, birth_date, email };
       const user_credential = { user_name, password };
-      const resultInsert = await AuthService.insertQwithTransaction(person, user_credential);
+      const resultInsert = await AuthService.insertQwithTransaction(
+        person,
+        user_credential,
+      );
+      const resultInsert = await AuthService.insertQwithTransaction(
+        person,
+        user_credential,
+      );
       if (!resultInsert.success) {
         const error = new CustomError('Error Creating Person', 500);
         throw error;
