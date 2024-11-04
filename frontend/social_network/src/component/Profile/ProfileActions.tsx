@@ -1,24 +1,42 @@
 'use client';
-import React, { ProfilerProps } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from '../../styles/Profile/ProfileActions.module.css';
 import style from '../../styles/Profile/ProfileHeader.module.css';
-import axiows from 'axios';
-import { useState } from 'react';
+import axios from 'axios';
+import { API_ROUTES } from '../../routes/apiRoutes';
 
-interface ProfileActionsProps {
-    userName: string;
-    friendCount: number;
-    }
-interface DataUser{
-    userName: string;
+interface Profile {
+  id: number;
+  first_name: string;
+  last_name: string;
+  birth_date: string;
+  email: string;
 }
-const ProfileActions: React.FC<ProfileActionsProps> = ({ userName, friendCount}) => {
+
+function ProfileActions() {
+  const [profile, setProfile] = useState<Profile | null>(null);
+
+  const fetchProfile = async (): Promise<void> => {
+    try {
+      const response = await axios.get(API_ROUTES.DASHBOARD, { withCredentials: true });
+      const profileData = response.data.person; // Asegúrate de acceder a 'person' dentro de 'data'
+      setProfile(profileData);
+      console.log("Profile Data:", profileData);
+    } catch (error) {
+      console.error("Error al obtener el perfil:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile(); // Llama a fetchProfile cuando el componente se monte
+  }, []);
+
   return (
     <div className={styles.actionsContainer}>
-        <h2>{userName}</h2>
-        <span>{friendCount} amigos</span>
+      <h2>{profile?.first_name} {profile?.last_name}</h2>
+      <h2>{profile?.id} amigos</h2>
     </div>
   );
-};
+}
 
 export default ProfileActions;
