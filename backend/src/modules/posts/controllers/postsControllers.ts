@@ -67,6 +67,7 @@ export default class PostsController {
         const error = new CustomError('Error delete post', 404);
         throw error;
       }
+      res.status(200).json({message: 'Post delete successfully'});
     } catch (error) {
       next(error);
     }
