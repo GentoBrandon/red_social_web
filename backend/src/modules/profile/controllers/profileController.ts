@@ -77,4 +77,21 @@ export default class ProfileController {
       next(error);
     }
   }
+  static async getProfileNameByName(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const { name } = req.params;
+      const resultFound = await profileServices.getPersonNameByName(name);
+      if (!resultFound.success) {
+        const error = new CustomError('Data not found', 404);
+        throw error;
+      }
+      res.status(200).json(resultFound.data);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
