@@ -2,18 +2,34 @@ import requestFriendService from '../services/requestFriendService';
 import { Request, Response, NextFunction } from 'express';
 import CustomError from '../../../utils/customError';
 import RequestFriendService from '../services/requestFriendService';
-import { parse } from 'path';
+
 export default class RequestFriendController {
   static async createRequest(req: Request, res: Response, next: NextFunction) {
     try {
-      const requestFriend = req.body;
+      const { id_profile_request, id_profile_response } = req.body;
+
+      const insertUno = {
+        id_profile_request,
+        id_profile_response,
+        id_status: 2,
+      };
+      const insertDos = {
+        id_profile_request: id_profile_response,
+        id_profile_response: id_profile_request,
+        id_status: 2,
+      };
+      console.log(insertUno);
+      console.log(insertDos);
       const resultInsert =
-        await requestFriendService.createRequestFriend(requestFriend);
-      if (!resultInsert.success) {
-        const error = new CustomError('Error while to save', 400);
+        await requestFriendService.createRequestFriend(insertUno);
+
+      const resultInsertDos =
+        await requestFriendService.createRequestFriend(insertDos);
+      if (!resultInsert.success || !resultInsertDos.success) {
+        const error = new CustomError('Error while to create request', 400);
         throw error;
       }
-      res.status(200).json(resultInsert);
+      res.status(200).json('insert success');
     } catch (error) {
       next(error);
     }
@@ -47,14 +63,19 @@ export default class RequestFriendController {
     }
   }
 
-  static async updateRequest(req: Request, res: Response, next: NextFunction) {
+  static async acceptFriendRequest(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
     try {
-      const { id } = req.params;
-      const _id = parseInt(id);
-      const requestFriend = req.body;
-      const result = await RequestFriendService.updateRequestFriend(
+      const { id1, id2 } = req.params;
+      const _id = parseInt(id1);
+      const _id2 = parseInt(id2);
+
+      const result = await RequestFriendService.updateFriendsByProfileId(
         _id,
-        requestFriend,
+        _id2,
       );
       if (!result.success) {
         const error = new CustomError('Error while to update request', 400);
@@ -104,6 +125,28 @@ export default class RequestFriendController {
         profile: result.profile,
         friends: result.friends,
       });
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async rejectFriendRequest(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { id1, id2 } = req.params;
+      const _id = parseInt(id1);
+      const _id2 = parseInt(id2);
+      const result = await RequestFriendService.rejectFriendsByProfileId(
+        _id,
+        _id2,
+      );
+      if (!result.success) {
+        const error = new CustomError('Error while to reject request', 400);
+        throw error;
+      }
+      res.status(200).json('Reject success');
     } catch (error) {
       next(error);
     }

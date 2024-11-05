@@ -4,7 +4,6 @@ import db from '../../../config/dbConfig';
 export interface RequestFriend {
   id_profile_request: number;
   id_profile_response: number;
-  id_status: number;
 }
 
 export class RequestFriendModel extends BaseModel<RequestFriend> {
@@ -109,5 +108,31 @@ export class RequestFriendModel extends BaseModel<RequestFriend> {
     ]);
 
     return result.rows; // Devuelve solo las filas resultantes
+  }
+
+  static async acceptedFriend(id1: number, id2: number): Promise<number> {
+    const result = await db(this.instance.table)
+      .where({ id_profile_request: id1, id_profile_response: id2 })
+      .update({ id_status: 1 });
+    const result2 = await db(this.instance.table)
+      .where({ id_profile_request: id2, id_profile_response: id1 })
+      .update({ id_status: 1 });
+    if (result === 0 || result2 === 0) {
+      return 0;
+    }
+    return 1;
+  }
+
+  static async rejectFriend(id1: number, id2: number): Promise<number> {
+    const result = await db(this.instance.table)
+      .where({ id_profile_request: id1, id_profile_response: id2 })
+      .delete();
+    const result2 = await db(this.instance.table)
+      .where({ id_profile_request: id2, id_profile_response: id1 })
+      .delete();
+    if (result === 0 || result2 === 0) {
+      return 0;
+    }
+    return 1;
   }
 }

@@ -4,7 +4,7 @@ import {
 } from '../models/requestFriendModel';
 
 import { PersonModel } from '../../person/models/personModel';
-import { Request, Response, NextFunction } from 'express';
+
 export default class RequestFriendService {
   static async createRequestFriend(requestFriend: RequestFriend) {
     try {
@@ -130,6 +130,43 @@ export default class RequestFriendService {
         success: true,
         profile: `${resultPerson.first_name} ${resultPerson.last_name}`, // Nombre del perfil solicitante
         friends, // Lista de amigos con el conteo de amigos en común
+      };
+    } catch (error) {
+      throw {
+        message: (error as Error).message,
+        stack: (error as Error).stack,
+      };
+    }
+  }
+
+  static async updateFriendsByProfileId(id1: number, id2: number) {
+    try {
+      const result = await RequestFriendModel.acceptedFriend(id1, id2);
+      if (result === 0) {
+        return {
+          success: false,
+        };
+      }
+      return {
+        success: true,
+      };
+    } catch (error) {
+      throw {
+        message: (error as Error).message,
+        stack: (error as Error).stack,
+      };
+    }
+  }
+  static async rejectFriendsByProfileId(id1: number, id2: number) {
+    try {
+      const result = await RequestFriendModel.rejectFriend(id1, id2);
+      if (result === 0) {
+        return {
+          success: false,
+        };
+      }
+      return {
+        success: true,
       };
     } catch (error) {
       throw {
