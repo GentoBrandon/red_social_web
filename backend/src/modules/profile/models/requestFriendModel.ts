@@ -4,7 +4,6 @@ import db from '../../../config/dbConfig';
 export interface RequestFriend {
   id_profile_request: number;
   id_profile_response: number;
-  id_status: number;
 }
 
 export class RequestFriendModel extends BaseModel<RequestFriend> {
@@ -32,43 +31,108 @@ export class RequestFriendModel extends BaseModel<RequestFriend> {
   static async deleteRequestFriend(id: number): Promise<number> {
     return this.instance.delete(id);
   }
+  // Asegúrate de importar correctamente tu instancia de Knex
 
-  static async getAllFriendsByName(id: number): Promise<any[]> {
-    const result = await db('request_friends as rf')
-      .join('profiles as p_request', 'rf.id_profile_request', 'p_request.id')
-      .join('persons as pr_request', 'p_request.person_id', 'pr_request.id')
-      .join('profiles as p_response', 'rf.id_profile_response', 'p_response.id')
-      .join('persons as pr_response', 'p_response.person_id', 'pr_response.id')
-      .where('rf.id_profile_request', id)
-      .orWhere('rf.id_profile_response', id)
-      .select(
-        'pr_request.first_name as requester_first_name',
-        'pr_request.last_name as requester_last_name',
-        'pr_response.first_name as responder_first_name',
-        'pr_response.last_name as responder_last_name',
-      );
+  static async getAllFriendsByName(profile_id: number): Promise<any[]> {
+    const query = `
+      SELECT DISTINCT
+        CASE
+          WHEN rf.id_profile_request = ? THEN pr_response.first_name
+          ELSE pr_request.first_name
+        END AS friend_first_name,
+        CASE
+          WHEN rf.id_profile_request = ? THEN pr_response.last_name
+          ELSE pr_request.last_name
+        END AS friend_last_name,
+  
+        -- Subconsulta para contar los amigos en común
+        (
+          SELECT COUNT(*)
+          FROM request_friends rf2
+          WHERE rf2.id_status = 1
+            AND rf2.id_profile_request != ?
+            AND rf2.id_profile_response != ?
+            AND (
+              -- Condición para contar solo amigos en común exactos
+              (rf2.id_profile_request = rf.id_profile_request AND rf2.id_profile_response IN (
+                SELECT CASE
+                  WHEN rf3.id_profile_request = ? THEN rf3.id_profile_response
+                  ELSE rf3.id_profile_request
+                END
+                FROM request_friends rf3
+                WHERE rf3.id_status = 1
+                  AND (rf3.id_profile_request = ? OR rf3.id_profile_response = ?)
+              ))
+              OR
+              (rf2.id_profile_response = rf.id_profile_response AND rf2.id_profile_request IN (
+                SELECT CASE
+                  WHEN rf3.id_profile_request = ? THEN rf3.id_profile_response
+                  ELSE rf3.id_profile_request
+                END
+                FROM request_friends rf3
+                WHERE rf3.id_status = 1
+                  AND (rf3.id_profile_request = ? OR rf3.id_profile_response = ?)
+              ))
+            )
+        ) AS mutual_friends_count
+  
+      FROM
+        request_friends rf
+      JOIN
+        profiles p_request ON rf.id_profile_request = p_request.id
+      JOIN
+        persons pr_request ON p_request.person_id = pr_request.id
+      JOIN
+        profiles p_response ON rf.id_profile_response = p_response.id
+      JOIN
+        persons pr_response ON p_response.person_id = pr_response.id
+      WHERE
+        rf.id_status = 1
+        AND (rf.id_profile_request = ? OR rf.id_profile_response = ?);
+    `;
 
-    return result;
-    /*const query = `
-    SELECT 
-      pr_request.first_name AS requester_first_name,
-      pr_request.last_name AS requester_last_name,
-      pr_response.first_name AS responder_first_name,
-      pr_response.last_name AS responder_last_name
-    FROM 
-      request_friends rf
-    JOIN 
-      profiles p_request ON rf.id_profile_request = p_request.id
-    JOIN 
-      persons pr_request ON p_request.person_id = pr_request.id
-    JOIN 
-      profiles p_response ON rf.id_profile_response = p_response.id
-    JOIN 
-      persons pr_response ON p_response.person_id = pr_response.id
-    WHERE 
-      rf.id_profile_request = ${id} OR rf.id_profile_response = ${id};
-  `
-  const result = await db.raw(query);
-  return result.rows || [];*/
+    // Ejecuta la consulta usando db.raw y pasa el profile_id para cada binding
+    const result = await db.raw(query, [
+      profile_id,
+      profile_id, // Para las selecciones de nombres
+      profile_id,
+      profile_id, // Para las restricciones en la subconsulta
+      profile_id,
+      profile_id,
+      profile_id, // Para la primera subconsulta
+      profile_id,
+      profile_id,
+      profile_id, // Para la segunda subconsulta
+      profile_id,
+      profile_id, // Para el WHERE principal
+    ]);
+
+    return result.rows; // Devuelve solo las filas resultantes
+  }
+
+  static async acceptedFriend(id1: number, id2: number): Promise<number> {
+    const result = await db(this.instance.table)
+      .where({ id_profile_request: id1, id_profile_response: id2 })
+      .update({ id_status: 1 });
+    const result2 = await db(this.instance.table)
+      .where({ id_profile_request: id2, id_profile_response: id1 })
+      .update({ id_status: 1 });
+    if (result === 0 || result2 === 0) {
+      return 0;
+    }
+    return 1;
+  }
+
+  static async rejectFriend(id1: number, id2: number): Promise<number> {
+    const result = await db(this.instance.table)
+      .where({ id_profile_request: id1, id_profile_response: id2 })
+      .delete();
+    const result2 = await db(this.instance.table)
+      .where({ id_profile_request: id2, id_profile_response: id1 })
+      .delete();
+    if (result === 0 || result2 === 0) {
+      return 0;
+    }
+    return 1;
   }
 }

@@ -11,7 +11,7 @@ export default class ProfileServices {
       }
 
       return {
-        succcess: true,
+        success: true,
         data: resultData,
       };
     } catch (error) {

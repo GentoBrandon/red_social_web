@@ -7,12 +7,18 @@ router.get(
   '/get-request-friend-by-id/:id',
   RequestFriendController.getRequestById,
 );
-router.put('/update-request-friend/:id', RequestFriendController.updateRequest);
+router.put(
+  '/accepted-friend/:id1/:id2',
+  RequestFriendController.acceptFriendRequest,
+);
 router.delete(
   '/delete-request-friend/:id',
   RequestFriendController.deleteRequest,
 );
-
+router.delete(
+  '/delete-friend/:id1/:id2',
+  RequestFriendController.rejectFriendRequest,
+);
 router.get(
   '/get-friends-by-name/:id',
   RequestFriendController.getFriendsByProfileId,
