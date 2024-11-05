@@ -1,7 +1,7 @@
-import { posts, PostsModel } from '../models/potsModel';
+import { Posts, PostsModel } from '../models/potsModel';
 
 export default class PostsServices {
-  static async createPostsServices(posts: posts) {
+  static async createPostsServices(posts: Posts) {
     try {
       const resultInsert = await PostsModel.insertPosts(posts);
       if (!resultInsert) {
@@ -29,10 +29,9 @@ export default class PostsServices {
           success: false,
         };
       }
-
       return {
-        succcess: true,
-        data: resultData,
+        success: true,
+        data: resultData
       };
     } catch (error) {
       throw {
@@ -64,8 +63,14 @@ export default class PostsServices {
 
   static async deleteIdPost(id: number) {
     try {
+      const getId = await PostsModel.getPostsId(id);
+      if(!getId) {
+        return {
+          success: false
+        }
+      }
       const delId = await PostsModel.deletePost(id);
-      if (!delId) {
+      if (delId === 0) {
         return {
           success: false,
         };
@@ -82,7 +87,7 @@ export default class PostsServices {
     }
   }
 
-  static async updatePostsService(id: number, posts: posts) {
+  static async updatePostsService(id: number, posts: Posts) {
     try {
       const resultUpdate = await PostsModel.updatePosts(id, posts);
       if (!resultUpdate) {

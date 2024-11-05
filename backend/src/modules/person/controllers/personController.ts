@@ -82,22 +82,5 @@ export default class PersonController {
       next(error);
     }
   }
-  /*
-  static async findPersonByName(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ) {
-    try {
-      const { name } = req.params;
-      const resultFound = await PersonService.findByName(name);
-      if (!resultFound.success) {
-        const error = new CustomError('Person not found', 404);
-        throw error;
-      }
-      res.status(200).json(resultFound.data);
-    } catch (error) {
-      next(error);
-    }
-  }*/
+ 
 }

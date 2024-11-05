@@ -9,7 +9,6 @@ export default class ProfileServices {
           success: false,
         };
       }
-
       return {
         succcess: true,
         data: resultData,
