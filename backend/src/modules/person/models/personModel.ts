@@ -51,4 +51,11 @@ export class PersonModel extends BaseModel<Person> {
 
     return result || null;
   }
+
+  static async findPersonByName(name: string): Promise<Person[]> {
+    return db(this.instance.table)
+      .where('first_name', 'ilike', `%${name}%`)
+      .orWhere('last_name', 'ilike', `%${name}%`)
+      .select('id','first_name', 'last_name');
+  }
 }

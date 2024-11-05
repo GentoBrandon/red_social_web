@@ -1,3 +1,4 @@
+import { PersonModel } from '../../person/models/personModel';
 import { Profile, ProfileModel } from '../models/profileModel';
 
 export default class ProfileServices {
@@ -86,6 +87,25 @@ export default class ProfileServices {
       return {
         success: true,
         data: await ProfileModel.profileIdGet(id),
+      };
+    } catch (error) {
+      throw {
+        message: (error as Error).message,
+        stack: (error as Error).stack,
+      };
+    }
+  }
+  static async getPersonNameByName(name: string) {
+    try {
+      const result = await PersonModel.findPersonByName(name);
+      if (result.length === 0) {
+        return {
+          success: false,
+        };
+      }
+      return {
+        success: true,
+        data: result,
       };
     } catch (error) {
       throw {
