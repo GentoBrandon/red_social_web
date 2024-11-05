@@ -113,19 +113,19 @@ export default class RequestFriendService {
       if (!resultPerson) {
         return { success: false, message: 'Profile not found.' };
       }
-  
+
       // Obtener la lista de amigos con el conteo de amigos en común usando la función `getAllFriendsByName`
       const result = await RequestFriendModel.getAllFriendsByName(id);
       if (result.length === 0) {
         return { success: false, message: 'No friends found.' };
       }
-  
+
       // Transformar el resultado en un formato más legible
       const friends = result.map((friend: any) => ({
         friend_name: `${friend.friend_first_name} ${friend.friend_last_name}`,
         mutual_friends_count: friend.mutual_friends_count,
       }));
-  
+
       return {
         success: true,
         profile: `${resultPerson.first_name} ${resultPerson.last_name}`, // Nombre del perfil solicitante
@@ -138,4 +138,4 @@ export default class RequestFriendService {
       };
     }
   }
-}  
+}

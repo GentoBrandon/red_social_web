@@ -32,7 +32,7 @@ export class RequestFriendModel extends BaseModel<RequestFriend> {
   static async deleteRequestFriend(id: number): Promise<number> {
     return this.instance.delete(id);
   }
-// Asegúrate de importar correctamente tu instancia de Knex
+  // Asegúrate de importar correctamente tu instancia de Knex
 
   static async getAllFriendsByName(profile_id: number): Promise<any[]> {
     const query = `
@@ -91,17 +91,23 @@ export class RequestFriendModel extends BaseModel<RequestFriend> {
         rf.id_status = 1
         AND (rf.id_profile_request = ? OR rf.id_profile_response = ?);
     `;
-  
+
     // Ejecuta la consulta usando db.raw y pasa el profile_id para cada binding
     const result = await db.raw(query, [
-      profile_id, profile_id, // Para las selecciones de nombres
-      profile_id, profile_id, // Para las restricciones en la subconsulta
-      profile_id, profile_id, profile_id, // Para la primera subconsulta
-      profile_id, profile_id, profile_id, // Para la segunda subconsulta
-      profile_id, profile_id // Para el WHERE principal
+      profile_id,
+      profile_id, // Para las selecciones de nombres
+      profile_id,
+      profile_id, // Para las restricciones en la subconsulta
+      profile_id,
+      profile_id,
+      profile_id, // Para la primera subconsulta
+      profile_id,
+      profile_id,
+      profile_id, // Para la segunda subconsulta
+      profile_id,
+      profile_id, // Para el WHERE principal
     ]);
-  
+
     return result.rows; // Devuelve solo las filas resultantes
   }
-  
 }
