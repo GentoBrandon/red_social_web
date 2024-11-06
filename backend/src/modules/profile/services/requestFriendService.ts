@@ -234,4 +234,24 @@ export default class RequestFriendService {
       };
     }
   }
+
+  static async getReceivedRequestById(profile_id: number){
+    try {
+      const result = await RequestFriendModel.getReceivedRequestsFriend(profile_id);
+      if(!result){
+        return {
+          success: false,
+        }
+      }
+      return {
+        success: true,
+        data :result
+      }
+    } catch (error) {
+      throw {
+        message: (error as Error).message,
+        stack : (error as Error).stack
+      }
+    }
+  }
 }
