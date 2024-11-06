@@ -55,7 +55,7 @@ class App {
     this.app.use('/api/friend-status', friendStatusRoutes);
     this.app.use('/api/request-friend', requestFriendRoutes);
     this.app.use('/api/friend', friendRoutes);
-    this.app.use('/api/posts/', postsRoutes);
+    this.app.use('/api/posts', postsRoutes);
   }
   private middlewares(): void {
     this.app.use(erroHandling);

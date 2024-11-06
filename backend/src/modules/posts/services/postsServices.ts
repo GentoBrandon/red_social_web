@@ -106,4 +106,24 @@ export default class PostsServices {
       };
     }
   }
+
+  static async getAllPostsProfileId(id_profile: number) {
+    try {
+      const resultData = await PostsModel.getAllPostsProfile(id_profile);
+      if (!resultData) {
+        return {
+          success: false,
+        };
+      }
+      return {
+        success: true,
+        data: resultData
+      };
+    } catch (error) {
+      throw {
+        message: (error as Error).message,
+        stack: (error as Error).stack,
+      };
+    }
+  }
 }

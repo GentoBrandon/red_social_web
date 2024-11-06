@@ -89,4 +89,23 @@ export default class PostsController {
       next(error);
     }
   }
+
+  static async getAllPostsByProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const {id} = req.params;
+      const idProfile = parseInt(id);
+      const resultFound = await postsServices.getAllPostsProfileId(idProfile);
+      if (!resultFound.success) {
+        const error = new CustomError('Error while getting posts', 404);
+        throw error;
+      }
+      if (resultFound.data?.length === 0) {
+        const error = new CustomError('Posts Data empty', 404);
+        throw error;
+      }
+      res.status(200).json(resultFound.data);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
