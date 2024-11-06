@@ -9,14 +9,14 @@ export default class PostsController {
     next: NextFunction,
   ): Promise<void> {
     try {
-      const {id_profile, description, content} = req.body;
-      const postData = {id_profile, description, content}
+      const { id_profile, description, content } = req.body;
+      const postData = { id_profile, description, content };
       const resultInsert = await postsServices.createPostsServices(postData);
       if (!resultInsert.success) {
         const error = new CustomError('Error creating post', 400);
         throw error;
       }
-      res.status(201).json({message: 'Post created successfully'});
+      res.status(201).json({ message: 'Post created successfully' });
     } catch (error) {
       next(error);
     }
@@ -43,12 +43,16 @@ export default class PostsController {
     }
   }
 
-  static async getPostIdController(req: Request, res: Response, next: NextFunction): Promise<void> {
+  static async getPostIdController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     try {
-      const {id} = req.params
-      const idGet = parseInt(id)
+      const { id } = req.params;
+      const idGet = parseInt(id);
       const resultData = await postsServices.postsGetIdService(idGet);
-      if(!resultData){
+      if (!resultData) {
         const error = new CustomError('Error get post', 404);
         throw error;
       }
@@ -58,41 +62,56 @@ export default class PostsController {
     }
   }
 
-  static async deleteIdPostController(req: Request, res: Response, next: NextFunction): Promise<void> {
+  static async deleteIdPostController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     try {
-      const {id} = req.params
+      const { id } = req.params;
       const idDelete = parseInt(id);
       const resultDelete = await postsServices.deleteIdPost(idDelete);
-      if(!resultDelete){
+      if (!resultDelete) {
         const error = new CustomError('Error delete post', 404);
         throw error;
       }
-      res.status(200).json({message: 'Post delete successfully'});
+      res.status(200).json({ message: 'Post delete successfully' });
     } catch (error) {
       next(error);
     }
   }
 
-  static async updatePostController(req: Request, res: Response, next: NextFunction): Promise<void> {
+  static async updatePostController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     try {
-      const {id} = req.params;
+      const { id } = req.params;
       const _id = parseInt(id);
-      const {id_profile, description, content} = req.body;
-      const postDataUpdate = {id_profile, description, content}
-      const resultUpdate = await postsServices.updatePostsService(_id, postDataUpdate)
+      const { id_profile, description, content } = req.body;
+      const postDataUpdate = { id_profile, description, content };
+      const resultUpdate = await postsServices.updatePostsService(
+        _id,
+        postDataUpdate,
+      );
       if (!resultUpdate.success) {
         const error = new CustomError('Error post update', 400);
         throw error;
       }
-      res.status(201).json({message: 'Post update successfully'});
+      res.status(201).json({ message: 'Post update successfully' });
     } catch (error) {
       next(error);
     }
   }
 
-  static async getAllPostsByProfile(req: Request, res: Response, next: NextFunction): Promise<void> {
+  static async getAllPostsByProfile(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     try {
-      const {id} = req.params;
+      const { id } = req.params;
       const idProfile = parseInt(id);
       const resultFound = await postsServices.getAllPostsProfileId(idProfile);
       if (!resultFound.success) {

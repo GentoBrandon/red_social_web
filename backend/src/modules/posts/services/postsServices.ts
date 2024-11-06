@@ -31,7 +31,7 @@ export default class PostsServices {
       }
       return {
         success: true,
-        data: resultData
+        data: resultData,
       };
     } catch (error) {
       throw {
@@ -64,10 +64,10 @@ export default class PostsServices {
   static async deleteIdPost(id: number) {
     try {
       const getId = await PostsModel.getPostsId(id);
-      if(!getId) {
+      if (!getId) {
         return {
-          success: false
-        }
+          success: false,
+        };
       }
       const delId = await PostsModel.deletePost(id);
       if (delId === 0) {
@@ -117,7 +117,7 @@ export default class PostsServices {
       }
       return {
         success: true,
-        data: resultData
+        data: resultData,
       };
     } catch (error) {
       throw {

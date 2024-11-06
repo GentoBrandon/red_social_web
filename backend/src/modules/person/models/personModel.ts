@@ -56,6 +56,6 @@ export class PersonModel extends BaseModel<Person> {
     return db(this.instance.table)
       .where('first_name', 'ilike', `%${name}%`)
       .orWhere('last_name', 'ilike', `%${name}%`)
-      .select('id','first_name', 'last_name');
+      .select('id', 'first_name', 'last_name');
   }
 }
