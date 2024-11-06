@@ -16,4 +16,10 @@ router.get(
   '/get-friends-commons-friends/:id',
   RequestFriendController.getFriendsByProfileId,
 );
+
+router.get(
+  '/get-status-friends/:id1/:id2',
+  RequestFriendController.getStatusFriend,
+);
+router.get('/get-requests-friend/:id', RequestFriendController.getRequestById);
 export default router;

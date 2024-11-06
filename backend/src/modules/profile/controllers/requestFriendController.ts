@@ -2,6 +2,7 @@ import requestFriendService from '../services/requestFriendService';
 import { Request, Response, NextFunction } from 'express';
 import CustomError from '../../../utils/customError';
 import RequestFriendService from '../services/requestFriendService';
+import { nextTick } from 'process';
 
 export default class RequestFriendController {
   static async createRequest(req: Request, res: Response, next: NextFunction) {
@@ -73,15 +74,16 @@ export default class RequestFriendController {
       const _id = parseInt(id1);
       const _id2 = parseInt(id2);
 
-      const result = await RequestFriendService.updateFriendsByProfileId(
+      const result = await RequestFriendService.accepteFriendsByProfileId(
         _id,
         _id2,
       );
+
       if (!result.success) {
         const error = new CustomError('Error while to update request', 400);
         throw error;
       }
-      res.status(200).json('Update success');
+      res.status(200).json('accepted success');
     } catch (error) {
       next(error);
     }
@@ -148,6 +150,62 @@ export default class RequestFriendController {
       }
       res.status(200).json('Reject success');
     } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getStatusFriend(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const { id1, id2 } = req.params;
+      const _id = parseInt(id1);
+      const _id2 = parseInt(id2);
+      const result = await RequestFriendService.getStatusFriendsByProfileId(
+        _id,
+        _id2,
+      );
+      if (!result.success) {
+        const error = new CustomError('Error while to get status', 400);
+        throw error;
+      }
+      res.status(200).json(result.data);
+    } catch (error) {
+      next(error);
+    }
+  }
+  static async getRequestFriendById(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const id = parseInt(req.params.id); // Obtener y convertir el ID de los parámetros
+      if (isNaN(id)) {
+        const error = new CustomError('ID debe ser un número', 400);
+        throw error;
+      }
+
+      // Llama al servicio para obtener la solicitud de amistad
+      const result = await RequestFriendService.getRequestFriendById(id);
+
+      // Verifica si la solicitud se encontró y responde adecuadamente
+      if (!result.success) {
+        const error = new CustomError(
+          'Solicitud de amistad no encontrada',
+          404,
+        );
+        throw error;
+      }
+
+      res.status(200).json({
+        success: true,
+        data: result.data,
+      });
+    } catch (error) {
+      // Manejo de errores del servidor
       next(error);
     }
   }

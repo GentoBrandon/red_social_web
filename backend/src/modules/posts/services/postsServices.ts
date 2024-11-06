@@ -1,10 +1,29 @@
-import { PersonModel } from '../../person/models/personModel';
-import { Profile, ProfileModel } from '../models/profileModel';
+import { Posts, PostsModel } from '../models/potsModel';
 
-export default class ProfileServices {
-  static async profileGetAllServices() {
+export default class PostsServices {
+  static async createPostsServices(posts: Posts) {
     try {
-      const resultData = await ProfileModel.profileGetAll();
+      const resultInsert = await PostsModel.insertPosts(posts);
+      if (!resultInsert) {
+        return {
+          success: false,
+        };
+      }
+      return {
+        success: true,
+        data: resultInsert[0],
+      };
+    } catch (error) {
+      throw {
+        message: 'Error creating posts',
+        stack: (error as Error).stack,
+      };
+    }
+  }
+
+  static async postsGetAllServices() {
+    try {
+      const resultData = await PostsModel.getAllPosts();
       if (!resultData) {
         return {
           success: false,
@@ -22,18 +41,17 @@ export default class ProfileServices {
     }
   }
 
-  static async profileGetIdService(id: number) {
+  static async postsGetIdService(id: number) {
     try {
-      const resultId = await ProfileModel.profileIdGet(id);
-      if (!resultId) {
+      const getIdPost = await PostsModel.getPostsId(id);
+      if (!getIdPost) {
         return {
           success: false,
         };
       }
-
       return {
         success: true,
-        data: resultId,
+        data: getIdPost,
       };
     } catch (error) {
       throw {
@@ -43,20 +61,21 @@ export default class ProfileServices {
     }
   }
 
-  static async profileDeleteIdServices(id: number) {
+  static async deleteIdPost(id: number) {
     try {
-      const getId = await ProfileModel.profileIdGet(id);
+      const getId = await PostsModel.getPostsId(id);
       if (!getId) {
         return {
           success: false,
         };
       }
-      const resultDeleted = await ProfileModel.profileDelete(id);
-      if (resultDeleted === 0) {
+      const delId = await PostsModel.deletePost(id);
+      if (delId === 0) {
         return {
           success: false,
         };
       }
+
       return {
         success: true,
       };
@@ -68,43 +87,37 @@ export default class ProfileServices {
     }
   }
 
-  static async profileUpdateService(id: number, data: Profile) {
+  static async updatePostsService(id: number, posts: Posts) {
     try {
-      const existingProfile = await ProfileModel.profileIdGet(id);
-      if (!existingProfile) {
-        return {
-          success: false,
-        };
-      }
-
-      const updateResult = await ProfileModel.profileUpdate(id, data);
-      if (updateResult === 0) {
+      const resultUpdate = await PostsModel.updatePosts(id, posts);
+      if (!resultUpdate) {
         return {
           success: false,
         };
       }
       return {
         success: true,
-        data: await ProfileModel.profileIdGet(id),
+        data: resultUpdate,
       };
     } catch (error) {
       throw {
-        message: (error as Error).message,
+        message: 'Error updating posts',
         stack: (error as Error).stack,
       };
     }
   }
-  static async getPersonNameByName(name: string) {
+
+  static async getAllPostsProfileId(id_profile: number) {
     try {
-      const result = await PersonModel.findPersonByName(name);
-      if (result.length === 0) {
+      const resultData = await PostsModel.getAllPostsProfile(id_profile);
+      if (!resultData) {
         return {
           success: false,
         };
       }
       return {
         success: true,
-        data: result,
+        data: resultData,
       };
     } catch (error) {
       throw {
