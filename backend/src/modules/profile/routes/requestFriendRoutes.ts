@@ -22,4 +22,5 @@ router.get(
   RequestFriendController.getStatusFriend,
 );
 router.get('/get-requests-friend/:id', RequestFriendController.getRequestById);
+router.get('/get-received-friend/:id',RequestFriendController.getReceibedRequest)
 export default router;

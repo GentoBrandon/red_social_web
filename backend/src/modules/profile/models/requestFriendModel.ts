@@ -358,4 +358,65 @@ export class RequestFriendModel extends BaseModel<RequestFriend> {
       mutual_friends_count: row.mutual_friends_count,
     }));
   }
+  static async getReceivedRequestsFriend(profileId: number): Promise<any[]> {
+    console.log(profileId);
+    const query = `
+      SELECT DISTINCT
+        CASE
+          WHEN rf.id_profile_response = :profileId THEN rf.id_profile_request
+          ELSE rf.id_profile_response
+        END AS friend_profile_id,
+        pr_request.first_name AS friend_first_name,
+        pr_request.last_name AS friend_last_name,
+
+        -- Subconsulta para contar solo los amigos en común exactos
+        (
+          SELECT COUNT(*)
+          FROM request_friends rf2
+          WHERE rf2.id_status = 1
+            AND (
+              (rf2.id_profile_response = :profileId AND rf2.id_profile_request IN (
+                SELECT rf3.id_profile_request
+                FROM request_friends rf3
+                WHERE rf3.id_status = 1
+                  AND rf3.id_profile_response = rf.id_profile_request
+                  AND rf3.id_profile_request != :profileId -- Excluir el perfil actual
+              ))
+              OR
+              (rf2.id_profile_request = :profileId AND rf2.id_profile_response IN (
+                SELECT rf3.id_profile_response
+                FROM request_friends rf3
+                WHERE rf3.id_status = 1
+                  AND rf3.id_profile_request = rf.id_profile_request
+                  AND rf3.id_profile_response != :profileId -- Excluir el perfil actual
+              ))
+            )
+        ) AS mutual_friends_count
+
+      FROM
+        request_friends rf
+      JOIN
+        profiles p_request ON rf.id_profile_request = p_request.id
+      JOIN
+        persons pr_request ON p_request.person_id = pr_request.id
+      JOIN
+        profiles p_response ON rf.id_profile_response = p_response.id
+      JOIN
+        persons pr_response ON p_response.person_id = pr_response.id
+      WHERE
+        rf.id_status = 2  -- Filtrar solo solicitudes recibidas con id_status = 2
+        AND rf.id_profile_response = :profileId;  -- Filtrar por el perfil actual como receptor
+    `;
+
+    // Ejecuta la consulta usando db.raw y pasa profileId como parámetro
+    const result = await db.raw(query, { profileId });
+
+    // Formatea el resultado en el formato deseado
+    return result.rows.map((row: any) => ({
+      friend_profile_id: row.friend_profile_id,
+      friend_name: `${row.friend_first_name} ${row.friend_last_name}`,
+      mutual_friends_count: row.mutual_friends_count,
+    }));
+  }
+
 }

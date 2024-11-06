@@ -54,7 +54,7 @@ export default class PostShareController {
       const idGet = parseInt(id);
       const resultData =
         await postshareServices.getAllPostShareIdService(idGet);
-      if (!resultData) {
+      if (!resultData.success) {
         const error = new CustomError('Error get post', 404);
         throw error;
       }

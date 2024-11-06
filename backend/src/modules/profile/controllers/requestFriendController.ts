@@ -209,4 +209,18 @@ export default class RequestFriendController {
       next(error);
     }
   }
+
+  static async getReceibedRequest(req: Request,res: Response, next: NextFunction){
+    try {
+      const id = parseInt(req.params.id)
+      const result = await RequestFriendService.getReceivedRequestById(id);
+      if(!result.success){
+        const error = new CustomError('solicitud no encontradas',400);
+        throw error
+      }
+      res.status(200).json(result.data)
+    } catch (error) {
+      next(error);
+    }
+  }
 }
