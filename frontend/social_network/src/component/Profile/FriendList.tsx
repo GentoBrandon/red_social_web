@@ -1,36 +1,63 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styles from '../../styles/Profile/FriendList.module.css';
 import DeleteFriend from '@/component/Profile/DeleteFriend';
+import { fetchProfileId } from "@/services/IdProfile";
+import { ROUTES_PROFILE, Routes_friend } from '../../routes/apiRoutes';
 
 interface Friend {
-  id: number;
-  name: string;
-  mutualFriends: number;
-  profileImage: string;
+  friend_id: number;
+  friend_name: string;
+  mutual_friends_count: string;
 }
-
-const friendsData: Friend[] = [
-  { id: 1, name: "Distrito del Pacífico", mutualFriends: 9, profileImage: "/avatar.png" },
-  { id: 2, name: "Carla Velasquez", mutualFriends: 17, profileImage: "/avatar.png" },
-  { id: 3, name: "Miseldo Macario", mutualFriends: 8, profileImage: "/avatar.png" },
-  { id: 4, name: "José Ixcoy Jr.", mutualFriends: 14, profileImage: "/avatar.png" },
-  { id: 5, name: "Ici Reu", mutualFriends: 11, profileImage: "/avatar.png" },
-  { id: 6, name: "Ariana Diaz", mutualFriends: 23, profileImage: "/avatar.png" },
-  // Agrega más amigos aquí
-];
 
 export default function FriendsList() {
   const [activeTab, setActiveTab] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [idProfile, setIdProfile] = useState<number | null>(null);
+  const [friends, setFriends] = useState<Friend[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
   const tabs = ["Todos los amigos", "Agregados recientemente", "Cumpleaños", "Seguidos"];
-  const [searchQuery, setSearchQuery] = useState("");
 
+  // Obtiene el ID del perfil del usuario actual y luego la lista de amigos
+  useEffect(() => {
+    const fetchAndSetProfileData = async () => {
+      try {
+        const id = await fetchProfileId();
+        setIdProfile(id);
+      } catch (error) {
+        console.error("Error al obtener el ID del perfil:", error);
+      }
+    };
 
-  const filteredFriends = friendsData.filter((friend) =>
-    friend.name.toLowerCase().includes(searchQuery.toLowerCase())
+    fetchAndSetProfileData();
+  }, []);
+
+  useEffect(() => {
+    if (idProfile) {
+      const fetchFriends = async () => {
+        try {
+          const response = await axios.get(
+            `${Routes_friend.GET_FRIENDS_LIST}${idProfile}`,
+            { withCredentials: true }
+          );
+          setFriends(response.data.friends);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error al obtener los amigos:", error);
+          setLoading(false);
+        }
+      };
+
+      fetchFriends();
+    }
+  }, [idProfile]);
+
+  const filteredFriends = friends.filter((friend) =>
+    friend.friend_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
 
   return (
     <div className={styles.container}>
@@ -56,16 +83,24 @@ export default function FriendsList() {
       </div>
 
       <div className={styles.friendsContainer}>
-        {friendsData.map((friend) => (
-          <div key={friend.id} className={styles.friendCard}>
-            <img src={friend.profileImage} alt={friend.name} className={styles.profileImage} />
-            <div className={styles.friendInfo}>
-              <h4 className={styles.friendName}>{friend.name}</h4>
-              <p className={styles.mutualFriends}>{friend.mutualFriends} amigos en común</p>
+        {loading ? (
+          <p>Cargando amigos...</p>
+        ) : filteredFriends.length > 0 ? (
+          filteredFriends.map((friend, index) => (
+            <div key={index} className={styles.friendCard}>
+              <img src="/avatar.png" alt={friend.friend_name} className={styles.profileImage} />
+              <div className={styles.friendInfo}>
+                <h4 className={styles.friendName}>{friend.friend_name}</h4>
+                <p className={styles.mutualFriends}>
+                  {friend.mutual_friends_count} amigos en común
+                </p>
+              </div>
+              <DeleteFriend idProfile={idProfile} idProfileSelect={friend.friend_id}/>
             </div>
-            <DeleteFriend />
-          </div>
-        ))}
+          ))
+        ) : (
+          <p>No se encontraron amigos.</p>
+        )}
       </div>
     </div>
   );
