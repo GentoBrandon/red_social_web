@@ -73,15 +73,16 @@ export default class RequestFriendController {
       const _id = parseInt(id1);
       const _id2 = parseInt(id2);
 
-      const result = await RequestFriendService.updateFriendsByProfileId(
+      const result = await RequestFriendService.accepteFriendsByProfileId(
         _id,
         _id2,
       );
+      
       if (!result.success) {
         const error = new CustomError('Error while to update request', 400);
         throw error;
       }
-      res.status(200).json('Update success');
+      res.status(200).json('accepted success');
     } catch (error) {
       next(error);
     }
@@ -147,6 +148,22 @@ export default class RequestFriendController {
         throw error;
       }
       res.status(200).json('Reject success');
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getStatusFriend(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { id1, id2 } = req.params;
+      const _id = parseInt(id1);
+      const _id2 = parseInt(id2);
+      const result = await RequestFriendService.getStatusFriendsByProfileId(_id, _id2);
+      if (!result.success) {
+        const error = new CustomError('Error while to get status', 400);
+        throw error;
+      }
+      res.status(200).json(result.data);
     } catch (error) {
       next(error);
     }

@@ -139,7 +139,7 @@ export default class RequestFriendService {
     }
   }
 
-  static async updateFriendsByProfileId(id1: number, id2: number) {
+  static async accepteFriendsByProfileId(id1: number, id2: number) {
     try {
       const result = await RequestFriendModel.acceptedFriend(id1, id2);
       if (result === 0) {
@@ -169,6 +169,25 @@ export default class RequestFriendService {
         success: true,
       };
     } catch (error) {
+      throw {
+        message: (error as Error).message,
+        stack: (error as Error).stack,
+      };
+    }
+  }
+  static async getStatusFriendsByProfileId(id1: number, id2: number){
+    try {
+      const result = await RequestFriendModel.getFriendStatus(id1, id2);
+      if (result === 0) {
+        return {
+          success: false,
+        };
+      }
+      return {
+        success: true,
+        data: result,
+      };
+    }catch (error) {
       throw {
         message: (error as Error).message,
         stack: (error as Error).stack,
