@@ -6,8 +6,8 @@ export interface Posts_Share {
     description: string;
 }
 
-export class PostShare extends BaseModel <Posts_Share>{
-    private static postShareInstance: PostShare = new PostShare();
+export class PostShareModel extends BaseModel <Posts_Share>{
+    private static postShareInstance: PostShareModel = new PostShareModel();
     constructor(){
         super("posts_share");
     }
