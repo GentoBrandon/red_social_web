@@ -6,6 +6,7 @@ import profileRoutes from '../modules/profile/routes/profileRoutes';
 import authRoutes from '../modules/auth/routes/authRoutes';
 import userRoutes from '../modules/person/routes/userRoutes';
 import postsRoutes from '../modules/posts/routes/postRoutes';
+import postShareRoutes from '../modules/posts/routes/postShareRoutes';
 import cookieParser from 'cookie-parser';
 import SocketController from '../controllers/socket/socketIoController';
 import friendStatusRoutes from '../modules/profile/routes/friendStatusRoutes';
@@ -56,6 +57,7 @@ class App {
     this.app.use('/api/request-friend', requestFriendRoutes);
     this.app.use('/api/friend', friendRoutes);
     this.app.use('/api/posts/', postsRoutes);
+    this.app.use('/api/post-share', postShareRoutes);
   }
   private middlewares(): void {
     this.app.use(erroHandling);

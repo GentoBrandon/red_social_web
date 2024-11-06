@@ -14,10 +14,10 @@ export default class PostShareController {
       const resultInsert =
         await postshareServices.createPostShareService(dataPostShare);
       if (!resultInsert.success) {
-        const error = new CustomError('Error creating postShare', 400);
+        const error = new CustomError('Error creating shared post', 400);
         throw error;
       }
-      res.status(201).json({ message: 'PostShare created successfully' });
+      res.status(201).json({ message: 'shared post created successfully' });
     } catch (error) {
       next(error);
     }
