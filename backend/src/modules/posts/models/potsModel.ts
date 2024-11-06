@@ -1,5 +1,6 @@
 import BaseModel from '../../../utils/base/Model';
 import db from '../../../config/dbConfig';
+
 export interface Posts {
   id_profile: number;
   description: string;
@@ -28,14 +29,15 @@ export class PostsModel extends BaseModel<Posts> {
     return await this.postsModelInstance.update(id, data);
   }
 
-  static async deletePost(id: number): Promise<number> {
-    return await this.postsModelInstance.delete(id);
-  }
+    static async deletePost(id: number): Promise<number>{
+        return await this.postsModelInstance.delete(id);
+    }
 
-  static async getAllPostsProfile(id_profile: number): Promise<Posts[]> {
-    const result = await db(this.postsModelInstance.table)
-      .where('id_profile', id_profile)
-      .select('*');
-    return result;
-  }
+    static async deletePostByProfile(id: number,idProfile: number):Promise<number>{
+        const resultDelete = await db(this.postsModelInstance.table).where({id: id,id_profile: idProfile}).delete();
+        if (resultDelete === 0) {
+            return 0;
+        }
+        return 1;
+    }
 }

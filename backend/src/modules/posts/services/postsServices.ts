@@ -87,6 +87,31 @@ export default class PostsServices {
     }
   }
 
+  static async deletePostIdProfile(id: number , idProfile: number){
+    try {
+      const getIdPost = await PostsModel.getPostsId(id);
+      if(!getIdPost){
+        return{
+          success: false,
+        }
+      }
+      const resultData = await PostsModel.deletePostByProfile(id, idProfile);
+      if(resultData === 0){
+        return {
+          success: false
+        }
+      }
+      return {
+        success: true
+      }
+    } catch (error) {
+      throw {
+        message: (error as Error).message,
+        stack: (error as Error).stack,
+      };     
+    }
+  }
+
   static async updatePostsService(id: number, posts: Posts) {
     try {
       const resultUpdate = await PostsModel.updatePosts(id, posts);

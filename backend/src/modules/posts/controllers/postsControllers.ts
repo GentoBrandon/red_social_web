@@ -52,7 +52,7 @@ export default class PostsController {
       const { id } = req.params;
       const idGet = parseInt(id);
       const resultData = await postsServices.postsGetIdService(idGet);
-      if (!resultData) {
+      if(!resultData.success){
         const error = new CustomError('Error get post', 404);
         throw error;
       }
@@ -71,11 +71,27 @@ export default class PostsController {
       const { id } = req.params;
       const idDelete = parseInt(id);
       const resultDelete = await postsServices.deleteIdPost(idDelete);
-      if (!resultDelete) {
+      if(!resultDelete){
         const error = new CustomError('Error delete post', 404);
         throw error;
       }
-      res.status(200).json({ message: 'Post delete successfully' });
+      res.status(200).json({message: 'Post delete successfully'});
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async deleteIdPostProfileController(req: Request, res: Response, next: NextFunction): Promise<void>{
+    try {
+      const {id, idProfile} = req.params
+      const idDel = parseInt(id);
+      const idDelProfile = parseInt(idProfile);
+      const resultDelete = await postsServices.deletePostIdProfile(idDel,idDelProfile);
+      if(!resultDelete.success){
+        const error = new CustomError('Error delete post', 404);
+        throw error;
+      }
+      res.status(200).json({message: 'Post delete successfully'});
     } catch (error) {
       next(error);
     }
