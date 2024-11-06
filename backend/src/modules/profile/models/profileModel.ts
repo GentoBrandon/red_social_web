@@ -25,7 +25,7 @@ export class ProfileModel extends BaseModel<Profile> {
     return await this.profileModelInstance.find(id);
   }
 
-  static async profileDelete(id: number): Promise<Number> {
+  static async profileDelete(id: number): Promise<number> {
     return await this.profileModelInstance.delete(id);
   }
 
