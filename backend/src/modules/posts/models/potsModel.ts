@@ -40,4 +40,11 @@ export class PostsModel extends BaseModel<Posts> {
         }
         return 1;
     }
+    static async getAllPostsById(id:number){
+      const result = await db(this.postsModelInstance.table).where({id_profile:id}).select('*');
+      if(!result){
+        return 0
+      }
+      return result
+    }
 }

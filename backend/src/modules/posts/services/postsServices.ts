@@ -134,7 +134,7 @@ export default class PostsServices {
 
   static async getAllPostsProfileId(id_profile: number) {
     try {
-      const resultData = await PostsModel.getAllPostsProfile(id_profile);
+      const resultData = await PostsModel.getAllPostsById(id_profile);
       if (!resultData) {
         return {
           success: false,
