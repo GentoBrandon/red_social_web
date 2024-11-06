@@ -1,9 +1,9 @@
 import Principal from "@/component/Principal/Principal";
-
+import Search from "@/component/Friends/Search";
 function FriendsPage() {
   return (
     <Principal>
-        <h1>Friends Page</h1>
+        <Search />
     </Principal>
   );
 }
