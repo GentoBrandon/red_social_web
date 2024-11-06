@@ -5,7 +5,8 @@ const ROUTES = {
     UserCredentials: '/api/user-credentials',
     Profile: '/api/profile',
     Auth: '/api/auth',
-    RequestFriend: '/api/request-friend'
+    RequestFriend: '/api/request-friend',
+    Posts: '/api/posts'
 }
 
 export const API_ROUTES = {
@@ -27,4 +28,13 @@ export const Routes_friend = {
     ACCEPTED_FRIEND: `${API_BASE_URL}${ROUTES.RequestFriend}/accepted-friend/`, //Aceptar solicitud de amistad
     DELETE_REQUEST_1ID: `${API_BASE_URL}${ROUTES.RequestFriend}/reject-friend/`, // Rechazar solicitud de amistad
     GET_FRIENDS_LIST: `${API_BASE_URL}${ROUTES.RequestFriend}/get-friends-commons-friends/` //obtener amigos
+}
+
+export const Routes_Post = {
+    CREATE_POST: `${API_BASE_URL}${ROUTES.Posts}/create-post`, //Crear post
+    GET_POST: `${API_BASE_URL}${ROUTES.Posts}/get-post`, //Obtener todos los post
+    GET_POST_ID: `${API_BASE_URL}${ROUTES.Posts}/get-id-post/`, //Obtener post por id
+    DELETE_POST: `${API_BASE_URL}${ROUTES.Posts}/delete-post/`, //Eliminar post pod id
+    UPDATE_POST: `${API_BASE_URL}${ROUTES.Posts}/update-post/`, //Actualizar post por id
+    GET_POST_PROFILE: `${API_BASE_URL}${ROUTES.Posts}/get-all-post-profile/` //Obtener todos los post de un perfil
 }
