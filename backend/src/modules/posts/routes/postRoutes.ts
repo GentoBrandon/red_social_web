@@ -10,5 +10,5 @@ routes.delete('/delete-post/:id', postController.deleteIdPostController);// dele
 routes.delete('/delete-post-profile/:id/:idProfile',postController.deleteIdPostProfileController);
 routes.put('/update-post/:id', postController.updatePostController);
 routes.get('/get-all-post-profile/:id', postController.getAllPostsByProfile);
-
+routes.get('/get-friends-posts/:id', postController.getFriendsPostsAndShares);
 export default routes;

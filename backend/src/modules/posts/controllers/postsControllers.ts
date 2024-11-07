@@ -143,4 +143,18 @@ export default class PostsController {
       next(error);
     }
   }
+  static async getFriendsPostsAndShares(req:Request,res:Response,next:NextFunction){
+    try {
+      const { id } = req.params;
+      const idProfile = parseInt(id)
+      const result = await postsServices.getFriendsPostsAndShares(idProfile);
+      if(!result.success){
+        const error = new CustomError('Error get posts',404);
+        throw error;
+      }
+      res.status(200).json(result.data)
+    } catch (error) {
+      next(error)
+    }
+  }
 }

@@ -7,5 +7,5 @@ routes.get('/get-post-share', postShareController.getAllPostShareController);
 routes.get('/get-post-share-id/:id', postShareController.getPostShareIdController);
 routes.delete('/delete-post-share/:id', postShareController.deleteIdPostShareController);
 routes.put('/update-post-share/:id', postShareController.updatePostController);
-routes.get('/get-all-post-shared-original', postShareController.getAllPostsShareAndPostOriginalByProfileIdController);
+routes.get('/get-all-post-shared-original/:id', postShareController.getAllPostsShareAndPostOriginalByProfileIdController);
 export default routes;
