@@ -17,6 +17,7 @@ interface Post {
   description: string;
   content: string;
   date: string;
+  name_person: string;
   isLiked: boolean;
 }
 
@@ -86,7 +87,7 @@ const PostCard: React.FC = () => {
             <div className={styles["profile-info"]}>
               <img src="/avatar.png" alt="Profile" className={styles["profile-image"]} />
               <div className={styles["author-info"]}>
-                <h3 className={styles["post-author"]}>Brandon Gento</h3>
+                <h3 className={styles["post-author"]}>{post.name_person}</h3>
                 <p className={styles["postDate"]}>{new Date(post.date).toLocaleDateString()}</p>
               </div>
             </div>

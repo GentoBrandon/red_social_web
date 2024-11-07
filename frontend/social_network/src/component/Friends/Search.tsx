@@ -82,19 +82,25 @@ function Search() {
 
   return (
     <div className={styles.container}>
+      <div className={styles.search}>
       <input
         type="text"
         placeholder="Buscar amigos..."
         value={search}
         onChange={(e) => setSearch(e.target.value)}
+        className={styles.input}
+
       />
-      <button onClick={searchFriends}>Buscar</button>
+      <button onClick={searchFriends} className={styles.btnSearch}>Buscar</button>
+      </div>
 
       {loading && <p>Loading...</p>}
 
       {searchResults.map((result) => (
         <div key={result.id} className={styles.card}>
-          <div className={styles.avatar}></div>
+          <div className={styles.avatar}>
+            <img src="/avatar.png" alt="Avatar" />
+          </div>
           <p className={styles.name}>{result.first_name} {result.last_name}</p>
           <p className={styles.info}>Amigo</p>
           <div className={styles.button}>
