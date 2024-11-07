@@ -56,12 +56,12 @@
     gap: 15px;
   }
   .friendsContainerSide {
-    display: flex; /* Cambiado a flex para usar flex properties */
+    display: grid; /* Cambiado a flex para usar flex properties */
     flex-direction: column;
     justify-content: center; /* Centrar verticalmente */
     align-items: center; /* Centrar horizontalmente */
     gap: 15px; /* Espacio entre los elementos */
-    padding: 20px; /* Espacio interno entre contenedores */
+    padding: 10px; /* Espacio interno entre contenedores */
 }
   
   .friendCard {
@@ -86,8 +86,9 @@
   }
   
   .friendName {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     font-weight: bold;
+    color: black;
   }
   
   .mutualFriends {
