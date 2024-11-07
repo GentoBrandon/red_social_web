@@ -1,0 +1,35 @@
+.publication{
+    width: 30%;
+    height: 15%;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 5px #ccc;
+}
+
+.btn{
+    width: 100%;
+    height: 30px;
+    margin-top: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
+    font-display: flex;
+}
+
+.sideBar{
+    margin: 10px;
+    padding: 10px;
+    width: 25%;
+    color: black;  
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 5px #ccc;
+}

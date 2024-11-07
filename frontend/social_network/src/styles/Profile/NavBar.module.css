@@ -1,0 +1,11 @@
+.Menubar {
+    height: 70px; /* o cualquier valor deseado */
+    font-size: 1.125rem; /* lg */
+  }
+  
+  /* Ajusta el espaciado entre los elementos */
+  .MenubarMenu {
+    display: flex;
+    width: 100%;
+    justify-content: space-around; /* distribuye el espacio uniformemente */
+  }
