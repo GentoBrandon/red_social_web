@@ -71,7 +71,6 @@ const PostCard: React.FC = () => {
           setPosts(postsWithLikes);
         }
       } catch (error) {
-        console.error("Error al obtener los datos del perfil:", error);
       }
     };
 
@@ -91,7 +90,7 @@ const PostCard: React.FC = () => {
           </div>
           <Separator />
           <div className={styles["options"]}>
-            //Revisar la funcionalidad de reacción en el post
+            {/* Revisar la funcionalidad de reacción en el post */}
             <button
               className={`${styles["like-button"]} ${post.isLiked ? styles["liked"] : ""}`}
               onClick={() => toggleLike(post.id)}

@@ -46,7 +46,6 @@ export default function FriendsList() {
           setFriends(response.data.friends);
           setLoading(false);
         } catch (error) {
-          console.error("Error al obtener los amigos:", error);
           setLoading(false);
         }
       };

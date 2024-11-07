@@ -12,7 +12,6 @@ import {
 import { BsFillTrashFill } from "react-icons/bs";
 import { useState } from "react";
 import axios from "axios";
-import { FaEdit } from "react-icons/fa";
 import { SlOptionsVertical } from "react-icons/sl";
 import EditPostDialog from "@/component/Posts/UpdatePost";
 import { Routes_Post } from "@/routes/apiRoutes";
@@ -24,11 +23,14 @@ interface OptionsProps {
 
 export default function Options({ idProfile, idPostSelect }: OptionsProps) {
   const [deleteStatus, setDeleteStatus] = useState<string | null>(null);
+  console.log("idProfile", idProfile);
+  console.log("idPostSelect", idPostSelect);
 
   const handleDeletePost = async () => {
     if (idProfile === null) return;
 
     try {
+      // await axios.delete(`http://localhost:5000/api/postS/delete-post-profile/${idPostSelect}/${idProfile}`);
       await axios.delete(`${Routes_Post.DELETE_POST_PROFILE}${idPostSelect}/${idProfile}`);
       setDeleteStatus("Publicación eliminada exitosamente.");
       // Idealmente, actualiza el estado o utiliza router.refresh() para refrescar
@@ -48,16 +50,16 @@ export default function Options({ idProfile, idPostSelect }: OptionsProps) {
       <DropdownMenuContent className="w-56">
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem onClick={()=> {handleDeletePost; window.location.reload()}}>
+          <Button variant="link" onClick={() => {handleDeletePost();  window.location.reload();}}> Borrar publicación <BsFillTrashFill /></Button>
+          {/* <DropdownMenuItem onClick={()=> handleDeletePost}>
             Eliminar publicación
             <BsFillTrashFill />
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
         </DropdownMenuGroup>
         <DropdownMenuGroup>
           <DropdownMenuItem asChild>
             <EditPostDialog postId={idPostSelect} idProfile={idProfile} />
           </DropdownMenuItem>
-          <FaEdit />
         </DropdownMenuGroup>
       </DropdownMenuContent>
       {deleteStatus && <p>{deleteStatus}</p>}
