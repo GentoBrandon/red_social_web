@@ -113,10 +113,10 @@ export default class PostShareController {
       const {id} = req.params
       const id_profile = parseInt(id);
       const result = await postshareServices.getAllPostsShareAndPostOriginalByProfileIdService(id_profile);
-      if(!result?.success){
+      if(!result.success){
         res.json([])
       }
-      res.status(200).json(result?.data)
+      res.status(200).json(result.data)
     } catch (error) {
       next(error);
     }

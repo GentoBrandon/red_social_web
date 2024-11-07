@@ -113,8 +113,7 @@ export default class PostShareServices {
       const result = await PostShareModel.getAllPostsShareAndPostOriginalByProfileId(id_profile);
       if (result.length === 0) {
         return {
-          success: false,
-          data : []
+          success: false
         }
       }
       return {
@@ -122,7 +121,10 @@ export default class PostShareServices {
         data: result
       }
     } catch (error) {
-      
+      throw{
+        message: (error as Error).message,
+        stack: (error as Error).stack
+      }
     }
   }
 }
