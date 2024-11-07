@@ -151,4 +151,23 @@ export default class PostsServices {
       };
     }
   }
+  static async getFriendsPostsAndShares(id_profile: number) {
+    try {
+      const resultData = await PostsModel.getFriendsPostsAndShares(id_profile);
+      if (!resultData) {
+        return {
+          success: false,
+        };
+      }
+      return {
+        success: true,
+        data: resultData,
+      };
+    } catch (error) {
+      throw {
+        message: (error as Error).message,
+        stack: (error as Error).stack
+      }
+  }
+}
 }
