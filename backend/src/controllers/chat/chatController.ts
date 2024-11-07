@@ -22,7 +22,7 @@ export default function chatController(socket: Socket, io: Server, knex: Knex) {
             console.error('Error: Missing userId in register event');
         }
     });
-
+    /*
     // Evento `join room` para unirse a una sala específica
     socket.on('join room', async (data) => {
         try {
@@ -58,6 +58,46 @@ export default function chatController(socket: Socket, io: Server, knex: Knex) {
         } catch (error) {
             console.error('Error joining room:', error);
         }
+    });*/
+    socket.on('join room', async (data) => {
+        try {
+            const { roomName, userId, friendId } = data.data;
+
+            // Verifica que `friendId` no sea undefined
+            if (!userId || !friendId) {
+                console.error('Error: userId or friendId is missing in join room event');
+                socket.emit('error', { message: 'User ID and Friend ID are required' });
+                return;
+            }
+            // Definir el nombre de la sala con IDs en orden
+            const orderedRoomName = userId < friendId ? `room-${userId}-${friendId}` : `room-${friendId}-${userId}`;
+
+            let roomId;
+            let room = await knex('rooms').where({ name: orderedRoomName }).first();
+            if (!room) {
+                const resultInsert = await knex('rooms').insert({ name: orderedRoomName }).returning('id');
+                roomId = resultInsert[0].id;
+            } else {
+                roomId = room.id;
+            }
+
+            const member = await knex('room_members').where({ room_id: roomId, profile_id: userId }).first();
+            if (!member) {
+                await knex('room_members').insert({ room_id: roomId, profile_id: userId });
+            }
+
+            socket.join(roomId.toString());
+            console.log(`User ${userId} joined room "${orderedRoomName}" with ID ${roomId}`);
+
+            //const messages = await knex('messages').where({ room_id: roomId }).orderBy('created', 'asc');
+            const messages = await knex('messages')
+    .where({ room_id: roomId })
+    .select('id', 'profile_id as user_id', 'content', 'created')  // Asegúrate de incluir 'user_id' aquí
+    .orderBy('created', 'asc');
+            socket.emit('load messages', messages);
+        } catch (error) {
+            console.error('Error joining room:', error);
+        }
     });
 
     // Evento para enviar un mensaje en una sala
@@ -88,7 +128,7 @@ export default function chatController(socket: Socket, io: Server, knex: Knex) {
             }).returning('id');
 
             const message = { id: messageId, user_id: userId, room_id: roomId, content, created: new Date() };
-
+            
             // Envía el mensaje a todos los usuarios de la sala, incluido el remitente
             io.to(roomId.toString()).emit('room message', message);
         } catch (error) {

@@ -14,7 +14,7 @@ export async function up(knex: Knex): Promise<void> {
 
 
 export async function down(knex: Knex): Promise<void> {
-    const exist = await knex.schema.hasTable('rooms_members');
+    const exist = await knex.schema.hasTable('room_members');
     if(exist){
         await knex.schema.dropTable('room_members')
     }
