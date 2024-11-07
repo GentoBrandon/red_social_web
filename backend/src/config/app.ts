@@ -9,6 +9,7 @@ import postsRoutes from '../modules/posts/routes/postRoutes';
 import postShareRoutes from '../modules/posts/routes/postShareRoutes';
 import postReactionsRoutes from '../modules/posts/routes/postReactionsRoutes';
 import cookieParser from 'cookie-parser';
+import dbConfig from './dbConfig'; // Importa tu instancia de Knex
 import SocketController from '../controllers/socket/socketIoController';
 import friendStatusRoutes from '../modules/profile/routes/friendStatusRoutes';
 import requestFriendRoutes from '../modules/profile/routes/requestFriendRoutes';
@@ -72,7 +73,7 @@ class App {
   private settingsSocketIo(): void {
     this._io.on('connection', (socket) => {
       console.log('a user connected', socket.id);
-      SocketController(socket);
+      SocketController(socket, this._io, dbConfig);
     });
   }
   private startSettings(): void {
