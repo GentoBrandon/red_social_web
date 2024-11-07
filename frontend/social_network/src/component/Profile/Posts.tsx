@@ -10,6 +10,7 @@ import { BsChatDots } from "react-icons/bs";
 import axios from "axios";
 import { fetchProfileId } from "@/services/IdProfile";
 import Options from "@/component/Posts/DeletePosts"; // Componente mejorado con menú de opciones
+import SharePosts from "@/component/Posts/SharePosts";
 
 interface Post {
   id: number;
@@ -82,15 +83,20 @@ const PostCard: React.FC = () => {
       {posts.map((post) => (
         <div key={post.id} className={styles["post-card"]}>
           <div className={styles["post-header"]}>
+            <div className={styles["profile-info"]}>
+              <img src="/avatar.png" alt="Profile" className={styles["profile-image"]} />
+              <div className={styles["author-info"]}>
+                <h3 className={styles["post-author"]}>Brandon Gento</h3>
+                <p className={styles["postDate"]}>{new Date(post.date).toLocaleDateString()}</p>
+              </div>
+            </div>
             <h3 className={styles["post-title"]}>{post.description}</h3>
-            <p className={styles["postDate"]}>{new Date(post.date).toLocaleDateString()}</p>
           </div>
           <div className={styles["post-body"]}>
             <p>{post.content}</p>
           </div>
           <Separator />
           <div className={styles["options"]}>
-            {/* Revisar la funcionalidad de reacción en el post */}
             <button
               className={`${styles["like-button"]} ${post.isLiked ? styles["liked"] : ""}`}
               onClick={() => toggleLike(post.id)}
@@ -99,13 +105,15 @@ const PostCard: React.FC = () => {
               {post.isLiked ? " Liked" : " Like"}
             </button>
             <Button variant="link"><BsChatDots /> Comentar</Button>
-            <Button variant="link"><BsSend /> Compartir</Button>
-            <Options idProfile={idProfile} idPostSelect={post.id} /> {/* Pasando id específico */}
+            <SharePosts postId={post.id} idProfile={idProfile}/>
+            <Options idProfile={idProfile} idPostSelect={post.id} />
           </div>
           <Separator />
         </div>
       ))}
     </div>
+  
+
   );
 };
 
