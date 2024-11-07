@@ -1,31 +1,35 @@
 // components/PostCard.tsx
 'use client';
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@/styles/Post.module.css";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { FaHeart } from "react-icons/fa";
 import { BsSend } from "react-icons/bs";
 import { BsChatDots } from "react-icons/bs";
-import { useState, useEffect } from "react";
 import axios from "axios";
 import { fetchProfileId } from "@/services/IdProfile";
-import { SlOptions } from "react-icons/sl";
+import Options from "@/component/Posts/DeletePosts"; // Componente mejorado con menú de opciones
+
 interface Post {
   id: number;
   description: string;
   content: string;
   date: string;
+  isLiked: boolean;
 }
 
 const PostCard: React.FC = () => {
-  const [isLiked, setIsLiked] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
   const [idProfile, setIdProfile] = useState<number | null>(null);
 
-  // Cambia el estado de "Me gusta"
-  const handleLike = () => {
-    setIsLiked(!isLiked);
+  // Cambia el estado de "Me gusta" en el post específico
+  const toggleLike = (postId: number) => {
+    setPosts((prevPosts) =>
+      prevPosts.map((post) =>
+        post.id === postId ? { ...post, isLiked: !post.isLiked } : post
+      )
+    );
   };
 
   useEffect(() => {
@@ -33,10 +37,14 @@ const PostCard: React.FC = () => {
       try {
         const id = await fetchProfileId();
         setIdProfile(id);
-        
+
         if (id) {
           const response = await axios.get(`http://localhost:5000/api/posts/get-all-post-profile/${id}`);
-          setPosts(response.data);
+          const postsWithLikes = response.data.map((post: Post) => ({
+            ...post,
+            isLiked: false,
+          }));
+          setPosts(postsWithLikes);
         }
       } catch (error) {
         console.error("Error al obtener los datos del perfil:", error);
@@ -59,16 +67,16 @@ const PostCard: React.FC = () => {
           </div>
           <Separator />
           <div className={styles["options"]}>
-            <button 
-              className={`${styles["like-button"]} ${isLiked ? styles["liked"] : ""}`} 
-              onClick={handleLike}
+            <button
+              className={`${styles["like-button"]} ${post.isLiked ? styles["liked"] : ""}`}
+              onClick={() => toggleLike(post.id)}
             >
               <FaHeart />
-              {isLiked ? " Like" : " Like"}
+              {post.isLiked ? " Liked" : " Like"}
             </button>
             <Button variant="link"><BsChatDots /> Comentar</Button>
             <Button variant="link"><BsSend /> Compartir</Button>
-            <Button variant="link"><SlOptions />Opciones</Button>
+            <Options idProfile={idProfile} idPostSelect={post.id} /> {/* Pasando id específico */}
           </div>
           <Separator />
         </div>

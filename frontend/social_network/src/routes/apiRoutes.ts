@@ -35,6 +35,7 @@ export const Routes_Post = {
     GET_POST: `${API_BASE_URL}${ROUTES.Posts}/get-post`, //Obtener todos los post
     GET_POST_ID: `${API_BASE_URL}${ROUTES.Posts}/get-id-post/`, //Obtener post por id
     DELETE_POST: `${API_BASE_URL}${ROUTES.Posts}/delete-post/`, //Eliminar post pod id
+    DELETE_POST_PROFILE: `${API_BASE_URL}${ROUTES.Posts}/delete-post-profile/`, //Eliminar post por id y perfil
     UPDATE_POST: `${API_BASE_URL}${ROUTES.Posts}/update-post/`, //Actualizar post por id
     GET_POST_PROFILE: `${API_BASE_URL}${ROUTES.Posts}/get-all-post-profile/` //Obtener todos los post de un perfil
 }
