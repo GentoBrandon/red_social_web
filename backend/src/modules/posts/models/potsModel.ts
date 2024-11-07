@@ -41,7 +41,12 @@ export class PostsModel extends BaseModel<Posts> {
         return 1;
     }
     static async getAllPostsById(id:number){
-      const result = await db(this.postsModelInstance.table).where({id_profile:id}).select('*');
+      const result = await db(this.postsModelInstance.table)
+      .join('profiles', 'posts.id_profile', '=', 'profiles.id')
+      .join('persons', 'profiles.person_id', '=', 'persons.id')
+      .select('posts.*','persons.first_name as name_person','persons.last_name as last_name_person')
+      .where('posts.id_profile',id)
+
       if(!result){
         return 0
       }
