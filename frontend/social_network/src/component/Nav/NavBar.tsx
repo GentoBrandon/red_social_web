@@ -40,7 +40,7 @@ function NavBar() {
         </div>
         <div className={style.MenubarMenu}>
           <MenubarMenu>
-            <MenubarTrigger>Amigos</MenubarTrigger>
+            <MenubarTrigger onClick={()=> router.push('/dashboard/friends')}>Amigos</MenubarTrigger>
           </MenubarMenu>
         </div>
         <div className={style.MenubarMenu}>
