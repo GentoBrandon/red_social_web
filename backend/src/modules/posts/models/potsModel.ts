@@ -74,7 +74,7 @@ export class PostsModel extends BaseModel<Posts> {
               'posts_share.description as post_share_description',
               'posts_share.date as post_share_date',
               'original_post.content as original_post_content',
-            
+                'original_post.description as original_description',
               'original_post.date as original_post_date'
           )
           .where(function () {
@@ -119,6 +119,7 @@ export class PostsModel extends BaseModel<Posts> {
                   description: row.post_share_description,
                   date: row.post_share_date,
                   original_content: row.original_post_content,
+                  original_description: row.original_description,
                   original_date: row.original_post_date
               });
           }
