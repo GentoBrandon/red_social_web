@@ -46,6 +46,7 @@ export class PostShareModel extends BaseModel <Posts_Share>{
                 'posts_share.date as shared_date',
                 'posts.id as original_post_id',
                 'posts.id_profile as original_profile_id',
+                'posts.description as original_description',
                 'posts.content as original_content',
                 'posts.date as original_date',
                 'owner_person.first_name as owner_first_name',
@@ -71,8 +72,10 @@ export class PostShareModel extends BaseModel <Posts_Share>{
             post_original: {
                 id: row.original_post_id,
                 id_profile: row.original_profile_id,
+                description: row.original_description,
                 content: row.original_content,
                 date: row.original_date
+
             },
             owner_name: `${row.owner_first_name} ${row.owner_last_name}`,
             sharer_name: `${row.sharer_first_name} ${row.sharer_last_name}`
