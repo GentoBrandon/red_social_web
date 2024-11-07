@@ -51,7 +51,6 @@ export default function Sidebar() {
           setFriends(response.data.friends);
           setLoading(false);
         } catch (error) {
-          console.error("Error al obtener los amigos:", error);
           setLoading(false);
         }
       };
@@ -95,8 +94,11 @@ import { Button } from "@/components/ui/button";
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import ChatWindow from '../../components/chatWindow/ChatWindow';
 import styles from '../../styles/Profile/FriendList.module.css';
+import style from "../../styles/Publication.module.css";
 import { fetchProfileId } from "@/services/IdProfile";
 import { Routes_friend } from '../../routes/apiRoutes';
+import { ScrollArea } from "@/components/ui/scroll-area"
+
 
 interface Friend {
   friend_id: number;
@@ -152,7 +154,8 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className={`w-64 h-full bg-gray-800 text-white flex flex-col p-4 fixed top-16 right-0 ${styles.sideBar}`}>
+    <aside className={`w-64 h-full bg-gray-800 text-white flex flex-col p-4 fixed top-16 right-0 ${style.sideBar}`}>
+       <ScrollArea className="h-72 w-48 rounded-md border">
       <div className={styles.friendsContainerSide}>
         {loading ? (
           <p>Cargando amigos...</p>
@@ -172,6 +175,7 @@ export default function Sidebar() {
           <p>No se encontraron amigos.</p>
         )}
       </div>
+      </ScrollArea>
       
       {activeChat && (
         <ChatWindow

@@ -17,6 +17,8 @@ import { Separator } from "@/components/ui/separator";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import { FaEdit } from "react-icons/fa";
+import { Routes_Post } from "@/routes/apiRoutes";
 
 interface PostData {
   id: number;
@@ -35,7 +37,7 @@ function EditPostDialog({ postId, idProfile }: { postId: number | null; idProfil
   const loadPostData = async () => {
     if (postId) {
       try {
-        const response = await axios.get(`http://localhost:5000/api/posts/get-id-post/${postId}`);
+        const response = await axios.get(`${Routes_Post.GET_POST_ID}${postId}`);
         setPost(response.data);
         setIsDialogOpen(true); // Abrir el diálogo después de cargar datos
       } catch (error) {
@@ -66,7 +68,7 @@ function EditPostDialog({ postId, idProfile }: { postId: number | null; idProfil
       };
       console.log("Payload:", payload);
       await axios.put(
-        `http://localhost:5000/api/posts/update-post/${postId}`, payload,
+        `${Routes_Post.UPDATE_POST}${postId}`, payload,
         { withCredentials: true }
       );
 
@@ -81,7 +83,7 @@ function EditPostDialog({ postId, idProfile }: { postId: number | null; idProfil
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="link" onClick={loadPostData}>
-          Editar publicación
+          Editar publicación <FaEdit />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

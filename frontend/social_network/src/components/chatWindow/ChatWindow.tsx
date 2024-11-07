@@ -160,7 +160,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ profileId, friendId, friendName
     return (
         <div className={styles.chatWindow}>
             <div className={styles.chatHeader}>
-                <span>Chat con {friendName}</span>
+                <span>{friendName}</span>
                 <button onClick={onClose} className={styles.closeButton}>X</button>
             </div>
             <div className={styles.messagesContainer}>
