@@ -23,13 +23,37 @@ const PostCard: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [idProfile, setIdProfile] = useState<number | null>(null);
 
-  // Cambia el estado de "Me gusta" en el post específico
-  const toggleLike = (postId: number) => {
-    setPosts((prevPosts) =>
-      prevPosts.map((post) =>
-        post.id === postId ? { ...post, isLiked: !post.isLiked } : post
-      )
-    );
+  // Función para alternar la reacción (like/unlike) en el post específico
+  const toggleLike = async (postId: number) => {
+    const post = posts.find((p) => p.id === postId);
+    if (!post || idProfile === null) return;
+
+    const url = post.isLiked
+      ? `http://localhost:5000/api/post-reactions/delete-reaction/${postId}/${idProfile}`
+      : `http://localhost:5000/api/post-reactions/insert-reaction`;
+
+    try {
+      if (post.isLiked) {
+        // DELETE request to remove reaction
+        await axios.delete(url);
+      } else {
+        // POST request to add reaction
+        await axios.post(url, {
+          id_profile: idProfile,
+          id_post: postId,
+          reactions: true,
+        });
+      }
+
+      // Update local state to reflect the new like status
+      setPosts((prevPosts) =>
+        prevPosts.map((p) =>
+          p.id === postId ? { ...p, isLiked: !p.isLiked } : p
+        )
+      );
+    } catch (error) {
+      console.error("Error al actualizar la reacción:", error);
+    }
   };
 
   useEffect(() => {
@@ -42,7 +66,7 @@ const PostCard: React.FC = () => {
           const response = await axios.get(`http://localhost:5000/api/posts/get-all-post-profile/${id}`);
           const postsWithLikes = response.data.map((post: Post) => ({
             ...post,
-            isLiked: false,
+            isLiked: false, // Suponemos que false inicialmente; puedes cargar el estado real si está disponible
           }));
           setPosts(postsWithLikes);
         }
@@ -67,6 +91,7 @@ const PostCard: React.FC = () => {
           </div>
           <Separator />
           <div className={styles["options"]}>
+            //Revisar la funcionalidad de reacción en el post
             <button
               className={`${styles["like-button"]} ${post.isLiked ? styles["liked"] : ""}`}
               onClick={() => toggleLike(post.id)}
