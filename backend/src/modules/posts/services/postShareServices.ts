@@ -1,5 +1,5 @@
 import { Posts_Share, PostShareModel } from '../models/postShareModel';
-
+import { ProfileModel } from '../../profile/models/profileModel';
 export default class PostShareServices {
   static async createPostShareService(post_share: Posts_Share) {
     try {
@@ -11,7 +11,7 @@ export default class PostShareServices {
       }
       return {
         success: true,
-        data: resultPostShare[0],
+        data: resultPostShare,
       };
     } catch (error) {
       throw {
@@ -105,6 +105,24 @@ export default class PostShareServices {
         message: (error as Error).message,
         stack: (error as Error).stack,
       };
+    }
+  }
+  static async getAllPostsShareAndPostOriginalByProfileIdService(id_profile: number) {
+    try {
+
+      const result = await PostShareModel.getAllPostsShareAndPostOriginalByProfileId(id_profile);
+      if (result.length === 0) {
+        return {
+          success: false,
+          data : []
+        }
+      }
+      return {
+        success: true,
+        data: result
+      }
+    } catch (error) {
+      
     }
   }
 }
