@@ -55,4 +55,57 @@ export class PostComentsModel extends BaseModel<PostComments> {
       .orderBy('post_comments.date', 'desc');
     return comments;
   }
+
+  // En PostCommentsModel.ts
+
+  static async getPostWithComments(idPost: number): Promise<{
+    post_id: number;
+    post_owner_first_name: string;
+    post_owner_last_name: string;
+    post_content: string;
+    post_description: string;
+    comments: {
+      first_name: string;
+      last_name: string;
+      comment: string;
+      date: string;
+    }[];
+  }> {
+    // Obtener los datos del post y el dueño del post
+    const postData = await db('posts')
+      .join('profiles', 'posts.id_profile', '=', 'profiles.id')
+      .join('persons', 'profiles.person_id', '=', 'persons.id')
+      .where('posts.id', idPost)
+      .select(
+        'posts.id as post_id',
+        'persons.first_name as post_owner_first_name',
+        'persons.last_name as post_owner_last_name',
+        'posts.content as post_content',
+        'posts.description as post_description',
+      )
+      .first();
+
+    if (!postData) {
+      throw new Error('Post not found');
+    }
+
+    // Obtener los comentarios relacionados con el post
+    const comments = await db('post_comments')
+      .join('profiles', 'post_comments.id_profile', '=', 'profiles.id')
+      .join('persons', 'profiles.person_id', '=', 'persons.id')
+      .where('post_comments.id_post', idPost)
+      .select(
+        'persons.first_name',
+        'persons.last_name',
+        'post_comments.comment',
+        'post_comments.date',
+      )
+      .orderBy('post_comments.date', 'desc'); // Ordenar por fecha en orden descendente
+
+    // Combinar los datos del post con los comentarios en un solo objeto
+    return {
+      ...postData,
+      comments: comments,
+    };
+  }
 }

@@ -104,4 +104,34 @@ export default class PostComentsController {
       next(error);
     }
   }
+
+  static async getPostWithCommentsController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const idPost = Number(req.params.idPost);
+
+      // Validación del parámetro idPost
+      if (isNaN(idPost)) {
+        throw new CustomError('Invalid post ID', 400);
+      }
+
+      // Llamada al servicio
+      const result = await PostCommentsService.getPostWithComments(idPost);
+
+      // Manejo del resultado
+      if (!result.success) {
+        throw new CustomError(result.message || 'Post not found', 404);
+      }
+
+      res.status(200).json({
+        success: true,
+        data: result.data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
