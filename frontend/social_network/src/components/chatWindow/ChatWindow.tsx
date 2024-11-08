@@ -129,7 +129,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ profileId, friendId, friendName
         if (!socket) return;
 
         // Emitir evento de registro del usuario al componente
-        socket.emit('register', { data: profileId });
+       
 
         // Definir el nombre de la sala basado en los IDs en orden
         const roomName = profileId < friendId ? `room-${profileId}-${friendId}` : `room-${friendId}-${profileId}`;
