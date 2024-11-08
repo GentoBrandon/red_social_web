@@ -1,4 +1,3 @@
-import postReactionService from '../services/postReactionService';
 import { Request, Response, NextFunction } from 'express';
 import CustomError from '../../../utils/customError';
 import PostReactionService from '../services/postReactionService';
@@ -12,7 +11,7 @@ export default class PostReactionsController {
       const { id, idProfile } = req.params;
       const idDel = parseInt(id);
       const idDelProfile = parseInt(idProfile);
-      const resultDelete = await postReactionService.deleteReactionsIdProfile(
+      const resultDelete = await PostReactionService.deleteReactionsIdProfile(
         idDel,
         idDelProfile,
       );
@@ -52,14 +51,17 @@ export default class PostReactionsController {
     next: NextFunction,
   ): Promise<void> {
     try {
-        const { idPost } = req.params;
-        const countIdPost = parseInt(idPost, 10);
-        const resultCount = await PostReactionService.countReactionsAllServices(countIdPost);
-        if(!resultCount.success) {
-            const error = new CustomError('Error counting reactions', 400);
-            throw error;
-        }
-        res.status(200).json(resultCount.data);
-    } catch (error) {}
+      const { idPost } = req.params;
+      const countIdPost = parseInt(idPost, 10);
+      const resultCount =
+        await PostReactionService.countReactionsAllServices(countIdPost);
+      if (!resultCount.success) {
+        const error = new CustomError('Error counting reactions', 400);
+        throw error;
+      }
+      res.status(200).json(resultCount.data);
+    } catch (error) {
+      next(error);
+    }
   }
 }

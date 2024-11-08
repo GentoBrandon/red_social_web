@@ -30,7 +30,8 @@ export default class PostReactionService {
   }
   static async insertReactionsPostService(postReactions: PostReactions) {
     try {
-      const resultInsert = await PostReactionsModel.insertPostsReactions(postReactions);
+      const resultInsert =
+        await PostReactionsModel.insertPostsReactions(postReactions);
       if (!resultInsert) {
         return {
           success: false,
@@ -48,18 +49,18 @@ export default class PostReactionService {
     }
   }
 
-  static async countReactionsAllServices(idPost: number){
+  static async countReactionsAllServices(idPost: number) {
     try {
       const resultCount = await PostReactionsModel.countReactionsAll(idPost);
       return {
         success: true,
-        data: resultCount
-      }
+        data: resultCount,
+      };
     } catch (error) {
-      throw{
+      throw {
         message: (error as Error).message,
         stack: (error as Error).stack,
-      }
+      };
     }
   }
 }

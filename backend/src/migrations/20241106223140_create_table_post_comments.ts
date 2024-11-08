@@ -1,13 +1,13 @@
 import type { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
-  const exist = await knex.schema.hasTable('posts_share');
+  const exist = await knex.schema.hasTable('post_comments');
   if (!exist) {
-    await knex.schema.createTable('posts_share', (table) => {
+    await knex.schema.createTable('post_comments', (table) => {
       table.increments('id').primary();
       table.integer('id_profile').unsigned().notNullable();
       table.integer('id_post').unsigned().notNullable();
-      table.string('description');
+      table.string('comment');
       table.timestamp('date').defaultTo(knex.fn.now());
       table
         .foreign('id_profile')
@@ -24,8 +24,8 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-  const exist = await knex.schema.hasTable('posts_share');
+  const exist = await knex.schema.hasTable('post_comments');
   if (exist) {
-    await knex.schema.dropTable('posts_share');
+    await knex.schema.dropTable('post_comments');
   }
 }
