@@ -21,12 +21,6 @@ router.get(
   '/get-status-friends/:id1/:id2',
   RequestFriendController.getStatusFriend,
 );
-<<<<<<< HEAD
 router.get('/get-requests-friend/:id', RequestFriendController.getRequestById);
 router.get('/get-received-friend/:id',RequestFriendController.getReceibedRequest)
-=======
-
-router.get('/friends/search/:id', RequestFriendController.searchFriendsByName);
-
->>>>>>> origin/apis
 export default router;
