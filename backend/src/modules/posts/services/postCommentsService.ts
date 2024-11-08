@@ -107,4 +107,29 @@ export default class PostCommentsService {
       };
     }
   }
+
+  static async getPostWithComments(idPost: number) {
+    try {
+      const postWithComments =
+        await PostComentsModel.getPostWithComments(idPost);
+
+      // Validación si no se encuentra el post
+      if (!postWithComments) {
+        return {
+          success: false,
+          message: 'Post not found',
+        };
+      }
+
+      return {
+        success: true,
+        data: postWithComments,
+      };
+    } catch (error) {
+      throw {
+        message: 'Error retrieving post with comments',
+        stack: (error as Error).stack,
+      };
+    }
+  }
 }
