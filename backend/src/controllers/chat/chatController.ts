@@ -134,9 +134,10 @@ export default function chatController(socket: Socket, io: Server, knex: Knex) {
             // Notificar al amigo si está en línea y el chat no está abierto
        // Verificar si el amigo está conectado y enviar una notificación
        const friendSocketId = onlineUsers.get(friendId);
-       if (friendSocketId) {
-           io.to(friendSocketId).emit('notification', { senderId: userId });
-       }
+        if (friendSocketId && friendSocketId !== socket.id) { 
+            console.log(`Enviando notificación al amigo con Socket ID: ${friendSocketId}`);
+            io.to(friendSocketId).emit('notification', { senderId: userId });
+        }
         } catch (error) {
             console.error('Error sending message:', error);
         }
