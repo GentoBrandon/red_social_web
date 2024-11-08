@@ -108,13 +108,13 @@ export default class PostShareController {
     }
   }
 
-  static async getAllPostsShareAndPostOriginalByProfileIdController(req:Request,res: Response, next: NextFunction){
+  static async getAllPostsShareAndPostOriginalByProfileIdController(req:Request,res: Response, next: NextFunction): Promise<void>{
     try {
       const {id} = req.params
       const id_profile = parseInt(id);
       const result = await postshareServices.getAllPostsShareAndPostOriginalByProfileIdService(id_profile);
       if(!result.success){
-        return res.json([])
+       res.json([])
       }
       res.status(200).json(result.data)
     } catch (error) {
