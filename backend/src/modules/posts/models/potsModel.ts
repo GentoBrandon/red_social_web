@@ -25,8 +25,16 @@ export class PostsModel extends BaseModel<Posts> {
   
 
  
-  static async getPostsId(id: number): Promise<Posts> {
-    return await this.postsModelInstance.find(id);
+  static async getPostsId(id: number): Promise<any[]> {
+    const result = await db(this.postsModelInstance.table)
+    .join('profiles', 'posts.id_profile', '=', 'profiles.id')
+    .join('persons', 'profiles.person_id', '=', 'persons.id')
+    .select('posts.*','persons.first_name as name_person','persons.last_name as last_name_person')
+    .where('posts.id',id);
+    if(!result){
+      return []
+    }
+    return result
   }
 
   
@@ -137,5 +145,5 @@ export class PostsModel extends BaseModel<Posts> {
       return Object.values(groupedResult);
   }
   
-  
+   
   }
