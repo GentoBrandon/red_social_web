@@ -50,4 +50,78 @@ export class RequestFriendModel extends BaseModel<RequestFriend> {
 
     return result;
   }
+
+  static async searchFriendsByName(
+    profileId: number,
+    name: string,
+  ): Promise<
+    {
+      profile_id: number;
+      first_name: string;
+      last_name: string;
+      friend_status: string;
+    }[]
+  > {
+    const friends = await db('request_friends')
+      .distinct(
+        db.raw(
+          'CASE WHEN requester.id = ? THEN responder.id ELSE requester.id END as profile_id',
+          [profileId],
+        ),
+        db.raw(
+          'CASE WHEN requester.id = ? THEN responder_person.first_name ELSE requester_person.first_name END as first_name',
+          [profileId],
+        ),
+        db.raw(
+          'CASE WHEN requester.id = ? THEN responder_person.last_name ELSE requester_person.last_name END as last_name',
+          [profileId],
+        ),
+        'friends_status.name_status as friend_status',
+      )
+      .join(
+        'profiles as requester',
+        'request_friends.id_profile_request',
+        '=',
+        'requester.id',
+      )
+      .join(
+        'profiles as responder',
+        'request_friends.id_profile_response',
+        '=',
+        'responder.id',
+      )
+      .join(
+        'persons as requester_person',
+        'requester.person_id',
+        '=',
+        'requester_person.id',
+      )
+      .join(
+        'persons as responder_person',
+        'responder.person_id',
+        '=',
+        'responder_person.id',
+      )
+      .join(
+        'friends_status',
+        'request_friends.id_status',
+        '=',
+        'friends_status.id',
+      )
+      .where(function () {
+        this.where('requester.id', profileId).orWhere(
+          'responder.id',
+          profileId,
+        );
+      })
+      .andWhere('friends_status.id', '=', 1) // Filtra solo amigos confirmados
+      .andWhere(function () {
+        this.where('requester_person.first_name', 'ilike', `%${name}%`)
+          .orWhere('requester_person.last_name', 'ilike', `%${name}%`)
+          .orWhere('responder_person.first_name', 'ilike', `%${name}%`)
+          .orWhere('responder_person.last_name', 'ilike', `%${name}%`);
+      });
+
+    return friends;
+  }
 }

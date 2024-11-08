@@ -108,4 +108,39 @@ export default class RequestFriendController {
       next(error);
     }
   }
+
+  static async searchFriendsByName(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const profileId = parseInt(req.params.id);
+      const name = req.query.name as string;
+
+      // Validación de parámetros
+      if (isNaN(profileId) || !name) {
+        throw new CustomError(
+          'Invalid profile ID or missing name parameter',
+          400,
+        );
+      }
+
+      const result = await RequestFriendService.searchFriendsByName(
+        profileId,
+        name,
+      );
+
+      if (!result.success) {
+        throw new CustomError(result.message || 'No friends found', 404);
+      }
+
+      res.status(200).json({
+        success: true,
+        friends: result.data,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

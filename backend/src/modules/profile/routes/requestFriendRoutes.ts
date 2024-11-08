@@ -17,4 +17,7 @@ router.get(
   '/get-friends-by-name/:id',
   RequestFriendController.getFriendsByProfileId,
 );
+
+router.get('/friends/search/:id', RequestFriendController.searchFriendsByName);
+
 export default router;

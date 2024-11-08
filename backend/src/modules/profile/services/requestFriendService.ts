@@ -146,4 +146,27 @@ export default class RequestFriendService {
       };
     }
   }
+
+  static async searchFriendsByName(profileId: number, name: string) {
+    try {
+      const friends = await RequestFriendModel.searchFriendsByName(
+        profileId,
+        name,
+      );
+
+      if (friends.length === 0) {
+        return { success: false, message: 'No friends found.' };
+      }
+
+      return {
+        success: true,
+        data: friends,
+      };
+    } catch (error) {
+      throw {
+        message: 'Error searching friends by name.',
+        stack: (error as Error).stack,
+      };
+    }
+  }
 }
