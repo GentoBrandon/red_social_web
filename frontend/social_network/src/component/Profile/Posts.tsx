@@ -12,6 +12,7 @@ import { fetchProfileId } from "@/services/IdProfile";
 import Options from "@/component/Posts/DeletePosts"; // Componente mejorado con menú de opciones
 import SharePosts from "@/component/Posts/SharePosts";
 import CommentPosts from "../Posts/CommentPosts";
+import ViewCommentPosts from "../Posts/ViewCommentPost";
 
 interface Post {
   id: number;
@@ -106,12 +107,12 @@ const PostCard: React.FC = () => {
               <FaHeart />
               {post.isLiked ? " Liked" : " Like"}
             </button>
-            <Button variant="link"><BsChatDots /> Comentar</Button>
+            <ViewCommentPosts postId={post.id} idProfile={idProfile} />
             <SharePosts postId={post.id} idProfile={idProfile}/>
             <Options idProfile={idProfile} idPostSelect={post.id} />
           </div>
           <Separator />
-          <CommentPosts id_post={post.id} id_profile={idProfile}/>
+          <CommentPosts id_post={post.id} id_profile={idProfile} />
         </div>
       ))}
     </div>
