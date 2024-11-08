@@ -19,8 +19,13 @@ export default function chatController(socket: Socket, io: Server, knex: Knex) {
                 socketId: socket.id
             });
 
+            // Enviar el estado de conexión de todos los usuarios en línea al nuevo usuario
+            onlineUsers.forEach((_, id) => {
+                io.to(socket.id).emit('user status', { userId: id, status: 'online' });
+            });
             // Notificar a los amigos conectados del usuario
-            io.emit('user status', { userId, status: 'online' });
+             // Notificar a todos los demás usuarios que este usuario está en línea
+             io.emit('user status', { userId, status: 'online' });
         } else {
             console.error('Error: Missing userId in register event');
         }
