@@ -9,7 +9,7 @@ import { BsSend } from "react-icons/bs";
 import { BsChatDots } from "react-icons/bs";
 import axios from "axios";
 import { fetchProfileId } from "@/services/IdProfile";
-import Options from "@/component/Posts/DeletePosts"; // Componente mejorado con menú de opciones
+import Options from "@/component/Posts/DeletePosts";
 import SharePosts from "@/component/Posts/SharePosts";
 
 interface SharedPost {
@@ -26,6 +26,7 @@ interface SharedPost {
     description: string;
     content: string;
     date: string;
+    isLiked?: boolean;
   };
   owner_name: string;
   sharer_name: string;
@@ -47,10 +48,8 @@ const PostCard: React.FC = () => {
 
     try {
       if (isLiked) {
-        // DELETE request to remove reaction
         await axios.delete(url);
       } else {
-        // POST request to add reaction
         await axios.post(url, {
           id_profile: idProfile,
           id_post: postId,
@@ -76,24 +75,32 @@ const PostCard: React.FC = () => {
     const fetchAndSetProfileData = async () => {
       try {
         const id = await fetchProfileId();
+        console.log("ID del perfil:", id);
         setIdProfile(id);
 
         if (id) {
+          // Llama a la API de posts compartidos
           const response = await axios.get(`http://localhost:5000/api/post-share/get-all-post-shared-original/${id}`);
-          setSharedPosts(
-            response.data.map((item: SharedPost) => ({
-              ...item,
-              post_original: { ...item.post_original, isLiked: false }, // Assuming false initially
-            }))
-          );
+          
+          // Mapea los datos solo si la respuesta está definida y es un array
+          if (response.data && Array.isArray(response.data)) {
+            setSharedPosts(
+              response.data.map((item: SharedPost) => ({
+                ...item,
+                post_original: { ...item.post_original, isLiked: false }, // Inicializa `isLiked` en falso
+              }))
+            );
+          } else {
+            console.error("Error: Estructura de datos no válida en la respuesta de la API.");
+          }
         }
       } catch (error) {
-        console.error("Error al obtener los datos de los posts compartidos:", error);
       }
     };
 
     fetchAndSetProfileData();
   }, []);
+
 
   return (
     <div>
@@ -138,7 +145,7 @@ const PostCard: React.FC = () => {
               <Button variant="link"><BsChatDots /> Comentar</Button>
               <SharePosts postId={sharedPost.post_original.id} idProfile={idProfile}/>
               <Options idProfile={idProfile} idPostSelect={sharedPost.post_original.id} />
-            </div>
+          </div>
         </div>
       ))}
     </div>

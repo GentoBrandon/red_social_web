@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../../styles/Profile/ProfileActions.module.css';
 import style from '../../styles/Profile/ProfileHeader.module.css';
 import axios from 'axios';
-import { API_ROUTES } from '../../routes/apiRoutes';
+import { API_ROUTES, Routes_friend } from '../../routes/apiRoutes';
 
 interface Profile {
   id: number;
@@ -12,6 +12,9 @@ interface Profile {
   birth_date: string;
   email: string;
 }
+interface Friend {
+
+}
 
 function ProfileActions() {
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -19,6 +22,7 @@ function ProfileActions() {
   const fetchProfile = async (): Promise<void> => {
     try {
       const response = await axios.get(API_ROUTES.DASHBOARD, { withCredentials: true });
+      // const CountFriend = await axios.get(Routes_friend.GET_FRIEND_COUNT, { withCredentials: true });
       const profileData = response.data.person; // Asegúrate de acceder a 'person' dentro de 'data'
       setProfile(profileData);
     } catch (error) {
