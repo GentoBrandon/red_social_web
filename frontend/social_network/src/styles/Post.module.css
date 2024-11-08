@@ -91,4 +91,54 @@
     display: flex;
     gap: 5px;
   }
-  
+/* Estilos para la sección de comentarios en el diálogo */
+.comments-section {
+  height: 250px; /* Altura limitada para el área de desplazamiento */
+  overflow-y: auto; /* Habilita desplazamiento vertical */
+  padding-right: 8px; /* Espacio adicional para evitar que el contenido se corte */
+  margin-bottom: 8px; /* Espacio inferior para separación visual */
+}
+
+/* Estilos para cada tarjeta de comentario individual */
+.comment-card {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  margin-bottom: 8px;
+  background-color: #f9f9f9; /* Fondo sutil para resaltar los comentarios */
+  border-radius: 8px; /* Bordes redondeados para un aspecto limpio */
+}
+
+/* Encabezado del comentario que incluye nombre e imagen */
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.comment-card img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.comment-header h4 {
+  font-size: 15px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.comment-header p {
+  font-size: 12px;
+  color: #777; /* Color de texto sutil para la fecha */
+  margin-left: auto; /* Alinea la fecha a la derecha */
+}
+
+/* Cuerpo del comentario */
+.comment-card p {
+  font-size: 14px;
+  margin-top: 4px;
+  line-height: 1.4;
+}
