@@ -18,47 +18,14 @@ export default function chatController(socket: Socket, io: Server, knex: Knex) {
                 userId: userId,
                 socketId: socket.id
             });
+
+            // Notificar a los amigos conectados del usuario
+            io.emit('user status', { userId, status: 'online' });
         } else {
             console.error('Error: Missing userId in register event');
         }
     });
-    /*
-    // Evento `join room` para unirse a una sala específica
-    socket.on('join room', async (data) => {
-        try {
-            const { roomName, userId } = data.data;
-
-            if (!roomName || !userId) {
-                console.error('Error: roomName or userId is missing in join room event');
-                socket.emit('error', { message: 'Room name and User ID are required' });
-                return;
-            }
-
-            let roomId;
-            let room = await knex('rooms').where({ name: roomName }).first();
-            if (!room) {
-                const resultInsert = await knex('rooms').insert({ name: roomName }).returning('id');
-                roomId = resultInsert[0].id;
-            } else {
-                roomId = room.id;
-            }
-
-            const member = await knex('room_members').where({ room_id: roomId, profile_id: userId }).first();
-            if (!member) {
-                await knex('room_members').insert({ room_id: roomId, profile_id: userId });
-            }
-
-            // Únete a la sala de Socket.IO
-            socket.join(roomId.toString());
-            console.log(`User ${userId} joined room "${roomName}" with ID ${roomId}`);
-
-            // Cargar historial de mensajes de la sala
-            const messages = await knex('messages').where({ room_id: roomId }).orderBy('created', 'asc');
-            socket.emit('load messages', messages);
-        } catch (error) {
-            console.error('Error joining room:', error);
-        }
-    });*/
+    
     socket.on('join room', async (data) => {
         try {
             const { roomName, userId, friendId } = data.data;
@@ -191,6 +158,7 @@ export default function chatController(socket: Socket, io: Server, knex: Knex) {
             if (socketId === socket.id) {
                 onlineUsers.delete(userId);
                 console.log(`User ${userId} disconnected`);
+                io.emit('user status', { userId, status: 'offline' });
                 break;
             }
         }

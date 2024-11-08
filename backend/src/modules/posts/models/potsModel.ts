@@ -51,6 +51,7 @@ export class PostsModel extends BaseModel<Posts> {
       .join('persons', 'profiles.person_id', '=', 'persons.id')
       .select('posts.*','persons.first_name as name_person','persons.last_name as last_name_person')
       .where('posts.id_profile',id)
+      .orderBy('posts.date', 'asc');
 
       if(!result){
         return 0
