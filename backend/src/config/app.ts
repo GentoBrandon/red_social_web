@@ -8,6 +8,7 @@ import userRoutes from '../modules/person/routes/userRoutes';
 import postsRoutes from '../modules/posts/routes/postRoutes';
 import postShareRoutes from '../modules/posts/routes/postShareRoutes';
 import postReactionsRoutes from '../modules/posts/routes/postReactionsRoutes';
+import postComentsRoutes from '../modules/posts/routes/postComentsRoutes';
 import cookieParser from 'cookie-parser';
 import dbConfig from './dbConfig'; // Importa tu instancia de Knex
 import SocketController from '../controllers/socket/socketIoController';
@@ -60,7 +61,8 @@ class App {
     this.app.use('/api/friend', friendRoutes);
     this.app.use('/api/posts/', postsRoutes);
     this.app.use('/api/post-share', postShareRoutes);
-    this.app.use('/api/post-reactions',postReactionsRoutes)
+    this.app.use('/api/post-reactions', postReactionsRoutes);
+    this.app.use('/api/post-comments', postComentsRoutes);
   }
   private middlewares(): void {
     this.app.use(erroHandling);
