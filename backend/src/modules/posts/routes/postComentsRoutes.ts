@@ -15,6 +15,6 @@ routes.get(
 );
 routes.get(
   '/coments-post/:idPost',
-  PostComentsController.getCommentsByPostController,
+  PostComentsController.getPostWithCommentsController,
 );
 export default routes;
