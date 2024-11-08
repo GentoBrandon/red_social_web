@@ -48,4 +48,15 @@ export class PostReactionsModel extends BaseModel<PostReactions> {
     // Convertir el valor a número ya que nos devuelve en un string
     return Number(count);
   }
+
+  // En PostReactionsModel.ts
+  static async getReactionByProfileAndPost(
+    id_profile: number,
+    id_post: number,
+  ): Promise<PostReactions | null> {
+    const reaction = await db('post_reactions')
+      .where({ id_profile, id_post })
+      .first();
+    return reaction || null;
+  }
 }

@@ -49,26 +49,5 @@ export class RequestFriendModel extends BaseModel<RequestFriend> {
       );
 
     return result;
-    /*const query = `
-    SELECT 
-      pr_request.first_name AS requester_first_name,
-      pr_request.last_name AS requester_last_name,
-      pr_response.first_name AS responder_first_name,
-      pr_response.last_name AS responder_last_name
-    FROM 
-      request_friends rf
-    JOIN 
-      profiles p_request ON rf.id_profile_request = p_request.id
-    JOIN 
-      persons pr_request ON p_request.person_id = pr_request.id
-    JOIN 
-      profiles p_response ON rf.id_profile_response = p_response.id
-    JOIN 
-      persons pr_response ON p_response.person_id = pr_response.id
-    WHERE 
-      rf.id_profile_request = ${id} OR rf.id_profile_response = ${id};
-  `
-  const result = await db.raw(query);
-  return result.rows || [];*/
   }
 }

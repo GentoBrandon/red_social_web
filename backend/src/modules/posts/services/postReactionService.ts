@@ -63,4 +63,30 @@ export default class PostReactionService {
       };
     }
   }
+  // En PostReactionsService.ts
+  static async getReactionByProfileAndPost(
+    id_profile: number,
+    id_post: number,
+  ) {
+    try {
+      const resultData = await PostReactionsModel.getReactionByProfileAndPost(
+        id_profile,
+        id_post,
+      );
+      if (!resultData) {
+        return {
+          success: false,
+        };
+      }
+      return {
+        success: true,
+        data: resultData,
+      };
+    } catch (error) {
+      throw {
+        message: (error as Error).message,
+        stack: (error as Error).stack,
+      };
+    }
+  }
 }

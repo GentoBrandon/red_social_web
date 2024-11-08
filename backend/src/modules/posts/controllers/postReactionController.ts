@@ -64,4 +64,30 @@ export default class PostReactionsController {
       next(error);
     }
   }
+
+  static async getReactionByProfileAndPost(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
+    try {
+      const { id_profile, id_post } = req.params;
+      const reaction = await PostReactionService.getReactionByProfileAndPost(
+        Number(id_profile),
+        Number(id_post),
+      );
+
+      if (!reaction.success) {
+        const error = new CustomError('Error getting reaction status', 400);
+        throw error;
+      }
+
+      res.status(200).json({
+        success: true,
+        data: reaction,
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
