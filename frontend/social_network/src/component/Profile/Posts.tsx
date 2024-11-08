@@ -11,12 +11,14 @@ import axios from "axios";
 import { fetchProfileId } from "@/services/IdProfile";
 import Options from "@/component/Posts/DeletePosts"; // Componente mejorado con menú de opciones
 import SharePosts from "@/component/Posts/SharePosts";
+import CommentPosts from "../Posts/CommentPosts";
 
 interface Post {
   id: number;
   description: string;
   content: string;
   date: string;
+  name_person: string;
   isLiked: boolean;
 }
 
@@ -86,7 +88,7 @@ const PostCard: React.FC = () => {
             <div className={styles["profile-info"]}>
               <img src="/avatar.png" alt="Profile" className={styles["profile-image"]} />
               <div className={styles["author-info"]}>
-                <h3 className={styles["post-author"]}>Brandon Gento</h3>
+                <h3 className={styles["post-author"]}>{post.name_person}</h3>
                 <p className={styles["postDate"]}>{new Date(post.date).toLocaleDateString()}</p>
               </div>
             </div>
@@ -109,6 +111,7 @@ const PostCard: React.FC = () => {
             <Options idProfile={idProfile} idPostSelect={post.id} />
           </div>
           <Separator />
+          <CommentPosts id_post={post.id} id_profile={idProfile}/>
         </div>
       ))}
     </div>

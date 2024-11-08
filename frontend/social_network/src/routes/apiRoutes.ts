@@ -27,7 +27,8 @@ export const Routes_friend = {
     CREATE_REQUEST: `${API_BASE_URL}${ROUTES.RequestFriend}/create-request-friend`, //Crear solicitud de amistad
     ACCEPTED_FRIEND: `${API_BASE_URL}${ROUTES.RequestFriend}/accepted-friend/`, //Aceptar solicitud de amistad
     DELETE_REQUEST_1ID: `${API_BASE_URL}${ROUTES.RequestFriend}/reject-friend/`, // Rechazar solicitud de amistad
-    GET_FRIENDS_LIST: `${API_BASE_URL}${ROUTES.RequestFriend}/get-friends-commons-friends/` //obtener amigos
+    GET_FRIENDS_LIST: `${API_BASE_URL}${ROUTES.RequestFriend}/get-friends-commons-friends/`, //obtener amigos em común
+    GET_FRIEND_COUNT: `${API_BASE_URL}${ROUTES.RequestFriend}/get-requests-friend/`//obtener cantidad de amigos
 }
 
 export const Routes_Post = {

@@ -1,3 +1,4 @@
+'use client';
 
 /*
 import { useState, useEffect } from 'react';
@@ -48,7 +49,6 @@ export default function Sidebar() {
           setFriends(response.data.friends);
           setLoading(false);
         } catch (error) {
-          console.error("Error al obtener los amigos:", error);
           setLoading(false);
         }
       };
@@ -114,6 +114,9 @@ import { fetchProfileId } from "@/services/IdProfile";
 import { Routes_friend } from '../../routes/apiRoutes';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useSocket } from '../../context/SocketContext'; // Importa el contexto de WebSocket
+import { toast } from "nextjs-toast-notify";
+import "nextjs-toast-notify/dist/nextjs-toast-notify.css";
+
 
 interface Friend {
   friend_id: number;
@@ -175,7 +178,14 @@ export default function Sidebar({ notifications }: SidebarProps) {
     if (socket) {
       socket.on('notification', (data: { senderId: number }) => {
           if (data.senderId && data.senderId !== idProfile) {
-              alert(`Tu amigo con ID ${data.senderId} te ha enviado un mensaje.`);
+              toast.info(`Tu amigo con ID ${data.senderId} te ha enviado un mensaje.`, {
+                duration: 1500,
+                progress: true,
+                position: "top-right",
+                transition: "bounceIn",
+                icon: '<img width="48" height="48" src="https://img.icons8.com/color/48/message-group.png" alt="message-group"/>',
+                sonido: true,
+              });
           }
       });
   }
