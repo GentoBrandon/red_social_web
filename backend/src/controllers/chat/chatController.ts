@@ -131,6 +131,11 @@ export default function chatController(socket: Socket, io: Server, knex: Knex) {
             
             // Envía el mensaje a todos los usuarios de la sala, incluido el remitente
             io.to(roomId.toString()).emit('room message', message);
+            // Notificar al amigo si está en línea y el chat no está abierto
+        const friendSocketId = onlineUsers.get(userId === data.data.friendId ? data.data.userId : data.data.friendId);
+        if (friendSocketId) {
+            io.to(friendSocketId).emit('private message', { senderId: userId, content });
+        }
         } catch (error) {
             console.error('Error sending message:', error);
         }
