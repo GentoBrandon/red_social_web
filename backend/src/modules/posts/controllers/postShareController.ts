@@ -114,7 +114,8 @@ export default class PostShareController {
       const id_profile = parseInt(id);
       const result = await postshareServices.getAllPostsShareAndPostOriginalByProfileIdService(id_profile);
       if(!result.success){
-       res.json([])
+        const error = new CustomError('data empy',404);
+        throw error 
       }
       res.status(200).json(result.data)
     } catch (error) {
