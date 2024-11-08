@@ -68,11 +68,13 @@ export class PostsModel extends BaseModel<Posts> {
               'friend_person.last_name as friend_last_name',
               'posts.id as post_id',
               'posts.content as post_content',
+              'posts.description as post_description',
               'posts.date as post_date',
               'posts_share.id as post_share_id',
               'posts_share.description as post_share_description',
               'posts_share.date as post_share_date',
               'original_post.content as original_post_content',
+                'original_post.description as original_description',
               'original_post.date as original_post_date'
           )
           .where(function () {
@@ -105,6 +107,7 @@ export class PostsModel extends BaseModel<Posts> {
               acc[friendKey].posts.push({
                   id: row.post_id,
                   content: row.post_content,
+                  description: row.post_description,
                   date: row.post_date
               });
           }
@@ -116,6 +119,7 @@ export class PostsModel extends BaseModel<Posts> {
                   description: row.post_share_description,
                   date: row.post_share_date,
                   original_content: row.original_post_content,
+                  original_description: row.original_description,
                   original_date: row.original_post_date
               });
           }
