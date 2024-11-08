@@ -26,7 +26,10 @@ export class PostReactionsModel extends BaseModel<PostReactions> {
     return await this.postReactionInstance.find(id);
   }
 
-  static async deletePostsReactionsByProfile(id: number, idProfile: number): Promise<number> {
+  static async deletePostsReactionsByProfile(
+    id: number,
+    idProfile: number,
+  ): Promise<number> {
     const result = await db(this.postReactionInstance.table)
       .where({ id: id, id_profile: idProfile })
       .delete();
@@ -37,10 +40,23 @@ export class PostReactionsModel extends BaseModel<PostReactions> {
   }
 
   static async countReactionsAll(idPost: number): Promise<number> {
-    const resultCount = await db(this.postReactionInstance.table).where({id_post: idPost}).count('*'); 
+    const resultCount = await db(this.postReactionInstance.table)
+      .where({ id_post: idPost })
+      .count('*');
     // `resultCount` devuelve un array de objetos, necesitamos extraer el valor
     const count = resultCount[0]?.count ?? 0;
     // Convertir el valor a número ya que nos devuelve en un string
     return Number(count);
+  }
+
+  // En PostReactionsModel.ts
+  static async getReactionByProfileAndPost(
+    id_profile: number,
+    id_post: number,
+  ): Promise<PostReactions | null> {
+    const reaction = await db('post_reactions')
+      .where({ id_profile, id_post })
+      .first();
+    return reaction || null;
   }
 }
