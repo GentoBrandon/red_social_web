@@ -123,5 +123,25 @@
   right: 0;
 }
 
+/* FriendList.module.css */
+.onlineIndicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: green; /* Verde para conectado */
+  border-radius: 50%;
+  margin-left: 8px;
+}
+
+.offlineIndicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  background-color: red; /* Rojo para desconectado */
+  border-radius: 50%;
+  margin-left: 8px;
+}
+
+
 
   
