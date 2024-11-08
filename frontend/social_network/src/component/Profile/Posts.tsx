@@ -11,6 +11,7 @@ import axios from "axios";
 import { fetchProfileId } from "@/services/IdProfile";
 import Options from "@/component/Posts/DeletePosts"; // Componente mejorado con menú de opciones
 import SharePosts from "@/component/Posts/SharePosts";
+import CommentPosts from "../Posts/CommentPosts";
 
 interface Post {
   id: number;
@@ -110,6 +111,7 @@ const PostCard: React.FC = () => {
             <Options idProfile={idProfile} idPostSelect={post.id} />
           </div>
           <Separator />
+          <CommentPosts id_post={post.id} id_profile={idProfile}/>
         </div>
       ))}
     </div>
