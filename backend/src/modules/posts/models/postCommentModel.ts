@@ -64,6 +64,7 @@ export class PostComentsModel extends BaseModel<PostComments> {
     post_owner_last_name: string;
     post_content: string;
     post_description: string;
+    post_fecha: string;
     comments: {
       first_name: string;
       last_name: string;
@@ -82,6 +83,7 @@ export class PostComentsModel extends BaseModel<PostComments> {
         'persons.last_name as post_owner_last_name',
         'posts.content as post_content',
         'posts.description as post_description',
+        'posts.date as post_fecha'
       )
       .first();
 
