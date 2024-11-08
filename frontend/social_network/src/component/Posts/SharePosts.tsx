@@ -10,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
@@ -26,12 +25,14 @@ interface Post {
   description: string;
   content: string;
   date: string;
+  name_person: string;
+  last_name_person: string;
 }
 
 function SharePostDialog({ postId, idProfile }: { postId: number | null; idProfile: number | null }) {
   const router = useRouter();
   const [post, setPost] = useState<Post | null>(null);
-  const [shareDescription, setShareDescription] = useState(""); // Descripción adicional para el compartir
+  const [shareDescription, setShareDescription] = useState(""); 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   // Cargar datos de la publicación cuando se hace clic en el botón de "Compartir publicación"
@@ -39,8 +40,10 @@ function SharePostDialog({ postId, idProfile }: { postId: number | null; idProfi
     if (postId) {
       try {
         const response = await axios.get(`${Routes_Post.GET_POST_ID}${postId}`);
-        setPost(response.data);
-        setIsDialogOpen(true); // Abrir el diálogo después de cargar datos
+        if (response.data && response.data.length > 0) {
+          setPost(response.data[0]);
+        }
+        setIsDialogOpen(true);
       } catch (error) {
         console.error("Error al obtener los datos de la publicación:", error);
       }
@@ -56,15 +59,14 @@ function SharePostDialog({ postId, idProfile }: { postId: number | null; idProfi
       const payload = {
         id_profile: idProfile,
         id_post: postId,
-        description: shareDescription, // Descripción adicional para el post compartido
+        description: shareDescription,
       };
-      console.log("Payload para compartir:", payload);
       await axios.post(`http://localhost:5000/api/post-share/create-post-share`, payload, {
         withCredentials: true,
       });
 
-      setIsDialogOpen(false); // Cierra el diálogo después de compartir
-      router.refresh(); // Refrescar para ver los cambios actualizados
+      setIsDialogOpen(false);
+      router.refresh();
     } catch (error) {
       console.error("Error al compartir la publicación:", error);
     }
@@ -74,7 +76,7 @@ function SharePostDialog({ postId, idProfile }: { postId: number | null; idProfi
     <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>
         <Button variant="link" onClick={loadPostData}>
-          Compartir <BsSend/>
+          Compartir <BsSend />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -87,14 +89,15 @@ function SharePostDialog({ postId, idProfile }: { postId: number | null; idProfi
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            {/* Información de la publicación original */}
             {post && (
               <div className={styles["post-card"]}>
                 <div className={styles["post-header"]}>
                   <div className={styles["profile-info"]}>
                     <img src="/avatar.png" alt="Profile" className={styles["profile-image"]} />
                     <div className={styles["author-info"]}>
-                      <h3 className={styles["post-author"]}>Brandon Gento</h3>
+                      <h3 className={styles["post-author"]}>
+                        {post.name_person} {post.last_name_person}
+                      </h3>
                       <p className={styles["postDate"]}>{new Date(post.date).toLocaleDateString()}</p>
                     </div>
                   </div>
@@ -106,8 +109,6 @@ function SharePostDialog({ postId, idProfile }: { postId: number | null; idProfi
                 <Separator />
               </div>
             )}
-
-            {/* Descripción adicional para el compartir */}
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="share-description" className="text-right">
                 Descripción adicional
