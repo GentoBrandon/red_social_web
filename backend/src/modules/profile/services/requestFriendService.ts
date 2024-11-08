@@ -119,6 +119,7 @@ export default class RequestFriendService {
     }
   }
 
+<<<<<<< HEAD
   /*
   static async getAllFriendsByProfileId(id: number) {
     try {
@@ -148,10 +149,31 @@ export default class RequestFriendService {
     } catch (error) {
       throw {
         message: (error as Error).message,
+=======
+  static async searchFriendsByName(profileId: number, name: string) {
+    try {
+      const friends = await RequestFriendModel.searchFriendsByName(
+        profileId,
+        name,
+      );
+
+      if (friends.length === 0) {
+        return { success: false, message: 'No friends found.' };
+      }
+
+      return {
+        success: true,
+        data: friends,
+      };
+    } catch (error) {
+      throw {
+        message: 'Error searching friends by name.',
+>>>>>>> origin/apis
         stack: (error as Error).stack,
       };
     }
   }
+<<<<<<< HEAD
 */
   static async accepteFriendsByProfileId(id1: number, id2: number) {
     try {
@@ -254,4 +276,6 @@ export default class RequestFriendService {
       }
     }
   }
+=======
+>>>>>>> origin/apis
 }

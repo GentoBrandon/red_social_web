@@ -131,12 +131,18 @@ export default class RequestFriendController {
       next(error);
     }
   }
+<<<<<<< HEAD
   static async rejectFriendRequest(
+=======
+
+  static async searchFriendsByName(
+>>>>>>> origin/apis
     req: Request,
     res: Response,
     next: NextFunction,
   ) {
     try {
+<<<<<<< HEAD
       const { id1, id2 } = req.params;
       const _id = parseInt(id1);
       const _id2 = parseInt(id2);
@@ -198,10 +204,31 @@ export default class RequestFriendController {
           404,
         );
         throw error;
+=======
+      const profileId = parseInt(req.params.id);
+      const name = req.query.name as string;
+
+      // Validación de parámetros
+      if (isNaN(profileId) || !name) {
+        throw new CustomError(
+          'Invalid profile ID or missing name parameter',
+          400,
+        );
+      }
+
+      const result = await RequestFriendService.searchFriendsByName(
+        profileId,
+        name,
+      );
+
+      if (!result.success) {
+        throw new CustomError(result.message || 'No friends found', 404);
+>>>>>>> origin/apis
       }
 
       res.status(200).json({
         success: true,
+<<<<<<< HEAD
         data: result.data,
       });
     } catch (error) {
@@ -220,6 +247,11 @@ export default class RequestFriendController {
       }
       res.status(200).json(result.data)
     } catch (error) {
+=======
+        friends: result.data,
+      });
+    } catch (error) {
+>>>>>>> origin/apis
       next(error);
     }
   }
