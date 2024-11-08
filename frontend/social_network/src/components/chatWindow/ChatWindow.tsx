@@ -164,6 +164,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({ profileId, friendId, friendName
                     userId: profileId,
                     roomName: roomName,
                     content: message,
+                    friendId: friendId,
                 },
             });
             setMessage('');

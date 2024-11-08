@@ -174,15 +174,11 @@ export default function Sidebar({ notifications }: SidebarProps) {
   useEffect(() => {
     if (socket) {
       socket.on('notification', (data: { senderId: number }) => {
-        if (data.senderId && data.senderId !== idProfile) {
-          // Marca una notificación para el amigo que envió el mensaje
-          setMessageNotifications((prevNotifications) => ({
-            ...prevNotifications,
-            [data.senderId]: true,
-          }));
-        }
+          if (data.senderId && data.senderId !== idProfile) {
+              alert(`Tu amigo con ID ${data.senderId} te ha enviado un mensaje.`);
+          }
       });
-    }
+  }
 
     // Limpia el evento al desmontar
     return () => {
