@@ -15,4 +15,9 @@ routes.get(
   '/count-reactions/:idPost',
   postReactionController.countReactionsAllController,
 );
+
+routes.get(
+  '/get-reaction-status/:id_profile/:id_post',
+  postReactionController.getReactionByProfileAndPost,
+);
 export default routes;
