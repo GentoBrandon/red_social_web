@@ -103,7 +103,7 @@ export default function chatController(socket: Socket, io: Server, knex: Knex) {
     // Evento para enviar un mensaje en una sala
     socket.on('room message', async (data) => {
         try {
-            const { userId, roomName, content } = data.data;
+            const { userId, roomName, content,friendId } = data.data;
 
             if (!userId || !roomName || !content) {
                 console.error('Error: Missing data for room message event:', data);
@@ -132,10 +132,11 @@ export default function chatController(socket: Socket, io: Server, knex: Knex) {
             // Envía el mensaje a todos los usuarios de la sala, incluido el remitente
             io.to(roomId.toString()).emit('room message', message);
             // Notificar al amigo si está en línea y el chat no está abierto
-        const friendSocketId = onlineUsers.get(userId === data.data.friendId ? data.data.userId : data.data.friendId);
-        if (friendSocketId) {
-            io.to(friendSocketId).emit('private message', { senderId: userId, content });
-        }
+       // Verificar si el amigo está conectado y enviar una notificación
+       const friendSocketId = onlineUsers.get(friendId);
+       if (friendSocketId) {
+           io.to(friendSocketId).emit('notification', { senderId: userId });
+       }
         } catch (error) {
             console.error('Error sending message:', error);
         }
