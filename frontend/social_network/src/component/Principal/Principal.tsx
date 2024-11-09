@@ -50,7 +50,8 @@ function Principal({ children }: { children: ReactNode }) {
             <NavBar />
             <main className="flex-1 ml-64 p-4 overflow-y-auto">
                 <div className="flex flex-1">
-                    <Sidebar notifications={notifications} /> {/* Pasa las notificaciones al Sidebar */}
+                    <Sidebar 
+                     /> {/* Pasa las notificaciones al Sidebar */}
                 </div>
                 {children}
             </main>
