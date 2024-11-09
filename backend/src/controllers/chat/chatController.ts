@@ -156,6 +156,20 @@ export default function chatController(socket: Socket, io: Server, knex: Knex) {
             console.error('Error saving message:', error);
         }
     });
+    socket.on('toggle-like', async ({ postId, userId, isLiked }) => {
+        try {
+            if (isLiked) {
+                await knex('post_reactions').insert({ id_post: postId, id_profile: userId, reactions: true });
+            } else {
+                await knex('post_reactions').where({ id_post: postId, id_profile: userId }).delete();
+            }
+    
+            // Emitir el cambio de like a todos los clientes
+            io.emit('like-updated', { postId, userId, isLiked });
+        } catch (error) {
+            console.error('Error handling like toggle:', error);
+        }
+    });
 
     // Evento `disconnect` para limpiar usuarios en línea
     socket.on('disconnect', () => {
