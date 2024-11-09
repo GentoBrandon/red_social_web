@@ -107,7 +107,7 @@ export default class RequestFriendController {
     req: Request,
     res: Response,
     next: NextFunction,
-  ) {
+  ):Promise<void> {
     try {
       const { id } = req.params;
       const profileId = parseInt(id);
@@ -120,6 +120,7 @@ export default class RequestFriendController {
           400,
         );
         throw error;
+        
       }
 
       // Retorna el nombre del perfil y la lista de amigos

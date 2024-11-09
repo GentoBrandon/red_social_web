@@ -12,7 +12,7 @@ router.delete(
   '/delete-request-friend/:id',
   RequestFriendController.deleteRequest,
 );
-
+router.delete('/reject-friend/:id1/:id2', RequestFriendController.rejectFriendRequest);
 router.get(
   '/get-friends-commons-friends/:id',
   RequestFriendController.getFriendsByProfileId,
