@@ -236,4 +236,33 @@ export default class RequestFriendController {
       next(error)
   }
 }
+static async getFriendCountByProfileId(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+): Promise<void> {
+  try {
+    const { id } = req.params;
+    const profileId = parseInt(id, 10);
+
+    if (isNaN(profileId)) {
+      throw new CustomError('Invalid profile ID', 400);
+    }
+
+    // Llama al servicio para obtener el conteo de amigos por ID de perfil
+    const result = await RequestFriendService.countFriends(profileId);
+
+    if (!result.success) {
+      throw new CustomError('Error while fetching friend count by profile ID', 400);
+    }
+
+    // Retorna el conteo de amigos
+    res.status(200).json({
+
+      data: result.data,
+    });
+  } catch (error) {
+    next(error);
+  }
+}
 }

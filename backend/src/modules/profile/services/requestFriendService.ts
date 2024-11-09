@@ -238,4 +238,21 @@ export default class RequestFriendService {
       }
     }
   }
+  static async countFriends(profileId: number) {
+    try {
+      // Llama al método del modelo para contar los amigos confirmados para el perfil
+      const count = await RequestFriendModel.getCountOfAcceptedFriends(profileId);
+
+      return {
+        success: true,
+        data:  count };
+    } catch (error) {
+      console.error('Error counting friends:', error);
+      return {
+        success: false,
+        message: 'An error occurred while counting friends.',
+        error: (error as Error).message,
+      };
+    }
+  }
 }

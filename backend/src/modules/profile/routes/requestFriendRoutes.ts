@@ -17,7 +17,7 @@ router.get(
   '/get-friends-commons-friends/:id',
   RequestFriendController.getFriendsByProfileId,
 );
-
+router.get('/profile/:id/friends/count', RequestFriendController.getFriendCountByProfileId);
 router.get('/get-requests-friend/:id', RequestFriendController.getRequestById);
 router.get('/get-received-friend/:id',RequestFriendController.getReceibedRequest)
 

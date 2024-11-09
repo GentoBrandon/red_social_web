@@ -356,4 +356,21 @@ static async getFriendStatus(
   }
   return resultStatus.name_status;
 }
+
+  // Agrega este método dentro de la clase RequestFriendModel
+static async getCountOfAcceptedFriends(profileId: number): Promise<number> {
+  const result = await db('request_friends')
+    .where(function () {
+      this.where('id_profile_request', profileId).orWhere('id_profile_response', profileId);
+    })
+    .andWhere('id_status', '=', 1) // Filtra solo amigos confirmados
+    .countDistinct({ count: 'id_profile_request' }); // Conteo único basado en `id_profile_request`
+
+  // Convierte el conteo de forma segura
+  const count = result && result[0] && result[0].count ? parseInt(String(result[0].count), 10) : 0;
+
+  console.log('Total amigos:', count);
+  return count;
+}
+
 }
