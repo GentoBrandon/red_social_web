@@ -66,6 +66,7 @@ export default class AuthController {
         httpOnly: true,
         secure: true,
         sameSite: 'strict',
+        path: '/',
       });
 
       res.setHeader('Set-Cookie', tokenSerialized);
