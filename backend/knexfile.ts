@@ -4,7 +4,7 @@ const config: { [key: string]: Knex.Config } = {
   development: {
     client: 'pg', // Cambia esto a 'mysql' o el cliente que prefieras
     connection: {
-      host: 'localhost',
+      host: 'db_pg2',
       user: 'admin',
       password: '12345',
       database: 'social_database',

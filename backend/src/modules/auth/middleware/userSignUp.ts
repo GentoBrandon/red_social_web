@@ -1,7 +1,7 @@
 import CustomError from '../../../utils/customError';
 import db from '../../../config/dbConfig';
 import { Request, Response, NextFunction } from 'express';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 export default class UserSignUp {
   static async verifyUser(req: Request, res: Response, next: NextFunction) {

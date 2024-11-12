@@ -8,7 +8,7 @@ interface conectionDatabase {
   port: number;
 }
 const dbConfig: conectionDatabase = {
-  host: 'localhost',
+  host: 'db_pg2',
   user: 'admin',
   password: '12345',
   database: 'social_database',

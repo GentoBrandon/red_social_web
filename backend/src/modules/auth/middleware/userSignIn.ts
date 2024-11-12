@@ -2,7 +2,7 @@ import db from '../../../config/dbConfig';
 import { Request, Response, NextFunction } from 'express';
 import CustomError from '../../../utils/customError';
 import { UserCredentialsService } from '../../person/services/userCredentialService';
-import bcrypt from 'bcrypt';
+import bycriptjs from 'bcryptjs';
 export default class UserSignIn {
   static async verifyUserPassword(
     req: Request,
@@ -21,7 +21,7 @@ export default class UserSignIn {
         return next(error);
       }
 
-      const passwordHashed = await bcrypt.compare(
+      const passwordHashed = await bycriptjs.compare(
         password,
         userFound.data.password,
       );

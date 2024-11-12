@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: db_pg2
+    environment:
+      POSTGRES_USER: 'admin'
+      POSTGRES_PASSWORD: '12345'
+      POSTGRES_DB: 'social_database'
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend   # Ruta para el backend
+      dockerfile: Dockerfile
+    container_name: backend_app
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://admin:12345@postgres:5432/social_database
+    depends_on:
+      - postgres
+
+  frontend:
+    build:
+      context: ./frontend/social_network  # Ruta para el frontend
+      dockerfile: Dockerfile
+    container_name: frontend_app
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/social_network:/app
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
