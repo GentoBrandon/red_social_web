@@ -4,6 +4,8 @@ import axios from "axios";
 import { ROUTES_PROFILE, Routes_friend } from '../../routes/apiRoutes';
 import { fetchProfileId } from "@/services/IdProfile";
 import styles from "../../styles/Profile/CardProfile.module.css";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 interface Profile {
   id: number;
@@ -20,6 +22,7 @@ interface Data {
 }
 
 function Search() {
+  const router = useRouter();
   const [search, setSearch] = useState<string>("");
   const [searchResults, setSearchResults] = useState<Profile[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -101,7 +104,9 @@ function Search() {
           <div className={styles.avatar}>
             <img src="/avatar.png" alt="Avatar" />
           </div>
-          <p className={styles.name}>{result.first_name} {result.last_name}</p>
+          <Button variant="link" className={styles.name} onClick={() => router.push(`/dashboard/userPublic/ProfilePublic/${result.id}`)}>
+            {result.first_name} {result.last_name} 
+          </Button>
           <p className={styles.info}>Amigo</p>
           <div className={styles.button}>
             <button onClick={() => sendFriendRequest(result.id)}>Agregar amigo</button>
