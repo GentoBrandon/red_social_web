@@ -361,15 +361,16 @@ export default function Sidebar() {
 
   useEffect(() => {
     if (idProfile) {
-      const fetchFriends = async () => {
-        try {
-          const response = await axios.get(`${Routes_friend.GET_FRIENDS_LIST}${idProfile}`, { withCredentials: true });
-          setFriends(response.data.friends);
-          setLoading(false);
-        } catch (error) {
-          console.error("Error al obtener los amigos:", error);
-          setLoading(false);
-        }
+      const fetchFriends = () => {
+        axios.get(`${Routes_friend.GET_FRIENDS_LIST}${idProfile}`, { withCredentials: true })
+          .then(response => {
+            setFriends(response.data.friends);
+            setLoading(false);
+          })
+          .catch(error => {
+            console.log("Error al obtener los amigos:", error);
+            setLoading(false);
+          });
       };
       fetchFriends();
     }

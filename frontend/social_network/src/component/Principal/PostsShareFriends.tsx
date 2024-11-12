@@ -5,7 +5,6 @@ import styles from "@/styles/Post.module.css";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { FaHeart } from "react-icons/fa";
-import { BsSend } from "react-icons/bs";
 import { BsChatDots } from "react-icons/bs";
 import axios from "axios";
 import { fetchProfileId } from "@/services/IdProfile";
