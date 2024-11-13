@@ -45,7 +45,7 @@ export default function Sidebar({ notifications }: SidebarProps) {
         const id = await fetchProfileId();
         setIdProfile(id);
       } catch (error) {
-        console.error("Error al obtener el ID del perfil:", error);
+        console.log("Error al obtener el ID del perfil:", error);
       }
     };
 
@@ -63,7 +63,7 @@ export default function Sidebar({ notifications }: SidebarProps) {
           setFriends(response.data.friends);
           setLoading(false);
         } catch (error) {
-          console.error("Error al obtener los amigos:", error);
+          console.log("Error al obtener los amigos:", error);
           setLoading(false);
         }
       };
@@ -193,7 +193,7 @@ export default function Sidebar() {
         const id = await fetchProfileId();
         setIdProfile(id);
       } catch (error) {
-        console.error("Error al obtener el ID del perfil:", error);
+        console.log("Error al obtener el ID del perfil:", error);
       }
     };
     fetchAndSetProfileData();
@@ -207,7 +207,7 @@ export default function Sidebar() {
           setFriends(response.data.friends);
           setLoading(false);
         } catch (error) {
-          console.error("Error al obtener los amigos:", error);
+          console.log("Error al obtener los amigos:", error);
           setLoading(false);
         }
       };
@@ -353,7 +353,7 @@ export default function Sidebar() {
           socket.emit('register', { data: id });
         }
       } catch (error) {
-        console.error("Error al obtener el ID del perfil:", error);
+        console.log("Error al obtener el ID del perfil:", error);
       }
     };
     fetchAndSetProfileData();
@@ -367,7 +367,7 @@ export default function Sidebar() {
           setFriends(response.data.friends);
           setLoading(false);
         } catch (error) {
-          console.error("Error al obtener los amigos:", error);
+          console.log("Error al obtener los amigos:", error);
           setLoading(false);
         }
       };

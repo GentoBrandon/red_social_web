@@ -27,7 +27,7 @@ function ProfileActions() {
       const profileData = response.data.person; // Asegúrate de acceder a 'person' dentro de 'data'
       setProfile(profileData);
     } catch (error) {
-      console.error("Error al obtener el perfil:", error);
+      console.log("Error al obtener el perfil:", error);
     }
   };
 
@@ -75,10 +75,14 @@ function ProfileActions() {
         console.log('profileData.id',profileData.id);
         const countResponse = await axios.get(`http://localhost:5000/api/request-friend/profile/${profileData.id}/friends/count`, { withCredentials: true });
         console.log('total',countResponse.data);
-        setFriendCount(countResponse.data.data-1); // Suponiendo que el conteo está en la propiedad 'count'
+        if(countResponse.data.data === 0){
+          setFriendCount(0)
+        } else {
+          setFriendCount(countResponse.data.data-1); // Suponiendo que el conteo está en la propiedad 'count'
+        }
       }
     } catch (error) {
-      console.error("Error al obtener el perfil o el conteo de amigos:", error);
+      console.log("Error al obtener el perfil o el conteo de amigos:", error);
     }
   };
 
