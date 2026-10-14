@@ -7,7 +7,9 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instala las dependencias
-RUN npm ci
+RUN --mount=type=secret,id=npm_ca \
+    if [ -f /run/secrets/npm_ca ]; then export NODE_EXTRA_CA_CERTS=/run/secrets/npm_ca; fi; \
+    npm ci && test -x node_modules/.bin/next
 
 # Copia el resto de la aplicación
 COPY . .
