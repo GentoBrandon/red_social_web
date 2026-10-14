@@ -26,6 +26,7 @@ services:
       - "5000:5000"
     volumes:
       - ./backend:/app
+      - /app/node_modules
     environment:
       - NODE_ENV=development
       - DATABASE_URL=postgres://admin:12345@postgres:5432/social_database
@@ -43,6 +44,8 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend/social_network:/app
+      - /app/node_modules
+      - /app/.next
     environment:
       - NODE_ENV=development
     depends_on:
