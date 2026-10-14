@@ -1,0 +1,44 @@
+services:
+  frontend:
+    build:
+      context: ./frontend/social_network
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - '3000:3000'
+    environment:
+      NODE_ENV: production
+    depends_on:
+      - backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: production
+    ports:
+      - '5000:5000'
+    environment:
+      NODE_ENV: production
+      DB_HOST: db_pg2
+      DB_USER: admin
+      DB_PASSWORD: '12345'
+      DB_NAME: social_database
+    depends_on:
+      db_pg2:
+        condition: service_healthy
+  db_pg2:
+    image: postgres:17-bookworm
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: '12345'
+      POSTGRES_DB: social_database
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U admin -d social_database']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    volumes:
+      - postgres_production_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_production_data:

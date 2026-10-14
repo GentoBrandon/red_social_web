@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:17-bookworm
     container_name: db_pg2
     environment:
       POSTGRES_USER: 'admin'
@@ -12,11 +10,17 @@ services:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U admin -d social_database']
+      interval: 5s
+      timeout: 5s
+      retries: 12
 
   backend:
     build:
       context: ./backend   # Ruta para el backend
       dockerfile: Dockerfile
+      target: development
     container_name: backend_app
     ports:
       - "5000:5000"
@@ -26,12 +30,14 @@ services:
       - NODE_ENV=development
       - DATABASE_URL=postgres://admin:12345@postgres:5432/social_database
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
 
   frontend:
     build:
       context: ./frontend/social_network  # Ruta para el frontend
       dockerfile: Dockerfile
+      target: development
     container_name: frontend_app
     ports:
       - "3000:3000"
