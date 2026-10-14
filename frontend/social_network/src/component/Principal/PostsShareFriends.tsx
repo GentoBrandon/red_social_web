@@ -20,6 +20,7 @@ interface FriendPost {
     content: string;
     description: string;
     date: string;
+    isLiked?: boolean; // Añadido isLiked como propiedad opcional
   }[];
   posts_shares: {
     id: number;
@@ -28,6 +29,7 @@ interface FriendPost {
     original_content: string;
     original_description: string;
     original_date: string;
+    isLiked?: boolean; // Añadido isLiked como propiedad opcional
   }[];
 }
 

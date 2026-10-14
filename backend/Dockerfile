@@ -1,5 +1,4 @@
-# Usa la última versión de Node.js
-FROM node:20
+FROM node:20 AS development
 
 # Establece el directorio de trabajo
 WORKDIR /app
@@ -8,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instala las dependencias
-RUN npm install
+RUN npm ci
 
 # Copia el resto de la aplicación
 COPY . .
@@ -18,3 +17,10 @@ EXPOSE 5000
 
 # Ejecuta las migraciones y luego inicia la aplicación en modo de desarrollo
 CMD ["sh", "-c", "npx knex migrate:latest && npm run dev"]
+
+FROM development AS build
+RUN npm run build
+
+FROM build AS production
+ENV NODE_ENV=production
+CMD ["sh", "-c", "npx knex migrate:latest && npm start"]
