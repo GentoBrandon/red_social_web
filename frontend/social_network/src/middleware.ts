@@ -15,8 +15,6 @@ async function middleware(request: NextRequest): Promise<NextResponse> {
 
   const isProtectedRoute = protectedRoutes.includes(pathname);
 
-  console.log("Token present:", !!token, "Pathname:", pathname); // Para depuración
-
   if (isProtectedRoute && !token) {
     console.log("Redirecting to login due to missing token.");
     return NextResponse.redirect(new URL('/', request.url));
